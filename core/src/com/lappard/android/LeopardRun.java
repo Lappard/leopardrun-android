@@ -13,6 +13,8 @@ import com.badlogic.gdx.net.Socket;
 
 import java.io.IOException;
 
+import de.tavendo.autobahn.WebSocketConnection;
+
 public class LeopardRun extends ApplicationAdapter {
 	SpriteBatch batch;
     Sprite spaceship;
@@ -23,7 +25,7 @@ public class LeopardRun extends ApplicationAdapter {
 		batch = new SpriteBatch();
         Texture img = new Texture("spaceship.png");
         spaceship = new Sprite(img, img.getWidth(), img.getHeight());
-        Gdx.input.setInputProcessor(new InputAdapter(){
+        Gdx.input.setInputProcessor(new InputAdapter() {
             @Override
             public boolean touchUp(int screenX, int screenY, int pointer, int button) {
                 spaceship.setCenter(screenX, Gdx.graphics.getHeight() - screenY);
