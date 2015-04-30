@@ -36,6 +36,7 @@ public class LeopardRun extends ApplicationAdapter {
             @Override
             public boolean touchUp(int screenX, int screenY, int pointer, int button) {
                 spaceship.setCenter(screenX, Gdx.graphics.getHeight() - screenY);
+                socket.sendTextMessage("{\"x\":"+screenX+", \"y\":"+screenY+"}");
                 return true;
             }
         });
