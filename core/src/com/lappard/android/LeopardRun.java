@@ -14,11 +14,18 @@ import com.badlogic.gdx.net.Socket;
 import java.io.IOException;
 
 import de.tavendo.autobahn.WebSocketConnection;
+import de.tavendo.autobahn.WebSocketException;
+import de.tavendo.autobahn.WebSocketHandler;
+import sun.rmi.runtime.Log;
 
 public class LeopardRun extends ApplicationAdapter {
+
+    private static final String TAG_WS = "WebSocket";
+    private static final String WEBSOCKET_URL = "ws://jonathanwiemers.de:1337";
+
 	SpriteBatch batch;
     Sprite spaceship;
-    Socket socket;
+    WebSocketConnection socket = new WebSocketConnection();
 	
 	@Override
 	public void create () {
@@ -32,6 +39,29 @@ public class LeopardRun extends ApplicationAdapter {
                 return true;
             }
         });
+        try {
+            socket.connect(WEBSOCKET_URL, new WebSocketHandler() {
+
+                @Override
+                public void onOpen() {
+                    Gdx.app.log(TAG_WS, "Status: Connected to " + WEBSOCKET_URL);
+                    socket.sendTextMessage("Hello, world!");
+                }
+
+                @Override
+                public void onTextMessage(String payload) {
+                    Gdx.app.log(TAG_WS, "Got echo: " + payload);
+                }
+
+                @Override
+                public void onClose(int code, String reason) {
+                    Gdx.app.log(TAG_WS, "Connection lost.");
+                }
+            });
+        } catch (WebSocketException e) {
+
+            Gdx.app.log(TAG_WS, e.toString());
+        }
 	}
 
 	@Override
