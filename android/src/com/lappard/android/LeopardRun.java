@@ -1,5 +1,6 @@
 package com.lappard.android;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.badlogic.gdx.ApplicationAdapter;
@@ -10,18 +11,28 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.codebutler.android_websockets.WebSocketClient;
+import com.lappard.android.util.CustomTrustManagerFactory;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
+
+import javax.net.ssl.TrustManager;
 
 public class LeopardRun extends ApplicationAdapter {
 
     private static final String TAG_WS = "WebSocket";
     private static final String WEBSOCKET_URL = "wss://jonathanwiemers.de:1337";
 
+    private final Context context;
 
     SpriteBatch batch;
     Sprite spaceship;
     WebSocketClient socket;
+
+    public LeopardRun(Context context){
+        this.context = context;
+    }
 
     @Override
     public void create () {
@@ -39,6 +50,18 @@ public class LeopardRun extends ApplicationAdapter {
             }
         });
 
+        //setup secure websocket
+        InputStream certFile = null;
+        try {
+            certFile = context.getAssets().open("cert/ssl.crt");
+        } catch (IOException e) {
+            Log.e("LeopardRun", e.getMessage());
+        }
+        TrustManager[] customTrustManagers =
+                CustomTrustManagerFactory.getInstance().getCustomTrustManagersFromCertificate(certFile);
+
+        Log.d("lr", "ctms:"+customTrustManagers.length);
+        WebSocketClient.setTrustManagers(customTrustManagers);
         socket = new WebSocketClient(URI.create(WEBSOCKET_URL),new WebSocketClient.Listener() {
             @Override
             public void onConnect() {
