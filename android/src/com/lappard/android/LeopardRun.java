@@ -9,11 +9,19 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.codebutler.android_websockets.WebSocketClient;
+
+import java.net.URI;
 
 public class LeopardRun extends ApplicationAdapter {
 
+    private static final String TAG_WS = "WebSocket";
+    private static final String WEBSOCKET_URL = "wss://jonathanwiemers.de:1337";
+
+
     SpriteBatch batch;
     Sprite spaceship;
+    WebSocketClient socket;
 
     @Override
     public void create () {
@@ -26,10 +34,41 @@ public class LeopardRun extends ApplicationAdapter {
             @Override
             public boolean touchUp(int screenX, int screenY, int pointer, int button) {
                 spaceship.setCenter(screenX, Gdx.graphics.getHeight() - screenY);
-                //socket.send("{\"x\":" + screenX + ", \"y\":" + screenY + "}");
+                socket.send("{\"x\":" + screenX + ", \"y\":" + screenY + "}");
                 return true;
             }
         });
+
+        socket = new WebSocketClient(URI.create(WEBSOCKET_URL),new WebSocketClient.Listener() {
+            @Override
+            public void onConnect() {
+                Gdx.app.log(TAG_WS, "Connected to " + WEBSOCKET_URL);
+            }
+
+            @Override
+            public void onMessage(String message) {
+                Gdx.app.log(TAG_WS, "Message:" + message);
+            }
+
+            @Override
+            public void onMessage(byte[] data) {
+                Gdx.app.log(TAG_WS, "ByteMessage:" + data.toString());
+            }
+
+            @Override
+            public void onDisconnect(int code, String reason) {
+                Gdx.app.log(TAG_WS, "Disconnected from " + WEBSOCKET_URL + " with Code " + code
+                        + ". Reason: " + reason);
+            }
+
+            @Override
+            public void onError(Exception error) {
+                Gdx.app.error(TAG_WS, "Exceptional Error:" + error.toString());
+                error.printStackTrace();
+            }
+        }, null);
+
+        socket.connect();
 
     }
 
