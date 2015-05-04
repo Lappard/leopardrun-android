@@ -1,4 +1,4 @@
-package com.lappard.android.android;
+package com.lappard.android;
 
 import android.os.Bundle;
 

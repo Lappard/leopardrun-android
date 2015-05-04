@@ -1,4 +1,4 @@
-package com.lappard.android.android;
+package com.lappard.android;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
