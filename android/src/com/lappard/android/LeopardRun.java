@@ -22,7 +22,7 @@ import javax.net.ssl.TrustManager;
 public class LeopardRun extends ApplicationAdapter {
 
     private static final String TAG_WS = "WebSocket";
-    private static final String WEBSOCKET_URL = "wss://jonathanwiemers.de:1337";
+    private static final String WEBSOCKET_URL = "ws://jonathanwiemers.de:1337";
 
     private final Context context;
 
@@ -50,43 +50,32 @@ public class LeopardRun extends ApplicationAdapter {
             }
         });
 
-        //setup secure websocket
-        InputStream certFile = null;
-        try {
-            certFile = context.getAssets().open("cert/ssl.crt");
-        } catch (IOException e) {
-            Log.e("LeopardRun", e.getMessage());
-        }
-        TrustManager[] customTrustManagers =
-                CustomTrustManagerFactory.getInstance().getCustomTrustManagersFromCertificate(certFile);
 
-        Log.d("lr", "ctms:"+customTrustManagers.length);
-        WebSocketClient.setTrustManagers(customTrustManagers);
         socket = new WebSocketClient(URI.create(WEBSOCKET_URL),new WebSocketClient.Listener() {
             @Override
             public void onConnect() {
-                Gdx.app.log(TAG_WS, "Connected to " + WEBSOCKET_URL);
+                Log.d(TAG_WS, "Connected to " + WEBSOCKET_URL);
             }
 
             @Override
             public void onMessage(String message) {
-                Gdx.app.log(TAG_WS, "Message:" + message);
+                Log.d(TAG_WS, "Message:" + message);
             }
 
             @Override
             public void onMessage(byte[] data) {
-                Gdx.app.log(TAG_WS, "ByteMessage:" + data.toString());
+                Log.d(TAG_WS, "ByteMessage:" + data.toString());
             }
 
             @Override
             public void onDisconnect(int code, String reason) {
-                Gdx.app.log(TAG_WS, "Disconnected from " + WEBSOCKET_URL + " with Code " + code
+                Log.d(TAG_WS, "Disconnected from " + WEBSOCKET_URL + " with Code " + code
                         + ". Reason: " + reason);
             }
 
             @Override
             public void onError(Exception error) {
-                Gdx.app.error(TAG_WS, "Exceptional Error:" + error.toString());
+                Log.e(TAG_WS, "Exceptional Error:" + error.toString());
                 error.printStackTrace();
             }
         }, null);
