@@ -13,6 +13,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.codebutler.android_websockets.WebSocketClient;
 import com.lappard.android.util.CustomTrustManagerFactory;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
@@ -29,6 +32,7 @@ public class LeopardRun extends ApplicationAdapter {
     SpriteBatch batch;
     Sprite spaceship;
     WebSocketClient socket;
+    String guid;
 
     public LeopardRun(Context context){
         this.context = context;
@@ -48,6 +52,7 @@ public class LeopardRun extends ApplicationAdapter {
                 socket.send("{\"x\":" + screenX + ", \"y\":" + screenY + "}");
                 return true;
             }
+
         });
 
 
@@ -60,6 +65,15 @@ public class LeopardRun extends ApplicationAdapter {
             @Override
             public void onMessage(String message) {
                 Log.d(TAG_WS, "Message:" + message);
+                try {
+                    JSONObject jsonMessage = new JSONObject(message);
+                    if(jsonMessage.has("guid")) {
+                        guid = jsonMessage.getString("guid");
+                        Log.i(TAG_WS, "Got guid: " + guid);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override
@@ -92,4 +106,5 @@ public class LeopardRun extends ApplicationAdapter {
         spaceship.draw(batch);
         batch.end();
     }
+
 }
