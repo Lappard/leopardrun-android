@@ -11,6 +11,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.codebutler.android_websockets.WebSocketClient;
+import com.lappard.android.entity.Screen;
+import com.lappard.android.interfaces.TouchListener;
+import com.lappard.android.manager.GameManager;
 import com.lappard.android.util.CustomTrustManagerFactory;
 
 import org.json.JSONException;
@@ -23,88 +26,31 @@ import java.net.URI;
 import javax.net.ssl.TrustManager;
 
 public class LeopardRun extends ApplicationAdapter {
-
-    private static final String TAG_WS = "WebSocket";
-    private static final String WEBSOCKET_URL = "ws://jonathanwiemers.de:1337";
-
     private final Context context;
 
-    SpriteBatch batch;
-    Sprite spaceship;
-    WebSocketClient socket;
-    String guid;
+    private GameManager gameManager = GameManager.getInstance();
 
     public LeopardRun(Context context){
         this.context = context;
     }
 
-    @Override
     public void create () {
-        batch = new SpriteBatch();
-        Texture img = new Texture("spaceship.png");
-        spaceship = new Sprite(img, img.getWidth(), img.getHeight());
-
-
         Gdx.input.setInputProcessor(new InputAdapter() {
             @Override
             public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-                spaceship.setCenter(screenX, Gdx.graphics.getHeight() - screenY);
-                socket.send("{\"x\":" + screenX + ", \"y\":" + screenY + "}");
+                GameManager.getInstance().touchUp();
                 return true;
             }
-
         });
 
-
-        socket = new WebSocketClient(URI.create(WEBSOCKET_URL),new WebSocketClient.Listener() {
-            @Override
-            public void onConnect() {
-                Log.d(TAG_WS, "Connected to " + WEBSOCKET_URL);
-            }
-
-            @Override
-            public void onMessage(String message) {
-                Log.d(TAG_WS, "Message:" + message);
-                try {
-                    JSONObject jsonMessage = new JSONObject(message);
-                    if(jsonMessage.has("guid")) {
-                        guid = jsonMessage.getString("guid");
-                        Log.i(TAG_WS, "Got guid: " + guid);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onMessage(byte[] data) {
-                Log.d(TAG_WS, "ByteMessage:" + data.toString());
-            }
-
-            @Override
-            public void onDisconnect(int code, String reason) {
-                Log.d(TAG_WS, "Disconnected from " + WEBSOCKET_URL + " with Code " + code
-                        + ". Reason: " + reason);
-            }
-
-            @Override
-            public void onError(Exception error) {
-                Log.e(TAG_WS, "Exceptional Error:" + error.toString());
-                error.printStackTrace();
-            }
-        }, null);
-
-        socket.connect();
-
+        Screen s = gameManager.loadLevel();
+        gameManager.registerTouchListener((TouchListener)s);
     }
 
-    @Override
     public void render () {
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        batch.begin();
-        spaceship.draw(batch);
-        batch.end();
+        gameManager.renderLevel();
     }
+
+
 
 }
