@@ -39,60 +39,28 @@ public class GameScreen extends Screen implements TouchListener {
     WebSocketClient socket;
     String guid;
 
-    SpriteBatch batch;
-    Sprite sprite;
-    Texture img;
     World world;
-    Body body;
 
     Body ground;
 
     public GameScreen() {
 
+        world = new World(new Vector2(0, -98f), true);
         entities = new Vector<Entity>();
 
-        batch = new SpriteBatch();
-        img = new Texture("spaceship.png");
-        sprite = new Sprite(img);
-
-        sprite.setPosition(Gdx.graphics.getWidth() / 2 - sprite.getWidth() / 2,
-                Gdx.graphics.getHeight() / 2);
-
-        world = new World(new Vector2(0, -98f), true);
-
         entities.add(new Player(200, 500, world));
-        entities.add(new Floor(0,0,Gdx.graphics.getWidth(), 20, world));
-
-        BodyDef bodyDef = new BodyDef();
-        bodyDef.type = BodyDef.BodyType.DynamicBody;
-        bodyDef.position.set(sprite.getX(), sprite.getY());
-
-        body = world.createBody(bodyDef);
-
-        PolygonShape shape = new PolygonShape();
-        shape.setAsBox(sprite.getWidth()/2, sprite.getHeight()/2);
-
-        FixtureDef fixtureDef = new FixtureDef();
-        fixtureDef.shape = shape;
-        fixtureDef.density = 1f;
-
-        Fixture fixture = body.createFixture(fixtureDef);
-        shape.dispose();
+        entities.add(new Floor(Gdx.graphics.getWidth() /2f, 30, Gdx.graphics.getWidth(), 60, world));
     }
 
     public void render () {
         world.step(Gdx.graphics.getDeltaTime(), 6, 2);
-        sprite.setPosition(body.getPosition().x, body.getPosition().y);
-
-        Gdx.gl.glClearColor(1, 1, 1, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        batch.begin();
-        batch.draw(sprite, sprite.getX(), sprite.getY());
-        batch.end();
 
         for(Entity e: entities){
             e.update();
         }
+
+        Gdx.gl.glClearColor(1, 1, 1, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         for(Entity e: entities){
             e.render();
@@ -101,6 +69,5 @@ public class GameScreen extends Screen implements TouchListener {
 
     @Override
     public void touchUp() {
-        this.body.setLinearVelocity(0,500);
     }
 }

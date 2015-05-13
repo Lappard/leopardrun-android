@@ -13,7 +13,7 @@ public class Floor extends Entity {
     private Rectangle rect;
     private ShapeRenderer shapeRenderer;
 
-    public Floor(int x, int y, int width, int height, World world) {
+    public Floor(float x, float y, float width, float height, World world) {
         rect = new Rectangle(x, y, width, height);
 
         shapeRenderer = new ShapeRenderer();
@@ -32,8 +32,8 @@ public class Floor extends Entity {
     @Override
     public void render() {
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(0.5f, 1f, 0.5f, 1);
-        shapeRenderer.rect(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
+        shapeRenderer.setColor(0.5f, 0.5f, 0.5f, 1);
+        shapeRenderer.rect(rect.getX() - rect.getWidth() / 2f, rect.getY() - rect.getHeight() / 2f, rect.getWidth(), rect.getHeight());
         shapeRenderer.end();
     }
 }

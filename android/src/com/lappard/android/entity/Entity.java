@@ -16,7 +16,7 @@ public abstract class Entity {
     protected Body body;
     protected Fixture fixture;
 
-    public void initPhysics(PolygonShape shape, int x, int y, World world, boolean isDynamic) {
+    public void initPhysics(PolygonShape shape, float x, float y, World world, boolean isDynamic) {
         BodyDef bodyDef = new BodyDef();
 
         if(isDynamic)
@@ -34,7 +34,7 @@ public abstract class Entity {
         fixture = body.createFixture(fixtureDef);
     }
 
-    public void initPhysics(PolygonShape shape, int x, int y, World world) {
+    public void initPhysics(PolygonShape shape, float x, float y, World world) {
         initPhysics(shape, x, y, world, false);
     }
 

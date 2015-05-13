@@ -17,7 +17,7 @@ public class Player extends Entity{
     private ShapeRenderer shapeRenderer;
     private Rectangle rect;
 
-    public Player(int x, int y, World world){
+    public Player(float x, float y, World world){
         shapeRenderer = new ShapeRenderer();
         rect = new Rectangle(x, y, 100, 200);
 
@@ -38,7 +38,7 @@ public class Player extends Entity{
     public void render() {
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(1f, 0.5f, 0.5f, 1);
-        shapeRenderer.rect(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
+        shapeRenderer.rect(rect.getX() - rect.getWidth() / 2f, rect.getY() - rect.getHeight() / 2f, rect.getWidth(), rect.getHeight());
         shapeRenderer.end();
     }
 }
