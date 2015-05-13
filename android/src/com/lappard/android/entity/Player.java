@@ -17,9 +17,9 @@ public class Player extends Entity{
     private Rectangle rect;
     private Body body;
 
-    public Player(int x, int y, World w){
+    public Player(int x, int y, World world){
         shapeRenderer = new ShapeRenderer();
-        rect = new Rectangle(0,0,10,20);
+        rect = new Rectangle(x, y, 100, 200);
 
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
@@ -32,18 +32,20 @@ public class Player extends Entity{
         fixtureDef.shape = shape;
         fixtureDef.density = 1f;
 
+        body = world.createBody(bodyDef);
+
         Fixture fixture = body.createFixture(fixtureDef);
     }
 
     @Override
     public void update() {
-
+        rect.setPosition(body.getPosition());
     }
 
     @Override
     public void render() {
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(1, 1, 0, 1);
+        shapeRenderer.setColor(1f, 0.5f, 0.5f, 1);
         shapeRenderer.rect(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
         shapeRenderer.end();
     }

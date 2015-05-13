@@ -18,6 +18,8 @@ import com.badlogic.gdx.physics.box2d.MassData;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.codebutler.android_websockets.WebSocketClient;
+import com.lappard.android.entity.Entity;
+import com.lappard.android.entity.Player;
 import com.lappard.android.entity.Screen;
 import com.lappard.android.interfaces.TouchListener;
 
@@ -25,10 +27,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.URI;
+import java.util.List;
+import java.util.Vector;
 
 public class GameScreen extends Screen implements TouchListener {
     private static final String TAG_WS = "WebSocket";
     private static final String WEBSOCKET_URL = "ws://jonathanwiemers.de:1337";
+
+    private List<Entity> entities;
     WebSocketClient socket;
     String guid;
 
@@ -41,6 +47,9 @@ public class GameScreen extends Screen implements TouchListener {
     Body ground;
 
     public GameScreen() {
+
+        entities = new Vector<Entity>();
+
         batch = new SpriteBatch();
         img = new Texture("spaceship.png");
         sprite = new Sprite(img);
@@ -49,6 +58,8 @@ public class GameScreen extends Screen implements TouchListener {
                 Gdx.graphics.getHeight() / 2);
 
         world = new World(new Vector2(0, -98f), true);
+
+        entities.add(new Player(200, 500, world));
 
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
@@ -91,6 +102,14 @@ public class GameScreen extends Screen implements TouchListener {
         batch.begin();
         batch.draw(sprite, sprite.getX(), sprite.getY());
         batch.end();
+
+        for(Entity e: entities){
+            e.update();
+        }
+
+        for(Entity e: entities){
+            e.render();
+        }
     }
 
     @Override
