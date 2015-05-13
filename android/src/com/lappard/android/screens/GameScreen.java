@@ -40,15 +40,15 @@ public class GameScreen extends Screen implements TouchListener {
     String guid;
 
     World world;
-
-    Body ground;
+    Player player;
 
     public GameScreen() {
 
         world = new World(new Vector2(0, -98f), true);
         entities = new Vector<Entity>();
 
-        entities.add(new Player(200, 500, world));
+        player = new Player(200, 500, world);
+        entities.add(player);
         entities.add(new Floor(Gdx.graphics.getWidth() /2f, 30, Gdx.graphics.getWidth(), 60, world));
     }
 
@@ -69,5 +69,7 @@ public class GameScreen extends Screen implements TouchListener {
 
     @Override
     public void touchUp() {
+        Log.d("GameScreen", "jump!");
+        player.jump();
     }
 }

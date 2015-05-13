@@ -28,6 +28,10 @@ public class Player extends Entity{
 
     }
 
+    public void jump() {
+        body.setLinearVelocity(0, 500);
+    }
+
     @Override
     public void update() {
         Vector2 pos = body.getPosition();
