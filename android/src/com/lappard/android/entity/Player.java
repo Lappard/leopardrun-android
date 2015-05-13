@@ -21,20 +21,10 @@ public class Player extends Entity{
         shapeRenderer = new ShapeRenderer();
         rect = new Rectangle(x, y, 100, 200);
 
-        BodyDef bodyDef = new BodyDef();
-        bodyDef.type = BodyDef.BodyType.DynamicBody;
-        bodyDef.position.set(rect.getX(), rect.getY());
-
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(rect.getWidth() / 2f, rect.getHeight() / 2f);
 
-        FixtureDef fixtureDef = new FixtureDef();
-        fixtureDef.shape = shape;
-        fixtureDef.density = 1f;
-
-        body = world.createBody(bodyDef);
-
-        Fixture fixture = body.createFixture(fixtureDef);
+        initPhysics(shape, world);
     }
 
     @Override
