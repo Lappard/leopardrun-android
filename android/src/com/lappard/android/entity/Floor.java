@@ -1,5 +1,6 @@
 package com.lappard.android.entity;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
@@ -11,12 +12,9 @@ import com.badlogic.gdx.physics.box2d.World;
 public class Floor extends Entity {
 
     private Rectangle rect;
-    private ShapeRenderer shapeRenderer;
 
     public Floor(float x, float y, float width, float height, World world) {
         rect = new Rectangle(x, y, width, height);
-
-        shapeRenderer = new ShapeRenderer();
 
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(rect.getWidth() / 2f, rect.getHeight() / 2f);
@@ -30,7 +28,7 @@ public class Floor extends Entity {
     }
 
     @Override
-    public void render() {
+    public void render(SpriteBatch spriteBatch, ShapeRenderer shapeRenderer) {
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(0.5f, 0.5f, 0.5f, 1);
         shapeRenderer.rect(rect.getX() - rect.getWidth() / 2f, rect.getY() - rect.getHeight() / 2f, rect.getWidth(), rect.getHeight());

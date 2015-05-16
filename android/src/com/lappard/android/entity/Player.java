@@ -2,6 +2,7 @@ package com.lappard.android.entity;
 
 import android.graphics.Rect;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -10,12 +11,10 @@ import com.badlogic.gdx.physics.box2d.World;
 
 public class Player extends Entity{
 
-    private ShapeRenderer shapeRenderer;
     private Rectangle rect;
 
     public Player(float x, float y, World world){
-        shapeRenderer = new ShapeRenderer();
-        rect = new Rectangle(x, y, 100, 200);
+        rect = new Rectangle(x, y, 1, 2);
 
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(rect.getWidth() / 2f, rect.getHeight() / 2f);
@@ -25,7 +24,7 @@ public class Player extends Entity{
     }
 
     public void jump() {
-        body.setLinearVelocity(0, 500);
+        body.applyLinearImpulse(0, 10, body.getPosition().x, body.getPosition().y, true);
     }
 
     @Override
@@ -35,7 +34,7 @@ public class Player extends Entity{
     }
 
     @Override
-    public void render() {
+    public void render(SpriteBatch spriteBatch, ShapeRenderer shapeRenderer) {
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(1f, 0.5f, 0.5f, 1);
         shapeRenderer.rect(rect.getX() - rect.getWidth() / 2f, rect.getY() - rect.getHeight() / 2f, rect.getWidth(), rect.getHeight());
