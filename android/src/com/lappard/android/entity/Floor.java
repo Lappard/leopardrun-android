@@ -20,6 +20,7 @@ public class Floor extends Entity {
         shape.setAsBox(rect.getWidth() / 2f, rect.getHeight() / 2f);
 
         initPhysics(shape, x, y, world);
+        body.setUserData(this);
     }
 
     @Override

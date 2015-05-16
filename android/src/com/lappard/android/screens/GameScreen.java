@@ -6,12 +6,17 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.ContactImpulse;
+import com.badlogic.gdx.physics.box2d.ContactListener;
+import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
 import com.codebutler.android_websockets.WebSocketClient;
 import com.lappard.android.entity.Entity;
 import com.lappard.android.entity.Floor;
 import com.lappard.android.entity.Player;
 import com.lappard.android.interfaces.TouchListener;
+import com.lappard.android.logic.ContactSolver;
 
 import java.util.List;
 import java.util.Vector;
@@ -35,6 +40,8 @@ public class GameScreen extends Screen implements TouchListener {
     public void create() {
         world = new World(new Vector2(0, -9.81f), true);
         entities = new Vector<Entity>();
+
+        world.setContactListener(new ContactSolver());
 
         player = new Player(5, 5, world);
         entities.add(player);
