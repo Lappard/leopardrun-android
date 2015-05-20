@@ -1,17 +1,26 @@
 package com.lappard.android.manager;
 
-import com.lappard.android.entity.Screen;
-import com.lappard.android.interfaces.TouchListener;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.lappard.android.screens.GameScreen;
 
 public class GameManager {
+
     static private GameManager instance;
 
     private ScreenManager screenManager;
     private InputManager inputManager;
 
     private GameManager() {
-        this.screenManager = new ScreenManager();
-        this.inputManager = new InputManager();
+        inputManager = new InputManager();
+        screenManager = new ScreenManager(inputManager);
+
+        Gdx.input.setInputProcessor(inputManager);
+
+        screenManager.setScreen(new GameScreen());
+
     }
 
     static public GameManager getInstance() {
@@ -22,27 +31,9 @@ public class GameManager {
             return instance;
         }
     }
-// INPUT MANAGER METHODS
 
-    public void touchUp() {
-        this.inputManager.touchUp();
-    }
-
-    public boolean registerTouchListener(TouchListener l) {
-        if (this.inputManager.registerListener(l)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-// SCREEN MANAGER METHODS
-
-    public Screen loadLevel() {
-        return this.screenManager.loadLevel();
-    }
-
-    public void renderLevel() {
-        this.screenManager.renderLevel();
+    public void renderScreen() {
+        this.screenManager.update();
+        this.screenManager.render();
     }
 }
