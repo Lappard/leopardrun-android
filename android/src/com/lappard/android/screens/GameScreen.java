@@ -96,5 +96,6 @@ public class GameScreen extends Screen implements TouchListener {
     @Override
     public void touchUp() {
         this.body.setLinearVelocity(0,500);
+
     }
 }

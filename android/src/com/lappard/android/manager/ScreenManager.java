@@ -3,9 +3,6 @@ package com.lappard.android.manager;
 import com.lappard.android.entity.Screen;
 import com.lappard.android.screens.GameScreen;
 
-/**
- * Created by Timpi on 10.05.15.
- */
 public class ScreenManager {
     private GameScreen gameScreen;
 
