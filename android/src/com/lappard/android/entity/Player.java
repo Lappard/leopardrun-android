@@ -21,6 +21,7 @@ public class Player extends Entity{
 
     private TextureRegion currentFrame;
     private TextureRegion[] walkingFrames;
+    private float animationTime = 0;
 
     private Animation walkingAnimation;
 
@@ -36,7 +37,7 @@ public class Player extends Entity{
             }
         }
 
-        walkingAnimation = new Animation(0.025f, walkingFrames);
+        walkingAnimation = new Animation(0.125f, walkingFrames);
 
         rect = new Rectangle(x, y, 1, 2);
 
@@ -61,9 +62,10 @@ public class Player extends Entity{
 
     @Override
     public void render(SpriteBatch spriteBatch) {
-        this.currentFrame = this.walkingAnimation.getKeyFrame(Gdx.graphics.getDeltaTime(), true);
+        animationTime += Gdx.graphics.getDeltaTime();
+        this.currentFrame = this.walkingAnimation.getKeyFrame(animationTime, true);
         spriteBatch.begin();
-        spriteBatch.draw(this.currentFrame, 0,0, 5,5);
+        spriteBatch.draw(this.currentFrame, body.getPosition().x,body.getPosition().y, 5,5);
         spriteBatch.end();
     }
 
