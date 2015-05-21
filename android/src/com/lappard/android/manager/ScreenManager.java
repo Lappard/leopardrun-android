@@ -12,9 +12,6 @@ import com.badlogic.gdx.math.Vector3;
 import com.lappard.android.interfaces.TouchListener;
 import com.lappard.android.screens.Screen;
 
-/**
- * Created by Timpi on 10.05.15.
- */
 public class ScreenManager{
     private Screen currentScreen;
     private InputManager inputManager;
