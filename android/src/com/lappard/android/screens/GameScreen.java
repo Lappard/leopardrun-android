@@ -3,6 +3,7 @@ package com.lappard.android.screens;
 import android.util.Log;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
@@ -22,15 +23,13 @@ import java.util.List;
 import java.util.Vector;
 
 public class GameScreen extends Screen implements TouchListener {
-    private static final String TAG_WS = "WebSocket";
-    private static final String WEBSOCKET_URL = "ws://jonathanwiemers.de:1337";
 
     private List<Entity> entities;
-    WebSocketClient socket;
-    String guid;
 
-    World world;
-    Player player;
+    private World world;
+    private OrthographicCamera cam;
+    private Player player;
+
 
     public GameScreen() {
 
@@ -38,6 +37,10 @@ public class GameScreen extends Screen implements TouchListener {
 
     @Override
     public void create() {
+        cam = new OrthographicCamera(24, 13.5f);
+        cam.position.set(24/2f, 13.5f/2f, 0);
+        cam.update();
+
         world = new World(new Vector2(0, -9.81f), true);
         entities = new Vector<Entity>();
 
@@ -57,9 +60,10 @@ public class GameScreen extends Screen implements TouchListener {
     }
 
     @Override
-    public void render(SpriteBatch spriteBatch, ShapeRenderer shapeRenderer) {
+    public void render(SpriteBatch spriteBatch) {
+        spriteBatch.setProjectionMatrix(cam.combined);
         for(Entity e: entities){
-            e.render(spriteBatch, shapeRenderer);
+            e.render(spriteBatch);
         }
     }
 

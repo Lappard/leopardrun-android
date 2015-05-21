@@ -32,7 +32,6 @@ public abstract class Entity {
         fixtureDef.density = 1f;
 
         body = world.createBody(bodyDef);
-
         fixture = body.createFixture(fixtureDef);
     }
 
@@ -42,6 +41,6 @@ public abstract class Entity {
 
     public abstract void update();
 
-    public abstract void render(SpriteBatch spriteBatch, ShapeRenderer shapeRenderer);
+    public abstract void render(SpriteBatch spriteBatch);
 
 }

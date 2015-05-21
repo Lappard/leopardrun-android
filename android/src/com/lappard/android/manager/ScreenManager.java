@@ -18,22 +18,13 @@ import com.lappard.android.screens.Screen;
 public class ScreenManager{
     private Screen currentScreen;
     private InputManager inputManager;
-    private OrthographicCamera cam;
 
-    private ShapeRenderer shapeRender;
     private SpriteBatch spriteBatch;
 
     public ScreenManager(InputManager inputManager) {
         this.inputManager = inputManager;
-        cam = new OrthographicCamera(24, 13.5f);
-        cam.position.set(24/2f, 13.5f/2f, 0);
-        cam.update();
 
-        shapeRender = new ShapeRenderer();
         spriteBatch = new SpriteBatch();
-
-        shapeRender.setProjectionMatrix(cam.combined);
-        spriteBatch.setProjectionMatrix(cam.combined);
     }
 
     public void setScreen(Screen newScreen) {
@@ -55,7 +46,7 @@ public class ScreenManager{
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         if(currentScreen != null)
-            currentScreen.render(spriteBatch, shapeRender);
+            currentScreen.render(spriteBatch);
     }
 
 }

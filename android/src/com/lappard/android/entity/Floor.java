@@ -29,10 +29,10 @@ public class Floor extends Entity {
     }
 
     @Override
-    public void render(SpriteBatch spriteBatch, ShapeRenderer shapeRenderer) {
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+    public void render(SpriteBatch spriteBatch) {
+/*        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(0.5f, 0.5f, 0.5f, 1);
         shapeRenderer.rect(rect.getX() - rect.getWidth() / 2f, rect.getY() - rect.getHeight() / 2f, rect.getWidth(), rect.getHeight());
-        shapeRenderer.end();
+        shapeRenderer.end();*/
     }
 }

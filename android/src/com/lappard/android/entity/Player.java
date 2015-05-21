@@ -29,7 +29,7 @@ public class Player extends Entity{
     public void jump() {
         Log.d("GameLogic", "Player wants to jump. Is on ground: "+onGround);
         if(onGround)
-            body.applyLinearImpulse(0, 10, body.getPosition().x, body.getPosition().y, true);
+            body.applyLinearImpulse(0, 100, body.getPosition().x, body.getPosition().y, true);
     }
 
     @Override

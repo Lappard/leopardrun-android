@@ -11,6 +11,6 @@ public abstract class Screen implements TouchListener {
 
     public abstract void create();
     public abstract void update();
-    public abstract void render(SpriteBatch spriteBatch, ShapeRenderer shapeRenderer);
+    public abstract void render(SpriteBatch spriteBatch);
     public abstract void destroy();
 }
