@@ -4,6 +4,9 @@ import android.util.Log;
 
 import com.badlogic.gdx.math.Vector2;
 import com.codebutler.android_websockets.WebSocketClient;
+import com.google.gson.Gson;
+import com.lappard.android.data.Level;
+import com.lappard.android.data.NetworkCommand;
 
 import java.net.URI;
 import java.util.HashMap;
@@ -14,17 +17,19 @@ public class NetworkManager {
     private static final String TAG_WS = "WebSocket";
     private static final String WEBSOCKET_URL = "ws://jonathanwiemers.de:1337";
 
-    private static final String ACTION_CREATE_LEVEL = "create level";
+    public static final String ACTION_CONNECTION_ESTABLISHED = "connected";
+    public static final String ACTION_CREATE_LEVEL = "createLevel";
 
     private WebSocketClient socket;
     private HashMap<String,List<EventListener>> listeners;
+    private Gson gson;
 
     public interface EventListener{
-
-        public void onEvent(String Event);
+        public void onEvent(NetworkCommand cmd);
     }
 
     public NetworkManager(){
+        gson = new Gson();
         listeners = new HashMap<String, List<EventListener>>();
         prepareConnection();
     }
@@ -39,9 +44,15 @@ public class NetworkManager {
             @Override
             public void onMessage(String message) {
                 Log.d(TAG_WS, "Message:" + message);
-                /*if(listeners.containsKey(message)){
-                    //foreach(Listener l : listeners.get(me))
-                }*/
+                NetworkCommand cmd = gson.fromJson(message, NetworkCommand.class);
+                if(cmd.method == null){
+                    cmd.method = ACTION_CONNECTION_ESTABLISHED;
+                }
+                if(listeners.containsKey(cmd.method)){
+                    for(EventListener l : listeners.get(cmd.method)){
+                        l.onEvent(cmd);
+                    }
+                }
             }
 
             @Override
@@ -68,6 +79,12 @@ public class NetworkManager {
             listeners.put(eventName, new Vector<EventListener>());
         }
         listeners.get(eventName).add(listener);
+    }
+
+    public void emit(String eventName){
+        NetworkCommand cmd = new NetworkCommand();
+        cmd.method = eventName;
+        socket.send(gson.toJson(cmd));
     }
 
     public void connect() {
