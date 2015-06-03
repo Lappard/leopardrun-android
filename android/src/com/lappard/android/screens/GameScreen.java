@@ -24,8 +24,9 @@ import java.util.Vector;
 
 public class GameScreen extends Screen implements TouchListener {
 
-    private List<Entity> entities;
+    public static float PIXEL_PER_METER = 50;
 
+    private List<Entity> entities;
     private World world;
     private OrthographicCamera cam;
     private Player player;
@@ -37,8 +38,10 @@ public class GameScreen extends Screen implements TouchListener {
 
     @Override
     public void create() {
-        cam = new OrthographicCamera(24, 13.5f);
-        cam.position.set(24/2f, 13.5f/2f, 0);
+        float height = Gdx.graphics.getHeight() / PIXEL_PER_METER,
+              width = Gdx.graphics.getWidth() / PIXEL_PER_METER;
+        cam = new OrthographicCamera(width, height);
+        cam.position.set(width/2f, height/2f, 0);
         cam.update();
 
         world = new World(new Vector2(0, -9.81f), true);
@@ -62,9 +65,11 @@ public class GameScreen extends Screen implements TouchListener {
     @Override
     public void render(SpriteBatch spriteBatch) {
         spriteBatch.setProjectionMatrix(cam.combined);
+        spriteBatch.begin();
         for(Entity e: entities){
             e.render(spriteBatch);
         }
+        spriteBatch.end();
     }
 
 

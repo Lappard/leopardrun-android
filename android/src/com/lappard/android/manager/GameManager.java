@@ -12,12 +12,16 @@ public class GameManager {
 
     private ScreenManager screenManager;
     private InputManager inputManager;
+    private NetworkManager networkManager;
 
     private GameManager() {
         inputManager = new InputManager();
         screenManager = new ScreenManager(inputManager);
 
         Gdx.input.setInputProcessor(inputManager);
+
+        networkManager = new NetworkManager();
+        networkManager.connect();
 
         screenManager.setScreen(new GameScreen());
 

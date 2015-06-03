@@ -13,6 +13,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.lappard.android.screens.GameScreen;
 
 public class Player extends Entity{
 
@@ -37,7 +38,7 @@ public class Player extends Entity{
             }
         }
 
-        walkingAnimation = new Animation(0.125f, walkingFrames);
+        walkingAnimation = new Animation(0.1f, walkingFrames);
 
         rect = new Rectangle(x, y, 1, 2);
 
@@ -64,9 +65,9 @@ public class Player extends Entity{
     public void render(SpriteBatch spriteBatch) {
         animationTime += Gdx.graphics.getDeltaTime();
         this.currentFrame = this.walkingAnimation.getKeyFrame(animationTime, true);
-        spriteBatch.begin();
-        spriteBatch.draw(this.currentFrame, body.getPosition().x,body.getPosition().y, 5,5);
-        spriteBatch.end();
+        float width = this.currentFrame.getRegionWidth() / GameScreen.PIXEL_PER_METER,
+              height = this.currentFrame.getRegionHeight() / GameScreen.PIXEL_PER_METER;
+        spriteBatch.draw(this.currentFrame, body.getPosition().x,body.getPosition().y, width, height);
     }
 
 
