@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.codebutler.android_websockets.WebSocketClient;
 
 import java.net.URI;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
 
@@ -16,7 +17,7 @@ public class NetworkManager {
     private static final String ACTION_CREATE_LEVEL = "create level";
 
     private WebSocketClient socket;
-    private List<EventListener> listeners;
+    private HashMap<String,List<EventListener>> listeners;
 
     public interface EventListener{
 
@@ -24,7 +25,8 @@ public class NetworkManager {
     }
 
     public NetworkManager(){
-        listeners = new Vector<EventListener>();
+        listeners = new HashMap<String, List<EventListener>>();
+        prepareConnection();
     }
 
     private void prepareConnection() {
@@ -37,6 +39,9 @@ public class NetworkManager {
             @Override
             public void onMessage(String message) {
                 Log.d(TAG_WS, "Message:" + message);
+                /*if(listeners.containsKey(message)){
+                    //foreach(Listener l : listeners.get(me))
+                }*/
             }
 
             @Override
@@ -57,6 +62,13 @@ public class NetworkManager {
             }
         }, null);
     };
+
+    public void on(String eventName, EventListener listener){
+        if(!listeners.containsKey(eventName)){
+            listeners.put(eventName, new Vector<EventListener>());
+        }
+        listeners.get(eventName).add(listener);
+    }
 
     public void connect() {
         socket.connect();
