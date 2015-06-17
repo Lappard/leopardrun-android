@@ -13,13 +13,15 @@ public class Player extends PhysicsActor {
 
     public Player(World world, float x, float y) {
         sprite = new AnimatedSprite(AssetManager.getInstance().getTexture(AssetManager.TEXTURE_CAT), 5, 2, 0.1f);
-        sprite.setSize(100, 100);
+        sprite.setSize(90, 90);
         initPhysicsAsBox(world, x, y, true);
     }
 
     @Override
     public void act(float delta) {
         super.act(delta);
+        body.setLinearVelocity(2f, body.getLinearVelocity().y);
+        //body.applyLinearImpulse(new Vector2(0.8f, 0), body.getWorldCenter(), true);
     }
 
     @Override
@@ -31,9 +33,13 @@ public class Player extends PhysicsActor {
 
     public void jump() {
         if(canJump){
-            body.applyLinearImpulse(new Vector2(0, 14), body.getWorldCenter(), true);
+            body.applyLinearImpulse(new Vector2(0, 12), body.getWorldCenter(), true);
             canJump = false;
         }
 
+    }
+
+    public Vector2 getPosition(){
+        return body.getPosition();
     }
 }

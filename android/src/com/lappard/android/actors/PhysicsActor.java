@@ -28,6 +28,7 @@ public class PhysicsActor extends Actor {
         else
             bodyDef.type = BodyDef.BodyType.StaticBody;
         bodyDef.position.set(new Vector2(x, y));
+        bodyDef.fixedRotation = true;
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
