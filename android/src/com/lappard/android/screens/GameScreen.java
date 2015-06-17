@@ -7,17 +7,23 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
 import com.codebutler.android_websockets.WebSocketClient;
+import com.lappard.android.data.NetworkCommand;
 import com.lappard.android.entity.Entity;
 import com.lappard.android.entity.Floor;
 import com.lappard.android.entity.Player;
 import com.lappard.android.interfaces.TouchListener;
 import com.lappard.android.logic.ContactSolver;
+import com.lappard.android.logic.level.ServerLevelGenerator;
+import com.lappard.android.manager.LevelManager;
+import com.lappard.android.manager.NetworkManager;
 
 import java.util.List;
 import java.util.Vector;
@@ -30,6 +36,7 @@ public class GameScreen extends Screen implements TouchListener {
     private World world;
     private OrthographicCamera cam;
     private Player player;
+    private LevelManager levelManager;
 
 
     public GameScreen() {
@@ -49,9 +56,23 @@ public class GameScreen extends Screen implements TouchListener {
 
         world.setContactListener(new ContactSolver());
 
-        player = new Player(5, 5, world);
+        levelManager = new LevelManager(world, new ServerLevelGenerator(world));
+
+        player = new Player(1, 2, world);
         entities.add(player);
         entities.add(new Floor(Gdx.graphics.getWidth() /2f, 1, Gdx.graphics.getWidth(), 2, world));
+
+
+        NetworkManager.getInstance().connect();
+        NetworkManager.getInstance().on(NetworkManager.ACTION_CONNECTION_ESTABLISHED, new NetworkManager.EventListener() {
+
+
+            @Override
+            public void onEvent(NetworkCommand cmd) {
+                levelManager.expandLevel();
+            }
+        });
+
     }
 
     @Override
@@ -66,8 +87,13 @@ public class GameScreen extends Screen implements TouchListener {
     public void render(SpriteBatch spriteBatch) {
         spriteBatch.setProjectionMatrix(cam.combined);
         spriteBatch.begin();
-        for(Entity e: entities){
+        /*for(Entity e: entities){
             e.render(spriteBatch);
+        }*/
+        Array<Body> bodies = new Array<Body>();
+        world.getBodies(bodies);
+        for(Body b : bodies){
+            ((Entity)b.getUserData()).render(spriteBatch);
         }
         spriteBatch.end();
     }

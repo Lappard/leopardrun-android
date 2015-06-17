@@ -17,7 +17,7 @@ import com.lappard.android.screens.GameScreen;
 
 public class Player extends Entity{
 
-    private Rectangle rect;
+
     private boolean onGround = false;
 
     private TextureRegion currentFrame;
@@ -53,12 +53,6 @@ public class Player extends Entity{
         Log.d("GameLogic", "Player wants to jump. Is on ground: "+onGround);
         if(onGround)
             body.applyLinearImpulse(0, 20, body.getPosition().x, body.getPosition().y, true);
-    }
-
-    @Override
-    public void update() {
-        Vector2 pos = body.getPosition();
-        rect.setPosition(pos);
     }
 
     @Override

@@ -24,11 +24,20 @@ public class NetworkManager {
     private HashMap<String,List<EventListener>> listeners;
     private Gson gson;
 
+    private static NetworkManager instance;
+
+    public static NetworkManager getInstance(){
+        if(instance == null){
+            instance = new NetworkManager();
+        }
+        return  instance;
+    }
+
     public interface EventListener{
         public void onEvent(NetworkCommand cmd);
     }
 
-    public NetworkManager(){
+    private NetworkManager(){
         gson = new Gson();
         listeners = new HashMap<String, List<EventListener>>();
         prepareConnection();

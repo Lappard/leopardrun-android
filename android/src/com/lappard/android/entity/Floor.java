@@ -23,6 +23,10 @@ public class Floor extends Entity {
         body.setUserData(this);
     }
 
+    public Floor(float x, float y, World world) {
+        this(x, y, 1f, 1f, world);
+    }
+
     @Override
     public void update() {
         rect.setPosition(body.getPosition());

@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Polygon;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -17,6 +18,7 @@ public abstract class Entity {
 
     protected Body body;
     protected Fixture fixture;
+    protected Rectangle rect;
 
     public void initPhysics(PolygonShape shape, float x, float y, World world, boolean isDynamic) {
         BodyDef bodyDef = new BodyDef();
@@ -39,7 +41,10 @@ public abstract class Entity {
         initPhysics(shape, x, y, world, false);
     }
 
-    public abstract void update();
+    public void update() {
+        Vector2 pos = body.getPosition();
+        rect.setPosition(pos);
+    }
 
     public abstract void render(SpriteBatch spriteBatch);
 

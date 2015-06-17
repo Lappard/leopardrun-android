@@ -12,6 +12,6 @@ public class Level {
     }
 
     public LevelObject[][] levelparts;
-    
+
 }
 

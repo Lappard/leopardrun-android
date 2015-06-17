@@ -21,28 +21,7 @@ public class GameManager {
     private GameManager() {
         inputManager = new InputManager();
         screenManager = new ScreenManager(inputManager);
-
         Gdx.input.setInputProcessor(inputManager);
-
-        networkManager = new NetworkManager();
-        networkManager.connect();
-        networkManager.on(NetworkManager.ACTION_CREATE_LEVEL, new NetworkManager.EventListener() {
-            @Override
-            public void onEvent(NetworkCommand cmd) {
-                for (Level.LevelObject[] part : cmd.process.level.levelparts) {
-                    for (Level.LevelObject o : part) {
-                        Log.i("Levelobject", "type:" + o.type + " x:" + o.x + ", y:" + o.y);
-                    }
-                }
-            }
-        });
-        networkManager.on(NetworkManager.ACTION_CONNECTION_ESTABLISHED, new NetworkManager.EventListener(){
-
-            @Override
-            public void onEvent(NetworkCommand cmd) {
-                networkManager.emit(NetworkManager.ACTION_CREATE_LEVEL);
-            }
-        });
 
         screenManager.setScreen(new GameScreen());
 
