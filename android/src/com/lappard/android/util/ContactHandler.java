@@ -7,12 +7,12 @@ import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.lappard.android.actors.PhysicsActor;
 
-public class ContactHandler implements ContactListener{
+public class ContactHandler implements ContactListener {
 
     @Override
     public void beginContact(Contact contact) {
-        PhysicsActor actorA = (PhysicsActor)contact.getFixtureA().getUserData();
-        PhysicsActor actorB = (PhysicsActor)contact.getFixtureB().getUserData();
+        PhysicsActor actorA = (PhysicsActor) contact.getFixtureA().getUserData();
+        PhysicsActor actorB = (PhysicsActor) contact.getFixtureB().getUserData();
         actorA.onContact(actorB);
         actorB.onContact(actorA);
     }

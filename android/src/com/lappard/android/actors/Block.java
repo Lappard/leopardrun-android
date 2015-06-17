@@ -4,12 +4,12 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.physics.box2d.World;
 
-public class Floor extends Obstacle {
+public class Block extends Obstacle {
 
-    public static float SIZE = 200;
+    public static float SIZE = 100;
 
-    public Floor(World world, float x, float y) {
-        super(world, new Sprite(new Texture("ground.png")), SIZE, SIZE, x, y);
+    public Block(World world, float x, float y) {
+        super(world, new Sprite(new Texture("block.png")), SIZE, SIZE, x, y);
     }
 
     @Override

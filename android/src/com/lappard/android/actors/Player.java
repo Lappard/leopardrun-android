@@ -15,7 +15,7 @@ public class Player extends PhysicsActor {
 
     public Player(World world, float x, float y) {
         sprite = new AnimatedSprite(new Texture("cat.png"), 5, 2, 0.1f);
-        sprite.setSize(105, 105);
+        sprite.setSize(100, 100);
         initPhysicsAsBox(world, x, y, true);
     }
 

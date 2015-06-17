@@ -7,9 +7,9 @@ import com.lappard.android.util.AnimatedSprite;
 
 public class Obstacle extends PhysicsActor {
 
-    public Obstacle(World world, Sprite sprite, float x, float y) {
+    public Obstacle(World world, Sprite sprite, float width, float height, float x, float y) {
         this.sprite = sprite;
-        this.sprite.setSize(128, 128);
+        this.sprite.setSize(width, height);
         initPhysicsAsBox(world, x, y, false);
     }
 
