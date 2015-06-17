@@ -3,23 +3,24 @@ package com.lappard.android.util;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 
-public class AnimatedSprite {
+public class AnimatedSprite extends Sprite {
 
-    private int width, height;
     private float time;
     private Animation animation;
     private boolean looping = true;
 
     public AnimatedSprite(Texture texture, int colls, int rows, float frameDuration) {
-        width = texture.getWidth() / colls;
-        height = texture.getHeight() / rows;
+        super(texture, texture.getWidth() / colls, texture.getHeight() / rows);
+
 
         //split texture and put all frames in one dimensional array for Animation object
-        TextureRegion[][] frames2d = TextureRegion.split(texture, width, height);
+        TextureRegion[][] frames2d = TextureRegion.split(texture, (int)getWidth(), (int)getHeight());
         TextureRegion[] frames1d = new TextureRegion[colls * rows];
         int index = 0;
 
@@ -31,6 +32,7 @@ public class AnimatedSprite {
 
         animation = new Animation(frameDuration, frames1d);
 
+
     }
 
     public void restart() {
@@ -41,9 +43,22 @@ public class AnimatedSprite {
         this.looping = looping;
     }
 
-    public void draw(SpriteBatch batch, float x, float y) {
+
+    private void prepareDraw(){
         time += Gdx.graphics.getDeltaTime();
-        batch.draw(animation.getKeyFrame(time, looping), x, y);
+        super.setRegion(animation.getKeyFrame(time, looping));
     }
 
+
+    @Override
+    public void draw(Batch batch) {
+        prepareDraw();
+        super.draw(batch);
+    }
+
+    @Override
+    public void draw(Batch batch, float alphaModulation) {
+        prepareDraw();
+        super.draw(batch, alphaModulation);
+    }
 }
