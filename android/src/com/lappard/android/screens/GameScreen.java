@@ -9,10 +9,13 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.lappard.android.actors.Floor;
 import com.lappard.android.actors.Player;
 
 
 public class GameScreen implements Screen {
+
+    public static float PIXEL_PER_METER = 10;
 
     protected Game game;
     protected SpriteBatch batch;
@@ -27,8 +30,15 @@ public class GameScreen implements Screen {
     @Override
     public void show() {
         world = new World(new Vector2(0, -9.81f), false);
-        stage = new Stage(new ExtendViewport(128.0f, 72.0f));
-        stage.addActor(new Player(world));
+        stage = new Stage(new ExtendViewport(1280f / PIXEL_PER_METER, 720f / PIXEL_PER_METER));
+        
+        stage.addActor(new Player(world, 40, 70));
+        stage.addActor(new Floor(world, 0, 0));
+        stage.addActor(new Floor(world, 12.8f * 1, 0));
+        stage.addActor(new Floor(world, 12.8f * 2, 0));
+        stage.addActor(new Floor(world, 12.8f * 3, 0));
+        stage.addActor(new Floor(world, 12.8f * 4, 0));
+        stage.addActor(new Floor(world, 12.8f * 5, 0));
     }
 
     @Override

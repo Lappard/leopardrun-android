@@ -1,5 +1,6 @@
 package com.lappard.android.actors;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
@@ -10,6 +11,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.lappard.android.screens.GameScreen;
 
 public class PhysicsActor extends Actor {
 
@@ -17,7 +19,7 @@ public class PhysicsActor extends Actor {
     protected Body body;
     protected Fixture fixture;
 
-    public void initPhysics(PolygonShape shape, float x, float y, World world, boolean isDynamic) {
+    public void initPhysics(World world, PolygonShape shape, float x, float y, boolean isDynamic) {
         BodyDef bodyDef = new BodyDef();
 
         if (isDynamic)
@@ -32,10 +34,19 @@ public class PhysicsActor extends Actor {
 
         body = world.createBody(bodyDef);
         fixture = body.createFixture(fixtureDef);
+
+        sprite.setCenter(sprite.getWidth() / 2f, sprite.getHeight() / 2f);
     }
 
-    public void initPhysics(PolygonShape shape, float x, float y, World world) {
-        initPhysics(shape, x, y, world, false);
+    public void initPhysics(World world, PolygonShape shape, float x, float y) {
+        initPhysics(world, shape, x, y, false);
+    }
+
+    public void initPhysicsAsBox(World world, float x, float y, boolean isDynamic) {
+        sprite.setSize(sprite.getWidth() / GameScreen.PIXEL_PER_METER, sprite.getHeight() / GameScreen.PIXEL_PER_METER);
+        PolygonShape shape = new PolygonShape();
+        shape.setAsBox(sprite.getWidth(), sprite.getHeight());
+        initPhysics(world, shape, x, y, isDynamic);
     }
 
     @Override
