@@ -7,7 +7,7 @@ import com.lappard.android.screens.GameScreen;
 
 
 public class LeopardRun extends Game {
-    public static boolean DEBUG_MODE = true;
+    public static boolean DEBUG_MODE = !true;
 
     private Context context;
 

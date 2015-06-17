@@ -1,6 +1,5 @@
 package com.lappard.android.actors;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -26,20 +25,20 @@ public class Player extends PhysicsActor {
 
     @Override
     public void onContact(Actor other) {
-        if(other instanceof Obstacle){
+        if (other instanceof Obstacle) {
             canJump = true;
         }
     }
 
     public void jump() {
-        if(canJump){
+        if (canJump) {
             body.applyLinearImpulse(new Vector2(0, 12), body.getWorldCenter(), true);
             canJump = false;
         }
 
     }
 
-    public Vector2 getPosition(){
+    public Vector2 getPosition() {
         return body.getPosition();
     }
 }

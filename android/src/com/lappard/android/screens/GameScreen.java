@@ -1,7 +1,5 @@
 package com.lappard.android.screens;
 
-import android.util.Log;
-
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -16,7 +14,6 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.lappard.android.LeopardRun;
-import com.lappard.android.actors.Block;
 import com.lappard.android.actors.Floor;
 import com.lappard.android.actors.Player;
 import com.lappard.android.level.LevelCreator;
@@ -74,7 +71,7 @@ public class GameScreen implements Screen {
         level.queryLevelPart(new LevelCreator.PartAvailableListener() {
             @Override
             public void onPartAvailable(List<Actor> part) {
-                for(Actor actor : part){
+                for (Actor actor : part) {
                     stage.addActor(actor);
                 }
             }
