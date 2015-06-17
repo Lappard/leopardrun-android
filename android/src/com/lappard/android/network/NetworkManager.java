@@ -1,12 +1,9 @@
-package com.lappard.android.manager;
+package com.lappard.android.network;
 
 import android.util.Log;
 
-import com.badlogic.gdx.math.Vector2;
 import com.codebutler.android_websockets.WebSocketClient;
 import com.google.gson.Gson;
-import com.lappard.android.data.Level;
-import com.lappard.android.data.NetworkCommand;
 
 import java.net.URI;
 import java.util.HashMap;
@@ -80,6 +77,15 @@ public class NetworkManager {
         }
         listeners.get(eventName).add(listener);
     }
+
+    public void off(String eventName, EventListener listener){
+        if(listeners.containsKey(eventName)){
+            listeners.get(eventName).remove(listener);
+        }
+
+    }
+
+
 
     public void emit(String eventName){
         NetworkCommand cmd = new NetworkCommand();
