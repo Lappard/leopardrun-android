@@ -41,7 +41,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
-        world = new World(new Vector2(0, -9.81f), false);
+        world = new World(new Vector2(0, -9.81f*2), false);
         stage = new Stage(new ExtendViewport(1280f / PIXEL_PER_METER, 720f / PIXEL_PER_METER));
         Gdx.input.setInputProcessor(stage);
 

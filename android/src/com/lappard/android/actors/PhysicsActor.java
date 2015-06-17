@@ -45,7 +45,7 @@ public class PhysicsActor extends Actor {
     public void initPhysicsAsBox(World world, float x, float y, boolean isDynamic) {
         sprite.setSize(sprite.getWidth() / GameScreen.PIXEL_PER_METER, sprite.getHeight() / GameScreen.PIXEL_PER_METER);
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(sprite.getWidth(), sprite.getHeight());
+        shape.setAsBox(sprite.getWidth() / 2f, sprite.getHeight() / 2f, new Vector2(sprite.getWidth() / 2f, sprite.getHeight() / 2f), 0);
         initPhysics(world, shape, x, y, isDynamic);
     }
 

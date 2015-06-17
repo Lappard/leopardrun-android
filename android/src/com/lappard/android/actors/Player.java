@@ -22,6 +22,6 @@ public class Player extends PhysicsActor {
 
     public void jump() {
         Log.d("Player", "jump!");
-        body.applyLinearImpulse(new Vector2(0, 30), body.getPosition(), true);
+        body.applyLinearImpulse(new Vector2(0, 14), body.getWorldCenter(), true);
     }
 }
