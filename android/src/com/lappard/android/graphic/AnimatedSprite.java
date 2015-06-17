@@ -1,4 +1,4 @@
-package com.lappard.android.util;
+package com.lappard.android.graphic;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;

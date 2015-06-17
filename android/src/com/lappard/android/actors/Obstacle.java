@@ -1,9 +1,7 @@
 package com.lappard.android.actors;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.physics.box2d.World;
-import com.lappard.android.util.AnimatedSprite;
 
 public class Obstacle extends PhysicsActor {
 
