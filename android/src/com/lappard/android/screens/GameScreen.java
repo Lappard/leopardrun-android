@@ -17,6 +17,7 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.lappard.android.LeopardRun;
 import com.lappard.android.actors.Floor;
 import com.lappard.android.actors.Player;
+import com.lappard.android.util.ContactHandler;
 
 
 public class GameScreen implements Screen {
@@ -42,6 +43,7 @@ public class GameScreen implements Screen {
     @Override
     public void show() {
         world = new World(new Vector2(0, -9.81f*2), false);
+        world.setContactListener(new ContactHandler());
         stage = new Stage(new ExtendViewport(1280f / PIXEL_PER_METER, 720f / PIXEL_PER_METER));
         Gdx.input.setInputProcessor(stage);
 
@@ -50,18 +52,17 @@ public class GameScreen implements Screen {
         stage.addListener(new InputListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 player.jump();
-                Log.d("GameSreen", "touchDown");
                 return true;
             }
         });
 
         stage.addActor(player);
         stage.addActor(new Floor(world, 0, 0));
-        stage.addActor(new Floor(world, 1.28f * 1, 0));
-        stage.addActor(new Floor(world, 1.28f * 2, 0));
-        stage.addActor(new Floor(world, 1.28f * 3, 0));
-        stage.addActor(new Floor(world, 1.28f * 4, 0));
-        stage.addActor(new Floor(world, 1.28f * 5, 0));
+        stage.addActor(new Floor(world, 1.28f * 1, -0.64f));
+        stage.addActor(new Floor(world, 1.28f * 2, -0.64f));
+        stage.addActor(new Floor(world, 1.28f * 3, -0.64f));
+        stage.addActor(new Floor(world, 1.28f * 4, -0.64f));
+        stage.addActor(new Floor(world, 1.28f * 5, -0.64f));
     }
 
     @Override

@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -34,6 +35,8 @@ public class PhysicsActor extends Actor {
 
         body = world.createBody(bodyDef);
         fixture = body.createFixture(fixtureDef);
+        body.setUserData(this);
+        fixture.setUserData(this);
 
         sprite.setCenter(sprite.getWidth() / 2f, sprite.getHeight() / 2f);
     }
@@ -53,5 +56,9 @@ public class PhysicsActor extends Actor {
     public void draw(Batch batch, float parentAlpha) {
         sprite.setPosition(body.getPosition().x, body.getPosition().y);
         sprite.draw(batch, parentAlpha);
+    }
+
+    public void onContact(Actor other){
+
     }
 }
