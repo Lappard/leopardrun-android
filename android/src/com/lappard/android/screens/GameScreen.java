@@ -59,9 +59,6 @@ public class GameScreen implements Screen {
         Gdx.input.setInputProcessor(stage);
         level = new LevelCreator(network, world);
 
-        if (LeopardRun.DEBUG_MODE)
-            stage.setDebugAll(true);
-
         player = new Player(world, 4, 12);
 
         stage.addListener(new InputListener() {
@@ -73,16 +70,13 @@ public class GameScreen implements Screen {
 
         stage.addActor(player);
         stage.addActor(new Floor(world, 4, 4));
-        stage.addActor(new Block(world, 2, 2));
 
         level.queryLevelPart(new LevelCreator.PartAvailableListener() {
             @Override
             public void onPartAvailable(List<Actor> part) {
-                Log.d("GameScreen", "parts available(" + part.size() + ")");
                 for(Actor actor : part){
                     stage.addActor(actor);
                 }
-                Log.d("GameScreen", "stage actor count:("+stage.getActors().size+")");
             }
         });
 

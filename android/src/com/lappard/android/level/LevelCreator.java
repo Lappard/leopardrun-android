@@ -45,7 +45,6 @@ public class LevelCreator {
         if(levelParts.size() > deliveredParts) {
             List<Actor> result = createActors(levelParts.get(deliveredParts));
             deliveredParts++;
-            Log.d("LevelCreator", "delivering Actors...");
             listener.onPartAvailable(result);
             return true;
         }
@@ -72,15 +71,14 @@ public class LevelCreator {
     }
 
     private List<Actor> createActors(LevelData.LevelObject[] part){
-        Log.d("LevelCreator", "Creating actors (" + part.length + ")");
         List<Actor> actors = new Vector<>();
         for(LevelData.LevelObject obj : part){
             switch (obj.type){
                 case OBJECT_TYPE_BLOCK:
-                    actors.add(new Block(world, obj.x * 2, obj.y * 2));
+                    actors.add(new Block(world, obj.x * 2, obj.y * 2 - 1));
                     break;
                 case OBJECT_TYPE_GROUND:
-                    actors.add(new Floor(world, obj.x * 2, obj.y * 2));
+                    actors.add(new Floor(world, obj.x * 2, obj.y * 2 - 1));
                     break;
             }
         }
