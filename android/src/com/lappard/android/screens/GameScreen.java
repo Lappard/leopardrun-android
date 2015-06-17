@@ -8,11 +8,13 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.lappard.android.LeopardRun;
 import com.lappard.android.actors.Floor;
 import com.lappard.android.actors.Player;
 
@@ -25,12 +27,15 @@ public class GameScreen implements Screen {
     protected SpriteBatch batch;
     protected Stage stage;
     protected World world;
+    protected Box2DDebugRenderer debugRenderer;
 
     private Player player;
 
     public GameScreen(Game game) {
         this.game = game;
         batch = new SpriteBatch();
+        if(LeopardRun.DEBUG_MODE)                //bods, joints, AABBs, inact, velo, contact
+            debugRenderer = new Box2DDebugRenderer(true, false, false, false, true, true);
 
     }
 
@@ -67,6 +72,10 @@ public class GameScreen implements Screen {
 
         batch.begin();
         stage.draw();
+
+        if(LeopardRun.DEBUG_MODE)
+            debugRenderer.render(world, stage.getViewport().getCamera().combined);
+
         batch.end();
 
     }
