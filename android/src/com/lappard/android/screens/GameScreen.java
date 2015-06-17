@@ -26,8 +26,8 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
-        world = new World(new Vector2(0, 0), false);
-        stage = new Stage(new ExtendViewport(1280, 720));
+        world = new World(new Vector2(0, -9.81f), false);
+        stage = new Stage(new ExtendViewport(128.0f, 72.0f));
         stage.addActor(new Player(world));
     }
 

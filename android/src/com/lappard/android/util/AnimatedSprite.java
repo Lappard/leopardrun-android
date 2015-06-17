@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 
@@ -20,7 +19,7 @@ public class AnimatedSprite extends Sprite {
 
 
         //split texture and put all frames in one dimensional array for Animation object
-        TextureRegion[][] frames2d = TextureRegion.split(texture, (int)getWidth(), (int)getHeight());
+        TextureRegion[][] frames2d = TextureRegion.split(texture, (int) getWidth(), (int) getHeight());
         TextureRegion[] frames1d = new TextureRegion[colls * rows];
         int index = 0;
 
@@ -44,7 +43,7 @@ public class AnimatedSprite extends Sprite {
     }
 
 
-    private void prepareDraw(){
+    private void prepareDraw() {
         time += Gdx.graphics.getDeltaTime();
         super.setRegion(animation.getKeyFrame(time, looping));
     }

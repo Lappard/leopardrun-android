@@ -9,9 +9,14 @@ public class Player extends PhysicsActor {
 
     public Player(World world) {
         sprite = new AnimatedSprite(new Texture("cat.png"), 5, 2, 0.1f);
+        sprite.setSize(21f, 21f);
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(210, 210);
-        initPhysics(shape, 10, 10, world, false);
+        shape.setAsBox(21f, 21f);
+        initPhysics(shape, 10, 80, world, true);
     }
 
+    @Override
+    public void act(float delta) {
+        super.act(delta);
+    }
 }
