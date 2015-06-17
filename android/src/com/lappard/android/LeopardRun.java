@@ -2,28 +2,18 @@ package com.lappard.android;
 
 import android.content.Context;
 
-
-import com.badlogic.gdx.ApplicationAdapter;
-import com.lappard.android.manager.GameManager;
+import com.badlogic.gdx.Game;
 
 
-public class LeopardRun extends ApplicationAdapter {
-    private final Context context;
-
-    private GameManager gameManager;
+public class LeopardRun extends Game {
+    private Context context;
 
     public LeopardRun(Context context){
         this.context = context;
     }
 
-    public void create () {
-        gameManager = GameManager.getInstance();
+    @Override
+    public void create() {
+
     }
-
-    public void render () {
-        gameManager.renderScreen();
-    }
-
-
-
 }
