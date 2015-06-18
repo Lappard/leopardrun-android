@@ -17,6 +17,7 @@ import com.lappard.android.LeopardRun;
 import com.lappard.android.actors.Floor;
 import com.lappard.android.actors.Player;
 import com.lappard.android.level.LevelCreator;
+import com.lappard.android.network.NetworkCommand;
 import com.lappard.android.network.NetworkManager;
 import com.lappard.android.util.ContactHandler;
 
@@ -58,6 +59,7 @@ public class GameScreen implements Screen {
 
         player = new Player(world, 4, 12);
 
+
         stage.addListener(new InputListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 player.jump();
@@ -68,14 +70,18 @@ public class GameScreen implements Screen {
         stage.addActor(player);
         stage.addActor(new Floor(world, 4, 4));
 
-        level.queryLevelPart(new LevelCreator.PartAvailableListener() {
-            @Override
-            public void onPartAvailable(List<Actor> part) {
-                for (Actor actor : part) {
-                    stage.addActor(actor);
+        if(network.isConnected()){
+            extendLevel();
+        }else{
+            network.on(NetworkManager.ACTION_CONNECTION_ESTABLISHED, new NetworkManager.EventListener() {
+                @Override
+                public void onEvent(NetworkCommand cmd) {
+                    network.off(NetworkManager.ACTION_CONNECTION_ESTABLISHED, this);
+                    extendLevel();
                 }
-            }
-        });
+            });
+        }
+
 
     }
 
@@ -118,5 +124,16 @@ public class GameScreen implements Screen {
     @Override
     public void dispose() {
 
+    }
+
+    private void extendLevel(){
+        level.queryLevelPart(new LevelCreator.PartAvailableListener() {
+            @Override
+            public void onPartAvailable(List<Actor> part) {
+                for (Actor actor : part) {
+                    stage.addActor(actor);
+                }
+            }
+        });
     }
 }
