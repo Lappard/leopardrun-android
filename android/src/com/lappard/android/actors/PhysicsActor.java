@@ -18,6 +18,14 @@ public class PhysicsActor extends Actor {
     protected Body body;
     protected Fixture fixture;
 
+    /**
+     * Init Box2dPhysics for this Actor
+     * @param world World to put Actor in
+     * @param shape Shape for the physics body
+     * @param x Horizontal Position
+     * @param y Vertical Position
+     * @param isDynamic Whether body is dynamic
+     */
     public void initPhysics(World world, PolygonShape shape, float x, float y, boolean isDynamic) {
         BodyDef bodyDef = new BodyDef();
 

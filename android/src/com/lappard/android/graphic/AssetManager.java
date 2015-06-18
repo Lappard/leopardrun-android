@@ -8,7 +8,7 @@ import java.util.HashMap;
 public class AssetManager {
 
     private static AssetManager instance;
-    public static final String TEXTURE_BLOCK = "block.png";
+    public static final String TEXTURE_BLOCK = "blockTile.png";
     public static final String TEXTURE_FLOOR = "ground.png";
     public static final String TEXTURE_CAT = "cat.png";
 
