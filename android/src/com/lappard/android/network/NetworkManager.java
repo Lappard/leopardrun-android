@@ -21,6 +21,8 @@ public class NetworkManager {
     private HashMap<String,List<EventListener>> listeners;
     private Gson gson;
 
+    private boolean connected;
+
     public interface EventListener{
         public void onEvent(NetworkCommand cmd);
     }
@@ -28,6 +30,7 @@ public class NetworkManager {
     public NetworkManager(){
         gson = new Gson();
         listeners = new HashMap<String, List<EventListener>>();
+        connected = false;
         prepareConnection();
     }
 
@@ -44,6 +47,7 @@ public class NetworkManager {
                 NetworkCommand cmd = gson.fromJson(message, NetworkCommand.class);
                 if(cmd.method == null){
                     cmd.method = ACTION_CONNECTION_ESTABLISHED;
+                    connected = true;
                 }
                 if(listeners.containsKey(cmd.method)){
                     for(EventListener l : listeners.get(cmd.method)){
@@ -93,7 +97,13 @@ public class NetworkManager {
         socket.send(gson.toJson(cmd));
     }
 
+    public boolean isConnected(){
+        return connected;
+    }
+
     public void connect() {
         socket.connect();
     }
+
+
 }
