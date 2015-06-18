@@ -19,8 +19,8 @@ public class Player extends PhysicsActor {
     @Override
     public void act(float delta) {
         super.act(delta);
-        body.setLinearVelocity(2f, body.getLinearVelocity().y);
-        //body.applyLinearImpulse(new Vector2(0.8f, 0), body.getWorldCenter(), true);
+        body.setLinearVelocity(3f, body.getLinearVelocity().y);
+        //body.applyLinearImpulse(new Vector2(0.4f, 0), body.getWorldCenter(), true);
     }
 
     @Override
@@ -32,7 +32,8 @@ public class Player extends PhysicsActor {
 
     public void jump() {
         if (canJump) {
-            body.applyLinearImpulse(new Vector2(0, 12), body.getWorldCenter(), true);
+            body.setLinearVelocity(body.getLinearVelocity().x, 12);
+            //body.applyLinearImpulse(new Vector2(0, 12), body.getWorldCenter(), true);
             canJump = false;
         }
 

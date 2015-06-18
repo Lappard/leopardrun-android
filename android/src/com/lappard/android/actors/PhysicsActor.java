@@ -35,10 +35,13 @@ public class PhysicsActor extends Actor {
             bodyDef.type = BodyDef.BodyType.StaticBody;
         bodyDef.position.set(new Vector2(x, y));
         bodyDef.fixedRotation = true;
+        //bodyDef.linearDamping = 0;
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.density = 1f;
+        fixtureDef.friction = 0f;
+        fixtureDef.restitution = 0f;
 
         body = world.createBody(bodyDef);
         fixture = body.createFixture(fixtureDef);

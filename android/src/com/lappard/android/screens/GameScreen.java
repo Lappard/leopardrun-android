@@ -90,7 +90,7 @@ public class GameScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         world.step(delta, 4, 2);
         stage.act(delta);
-        stage.getCamera().position.x = player.getPosition().x;
+        stage.getCamera().position.x += 0.04f;
         batch.begin();
         stage.draw();
 
