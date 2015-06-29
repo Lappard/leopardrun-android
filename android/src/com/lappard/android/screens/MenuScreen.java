@@ -10,12 +10,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.lappard.android.LeopardRun;
 import com.lappard.android.actors.Floor;
@@ -28,8 +25,13 @@ import com.lappard.android.util.ContactHandler;
 
 import java.util.List;
 
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.fadeIn;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.moveBy;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.moveTo;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
 
-public class GameScreen implements Screen {
+
+public class MenuScreen implements Screen {
 
     public static final float PIXEL_PER_METER = 100;
 
@@ -45,8 +47,8 @@ public class GameScreen implements Screen {
     private Sprite background;
 
 
-    public GameScreen(Game game) {
-        this.game = game;
+    public MenuScreen() {
+        //this.game = game;
         batch = new SpriteBatch();
         if (LeopardRun.DEBUG_MODE)                //bods, joints, AABBs, inact, velo, contact
             debugRenderer = new Box2DDebugRenderer(true, false, false, false, true, true);
@@ -60,17 +62,11 @@ public class GameScreen implements Screen {
         world = new World(new Vector2(0, -9.81f * 2), false);
         world.setContactListener(new ContactHandler());
         stage = new Stage(new ExtendViewport(1280f / PIXEL_PER_METER, 720f / PIXEL_PER_METER));
-
         Gdx.input.setInputProcessor(stage);
         level = new LevelCreator(network, world);
 
         background = new Sprite(AssetManager.getInstance().getTexture(AssetManager.TEXTURE_BACKGROUND));
-
-        Image bgactor = new Image(background);
-        bgactor.setScaling(Scaling.fit);
-        stage.addActor(bgactor);
-
-
+        //background.setSize(1280f / PIXEL_PER_METER, 720f / PIXEL_PER_METER);
 
         player = new Player(world, 4, 12);
 
@@ -96,10 +92,15 @@ public class GameScreen implements Screen {
                 }
             });
         }
+
+        stage.addAction(sequence(moveTo(0, stage.getHeight()), moveTo(0, 0, 1f))); // coming in from top animation
     }
+
+
 
     @Override
     public void render(float delta) {
+
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         world.step(delta, 4, 2);
         stage.act(delta);
@@ -107,6 +108,7 @@ public class GameScreen implements Screen {
 
         batch.begin();
         background.draw(batch);
+        stage.act(delta);
         stage.draw();
 
         if (LeopardRun.DEBUG_MODE)
