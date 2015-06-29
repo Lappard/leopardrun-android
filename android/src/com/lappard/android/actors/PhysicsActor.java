@@ -58,7 +58,19 @@ public class PhysicsActor extends Actor {
     public void initPhysicsAsBox(World world, float x, float y, boolean isDynamic) {
         sprite.setSize(sprite.getWidth() / GameScreen.PIXEL_PER_METER, sprite.getHeight() / GameScreen.PIXEL_PER_METER);
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(sprite.getWidth() / 2f, sprite.getHeight() / 2f, new Vector2(sprite.getWidth() / 2f, sprite.getHeight() / 2f), 0);
+        float verticees[] = new float[]{
+                0, sprite.getHeight() * .1f,
+                sprite.getWidth() * .1f, 0,
+                sprite.getWidth() * .9f, 0,
+                sprite.getWidth() , sprite.getHeight() * .1f,
+                sprite.getWidth() , sprite.getHeight() * .9f,
+                sprite.getWidth() * .9f, sprite.getHeight(),
+                sprite.getWidth() * .1f, sprite.getHeight(),
+                0, sprite.getHeight() * .9f
+
+        };
+        shape.set(verticees);
+        //shape.setAsBox(sprite.getWidth() / 2f, sprite.getHeight() / 2f, new Vector2(sprite.getWidth() / 2f, sprite.getHeight() / 2f), 0);
         initPhysics(world, shape, x, y, isDynamic);
     }
 
