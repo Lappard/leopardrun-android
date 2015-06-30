@@ -45,8 +45,8 @@ public class GameScreen implements Screen {
     private Sprite background;
 
 
-    public GameScreen(Game game) {
-        this.game = game;
+    public GameScreen(/*Game game*/) {
+//        this.game = game;
         batch = new SpriteBatch();
         if (LeopardRun.DEBUG_MODE)                //bods, joints, AABBs, inact, velo, contact
             debugRenderer = new Box2DDebugRenderer(true, false, false, false, true, true);
@@ -63,11 +63,10 @@ public class GameScreen implements Screen {
 
         Gdx.input.setInputProcessor(stage);
         level = new LevelCreator(network, world);
-
         background = new Sprite(AssetManager.getInstance().getTexture(AssetManager.TEXTURE_BACKGROUND));
-
+        this.background.setSize(1024, 768);
         Image bgactor = new Image(background);
-        bgactor.setScaling(Scaling.fit);
+        bgactor.setFillParent(true);
         stage.addActor(bgactor);
 
 

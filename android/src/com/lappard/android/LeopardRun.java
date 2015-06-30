@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.badlogic.gdx.Game;
 import com.lappard.android.screens.GameScreen;
+import com.lappard.android.screens.MenuScreen;
 
 
 public class LeopardRun extends Game {
@@ -18,6 +19,6 @@ public class LeopardRun extends Game {
 
     @Override
     public void create() {
-        setScreen(new GameScreen(this));
+        setScreen(new MenuScreen());
     }
 }

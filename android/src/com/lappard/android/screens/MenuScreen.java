@@ -3,7 +3,9 @@ package com.lappard.android.screens;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -13,7 +15,11 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.lappard.android.LeopardRun;
 import com.lappard.android.actors.Floor;
 import com.lappard.android.actors.Player;
@@ -22,98 +28,118 @@ import com.lappard.android.level.LevelCreator;
 import com.lappard.android.network.NetworkCommand;
 import com.lappard.android.network.NetworkManager;
 import com.lappard.android.util.ContactHandler;
-
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import java.util.List;
 
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.fadeIn;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.moveBy;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.moveTo;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.run;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
 
 
 public class MenuScreen implements Screen {
-
-    public static final float PIXEL_PER_METER = 100;
-
-    protected Game game;
     protected SpriteBatch batch;
     protected Stage stage;
-    protected NetworkManager network;
-    protected World world;
-    protected Box2DDebugRenderer debugRenderer;
-    protected LevelCreator level;
-
-    private Player player;
     private Sprite background;
+    private BitmapFont font;
+
 
 
     public MenuScreen() {
-        //this.game = game;
         batch = new SpriteBatch();
-        if (LeopardRun.DEBUG_MODE)                //bods, joints, AABBs, inact, velo, contact
-            debugRenderer = new Box2DDebugRenderer(true, false, false, false, true, true);
-        network = new NetworkManager();
-        network.connect();
-
     }
 
     @Override
     public void show() {
-        world = new World(new Vector2(0, -9.81f * 2), false);
-        world.setContactListener(new ContactHandler());
-        stage = new Stage(new ExtendViewport(1280f / PIXEL_PER_METER, 720f / PIXEL_PER_METER));
+
+        /**
+         * create font from testfont.ttf
+         */
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/testfont.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = (int)(24 * Gdx.graphics.getDensity());
+        font = generator.generateFont(parameter);
+
+        /**
+         * dont use the games viewport here --> PIXEL_PER_METER <--
+         */
+//        stage = new Stage(new ExtendViewport(1280f / PIXEL_PER_METER, 720f / PIXEL_PER_METER));
+        stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
-        level = new LevelCreator(network, world);
-
-        background = new Sprite(AssetManager.getInstance().getTexture(AssetManager.TEXTURE_BACKGROUND));
-        //background.setSize(1280f / PIXEL_PER_METER, 720f / PIXEL_PER_METER);
-
-        player = new Player(world, 4, 12);
 
 
         stage.addListener(new InputListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                player.jump();
+                //move out this stage
+                stage.addAction(sequence(moveTo(0, -stage.getHeight(), .5f), run(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        /**
+                         * so that the gamescreen is visible if this stage slides out
+                         * trigger gamescreen Maybe this should be done earlyer
+                         * TODO: trigger gamescreen to render before this scene slides out
+                         */
+                        ((Game) Gdx.app.getApplicationListener()).setScreen(new GameScreen());
+                    }
+                })));
                 return true;
             }
         });
 
-        stage.addActor(player);
-        stage.addActor(new Floor(world, 4, 4));
+        //bg
+        background = new Sprite(AssetManager.getInstance().getTexture(AssetManager.TEXTURE_BACKGROUND));
+        this.background.setSize(1024, 768);
+        Image bgactor = new Image(background);
+        bgactor.setFillParent(true);
+        stage.addActor(bgactor);
 
-        if(network.isConnected()){
-            extendLevel();
-        }else{
-            network.on(NetworkManager.ACTION_CONNECTION_ESTABLISHED, new NetworkManager.EventListener() {
-                @Override
-                public void onEvent(NetworkCommand cmd) {
-                    network.off(NetworkManager.ACTION_CONNECTION_ESTABLISHED, this);
-                    extendLevel();
-                }
-            });
-        }
 
-        stage.addAction(sequence(moveTo(0, stage.getHeight()), moveTo(0, 0, 1f))); // coming in from top animation
+        // create table
+        Table header = new Table();
+        header.setFillParent(true);
+
+        // text content
+        Label.LabelStyle headerStyle = new Label.LabelStyle();
+        headerStyle.font = font;
+        headerStyle.fontColor = Color.BLACK;
+        Label headerText = new Label("tab to play",headerStyle);
+
+        headerText.setWidth(10);
+        headerText.setHeight(10);
+        headerText.setScale(0.3f,0.3f);
+        headerText.pack();
+        header.center();
+
+        header.add(headerText).center();
+        header.row();
+
+        /**
+         * add table to the stage
+         */
+        stage.addActor(header);
+
+        /**
+         * draw table outlines
+         */
+//        stage.setDebugAll(true);
+
+
+
+        // coming in from top animation
+        stage.addAction(sequence(moveTo(0, stage.getWidth()), moveTo(0, 0, 1f)));
+
     }
 
 
 
     @Override
     public void render(float delta) {
-
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        world.step(delta, 4, 2);
-        stage.act(delta);
-        stage.getCamera().position.x += 0.045f;
-
         batch.begin();
-        background.draw(batch);
         stage.act(delta);
         stage.draw();
-
-        if (LeopardRun.DEBUG_MODE)
-            debugRenderer.render(world, stage.getViewport().getCamera().combined);
-
         batch.end();
 
     }
@@ -141,16 +167,5 @@ public class MenuScreen implements Screen {
     @Override
     public void dispose() {
 
-    }
-
-    private void extendLevel(){
-        level.queryLevelPart(new LevelCreator.PartAvailableListener() {
-            @Override
-            public void onPartAvailable(List<Actor> part) {
-                for (Actor actor : part) {
-                    stage.addActor(actor);
-                }
-            }
-        });
     }
 }
