@@ -73,6 +73,6 @@ public class LeopardRun extends Game {
 
     @Override
     public void create() {
-        addScreen(new MenuScreen());
+        addScreen(new MenuScreen(context));
     }
 }

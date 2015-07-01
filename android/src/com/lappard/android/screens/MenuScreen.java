@@ -1,35 +1,27 @@
 package com.lappard.android.screens;
 
-import com.badlogic.gdx.Game;
+import android.content.Context;
+
+
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.lappard.android.LeopardRun;
-import com.lappard.android.actors.Floor;
-import com.lappard.android.actors.Player;
+import com.lappard.android.R;
 import com.lappard.android.graphic.AssetManager;
-import com.lappard.android.level.LevelCreator;
-import com.lappard.android.network.NetworkCommand;
-import com.lappard.android.network.NetworkManager;
-import com.lappard.android.util.ContactHandler;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import java.util.List;
 
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.fadeIn;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.moveBy;
@@ -42,34 +34,47 @@ public class MenuScreen implements IScreen {
     protected SpriteBatch batch;
     protected Stage stage;
     private Sprite background;
-    private BitmapFont font;
+    private BitmapFont _font;
+    private Context _context;
 
 
-
-    public MenuScreen() {
+    public MenuScreen(Context context) {
         batch = new SpriteBatch();
+        _context = context;
     }
 
     @Override
     public void show() {
 
         /**
-         * create font from testfont.ttf
+         * create _font from testfont.ttf
          */
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/testfont.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = (int)(24 * Gdx.graphics.getDensity());
-        font = generator.generateFont(parameter);
+        _font = generator.generateFont(parameter);
 
-        /**
-         * dont use the games viewport here --> PIXEL_PER_METER <--
-         */
-//        stage = new Stage(new ExtendViewport(1280f / PIXEL_PER_METER, 720f / PIXEL_PER_METER));
-        stage = new Stage(new ScreenViewport());
+
+
+        stage = new Stage(new ExtendViewport(1280,720));
         Gdx.input.setInputProcessor(stage);
 
 
-        stage.addListener(new InputListener() {
+        ImageTextButton.ImageTextButtonStyle iBStyle = new ImageTextButton.ImageTextButtonStyle();
+        iBStyle.font = _font;
+        iBStyle.fontColor = Color.BLACK;
+
+        iBStyle.up = new SpriteDrawable(new Sprite(AssetManager.getInstance().getTexture(AssetManager.TEXTURE_BLOCK)));
+//        iBStyle.down = new SpriteDrawable(new Sprite(AssetManager.getInstance().getTexture(AssetManager.TEXTURE_BLOCK)));
+        ImageTextButton singlePlayerButton = new ImageTextButton(_context.getString(R.string.single_player_button),iBStyle);
+        singlePlayerButton.getLabel().setAlignment(Align.center);
+        singlePlayerButton.getLabelCell().width(400).height(200);
+
+        ImageTextButton multiPlayerButton = new ImageTextButton(_context.getString(R.string.multi_player_button),iBStyle);
+        multiPlayerButton.getLabel().setAlignment(Align.center);
+        multiPlayerButton.getLabelCell().width(400).height(200);
+
+        singlePlayerButton.addListener(new ClickListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 //move out this stage
                 final GameScreen gs = new GameScreen();
@@ -79,7 +84,7 @@ public class MenuScreen implements IScreen {
                     public void run() {
                         ((LeopardRun) Gdx.app.getApplicationListener()).addScreen(gs);
                     }
-                }),moveTo(0, -stage.getHeight(), .5f),run(new Runnable() {
+                }), moveTo(0, -stage.getHeight(), .5f), run(new Runnable() {
 
                     @Override
                     public void run() {
@@ -92,7 +97,6 @@ public class MenuScreen implements IScreen {
 
         //bg
         background = new Sprite(AssetManager.getInstance().getTexture(AssetManager.TEXTURE_BACKGROUND));
-        this.background.setSize(1024, 768);
         Image bgactor = new Image(background);
         bgactor.setFillParent(true);
         stage.addActor(bgactor);
@@ -104,18 +108,16 @@ public class MenuScreen implements IScreen {
 
         // text content
         Label.LabelStyle headerStyle = new Label.LabelStyle();
-        headerStyle.font = font;
+        headerStyle.font = _font;
         headerStyle.fontColor = Color.BLACK;
-        Label headerText = new Label("tab to play",headerStyle);
-
-        headerText.setWidth(10);
-        headerText.setHeight(10);
-        headerText.setScale(0.3f,0.3f);
-        headerText.pack();
+        Label headerText = new Label(_context.getString(R.string.menu_heading),headerStyle);
         header.center();
 
         header.add(headerText).center();
         header.row();
+        header.add(singlePlayerButton);
+        header.row().padTop(20);
+        header.add(multiPlayerButton);
 
         /**
          * add table to the stage
@@ -125,7 +127,7 @@ public class MenuScreen implements IScreen {
         /**
          * draw table outlines
          */
-//        stage.setDebugAll(true);
+        stage.setDebugAll(true);
 
 
 

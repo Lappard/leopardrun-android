@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Leoparden Lauf</string>
+    <string name="single_player_button">Einzelspieler</string>
+    <string name="multi_player_button">Einzelspieler</string>
+    <string name="menu_heading">Modus Wählen</string>
+</resources>

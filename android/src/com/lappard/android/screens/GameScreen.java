@@ -64,7 +64,7 @@ public class GameScreen implements IScreen {
         Gdx.input.setInputProcessor(stage);
         level = new LevelCreator(network, world);
         background = new Sprite(AssetManager.getInstance().getTexture(AssetManager.TEXTURE_BACKGROUND));
-        this.background.setSize(1024, 768);
+//        this.background.setSize(1024, 768);
         Image bgactor = new Image(background);
         bgactor.setFillParent(true);
         stage.addActor(bgactor);
