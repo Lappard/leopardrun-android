@@ -26,6 +26,7 @@ import com.lappard.android.level.NetworkLevelCreator;
 import com.lappard.android.logic.ScoreManager;
 import com.lappard.android.network.NetworkCommand;
 import com.lappard.android.network.NetworkManager;
+import com.lappard.android.screens.events.ScreenCreationEvent;
 import com.lappard.android.util.ContactHandler;
 import com.lappard.android.util.Event;
 import com.squareup.otto.Subscribe;
@@ -49,10 +50,9 @@ public class GameScreen implements IScreen {
     private Sprite background;
 
 
-    public GameScreen(/*Game game*/) {
-//        this.game = game;
-
+    public GameScreen() {
         Event.getBus().register(this);
+
         batch = new SpriteBatch();
         if (LeopardRun.DEBUG_MODE)                //bods, joints, AABBs, inact, velo, contact
             debugRenderer = new Box2DDebugRenderer(true, false, false, false, true, true);
@@ -63,6 +63,7 @@ public class GameScreen implements IScreen {
 
     @Override
     public void show() {
+        Event.getBus().post(new ScreenCreationEvent(new UiScreen()));
         world = new World(new Vector2(0, -9.81f * 2), false);
         world.setContactListener(new ContactHandler());
         stage = new Stage(new ExtendViewport(1280f / PIXEL_PER_METER, 720f / PIXEL_PER_METER));
@@ -70,7 +71,6 @@ public class GameScreen implements IScreen {
         Gdx.input.setInputProcessor(stage);
         levelCreator = new NetworkLevelCreator(network, world);
         background = new Sprite(AssetManager.getInstance().getTexture(AssetManager.TEXTURE_BACKGROUND));
-//        this.background.setSize(1024, 768);
         Image bgactor = new Image(background);
         bgactor.setFillParent(true);
         stage.addActor(bgactor);

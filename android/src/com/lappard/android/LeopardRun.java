@@ -7,20 +7,33 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.lappard.android.screens.GameScreen;
+import com.lappard.android.screens.IScreen;
 import com.lappard.android.screens.MenuScreen;
+import com.lappard.android.screens.events.ScreenActivateEvent;
+import com.lappard.android.screens.events.ScreenCreationEvent;
+import com.lappard.android.screens.events.ScreenRemoveEvent;
+import com.lappard.android.util.Event;
+import com.squareup.otto.Subscribe;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 import java.util.Vector;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 
 public class LeopardRun extends Game {
     public static boolean DEBUG_MODE = true;
 
     private Context context;
-    private Vector<Screen> _screens;
+    private List<IScreen> _screens;
+    private List<IScreen> _toRemoveScreens;
 
     public LeopardRun(Context context) {
         this.context = context;
-        _screens = new Vector<Screen>();
+        _screens = new Vector<IScreen>();
+        _toRemoveScreens = new Vector<IScreen>();
+        Event.getBus().register(this);
     }
 
     @Override
@@ -42,9 +55,15 @@ public class LeopardRun extends Game {
     public void render() {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         int size = _screens.size();
-        for(int i = size-1; i >= 0; i--){
+        for(int i = 0; i < size; ++i){
             _screens.get(i).render(Gdx.graphics.getDeltaTime());
         }
+
+
+            for (IScreen rms : _toRemoveScreens){
+                _screens.remove(rms);
+            }
+            _toRemoveScreens.clear();
 
     }
 
@@ -58,7 +77,7 @@ public class LeopardRun extends Game {
         super.setScreen(screen);
     }
 
-    public void addScreen(Screen s) {
+    private void addScreen(IScreen s) {
         if (s != null){
             s.show();
             s.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -71,8 +90,50 @@ public class LeopardRun extends Game {
         return super.getScreen();
     }
 
+
+
+
+
+
+    @Subscribe
+    public void removeScreen(ScreenRemoveEvent screenEvent){
+
+            _toRemoveScreens.add(screenEvent.screen);
+        
+    }
+
+
+    @Subscribe
+    public void createScreen(ScreenCreationEvent screenEvent) {
+        addScreen(screenEvent.screen);
+    }
+
+    @Subscribe
+    public void activateScreen(ScreenActivateEvent screenEvent){
+        if(screenEvent.screen != null){
+            for(IScreen s : _screens){
+                if(screenEvent.screen == s){
+                    s.setActive();
+                    break;
+                }
+            }
+        }else{
+            for(IScreen s : _screens){
+                s.setActive();
+            }
+        }
+    }
+
+
+
+
+
     @Override
     public void create() {
-        addScreen(new MenuScreen(context));
+        Event.getBus().post(new ScreenCreationEvent(new MenuScreen()));
+    }
+
+    public Context getContext() {
+        return context;
     }
 }
