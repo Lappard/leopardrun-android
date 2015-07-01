@@ -35,9 +35,9 @@ public class UiScreen implements IScreen {
     private Context _context;
     private Label _scoreLabel;
 
-    public UiScreen(Context context) {
+    public UiScreen() {
         batch = new SpriteBatch();
-        _context = context;
+        _context = _context = ((LeopardRun) Gdx.app.getApplicationListener()).getContext();
     }
 
     @Override
@@ -84,7 +84,7 @@ public class UiScreen implements IScreen {
 
     @Override
     public void render(float delta) {
-        _scoreLabel.setText(_context.getString(R.string.score_pre_text) + " "+(int)ScoreManager.getInstance().getScore());
+        _scoreLabel.setText(_context.getString(R.string.score_pre_text) + " " + (int) ScoreManager.getInstance().getScore());
         batch.begin();
         stage.act(delta);
         stage.draw();

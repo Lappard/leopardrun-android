@@ -21,6 +21,10 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.lappard.android.LeopardRun;
 import com.lappard.android.R;
 import com.lappard.android.graphic.AssetManager;
+import com.lappard.android.screens.events.ScreenActivateEvent;
+import com.lappard.android.screens.events.ScreenCreationEvent;
+import com.lappard.android.screens.events.ScreenRemoveEvent;
+import com.lappard.android.util.Event;
 
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.moveTo;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.run;
@@ -35,9 +39,13 @@ public class MenuScreen implements IScreen {
     private Context _context;
 
 
-    public MenuScreen(Context context) {
+    private MenuScreen _instance;
+
+    public MenuScreen() {
         batch = new SpriteBatch();
-        _context = context;
+        _context = ((LeopardRun) Gdx.app.getApplicationListener()).getContext();
+        Event.getBus().register(this);
+        _instance = this;
     }
 
     @Override
@@ -71,22 +79,22 @@ public class MenuScreen implements IScreen {
         multiPlayerButton.getLabel().setAlignment(Align.center);
         multiPlayerButton.getLabelCell().width(400).height(200);
 
+
+
         singlePlayerButton.addListener(new ClickListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                //move out this stage
-                final GameScreen gs = new GameScreen();
                 stage.addAction(sequence(run(new Runnable() {
 
                     @Override
                     public void run() {
-                        ((LeopardRun) Gdx.app.getApplicationListener()).addScreen(new UiScreen(_context));
-                        ((LeopardRun) Gdx.app.getApplicationListener()).addScreen(gs);
+                        Event.getBus().post(new ScreenCreationEvent(new GameScreen()));
                     }
-                }), moveTo(0, -stage.getHeight(), .5f), run(new Runnable() {
+                }), moveTo(0, -stage.getHeight(), 1f), run(new Runnable() {
 
                     @Override
                     public void run() {
-                        gs.setActive();
+                        Event.getBus().post(new ScreenActivateEvent());
+                        Event.getBus().post(new ScreenRemoveEvent(_instance));
                     }
                 })));
                 return true;
