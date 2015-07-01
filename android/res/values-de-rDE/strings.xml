@@ -4,4 +4,6 @@
     <string name="single_player_button">Einzelspieler</string>
     <string name="multi_player_button">Mehrspieler</string>
     <string name="menu_heading">Modus Wählen</string>
+
+    <string name="score_pre_text">Punkte:</string>
 </resources>

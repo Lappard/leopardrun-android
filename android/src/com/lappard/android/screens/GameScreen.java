@@ -23,6 +23,7 @@ import com.lappard.android.graphic.AssetManager;
 import com.lappard.android.level.Level;
 import com.lappard.android.level.LevelCreator;
 import com.lappard.android.level.NetworkLevelCreator;
+import com.lappard.android.logic.ScoreManager;
 import com.lappard.android.network.NetworkCommand;
 import com.lappard.android.network.NetworkManager;
 import com.lappard.android.util.ContactHandler;
@@ -88,7 +89,9 @@ public class GameScreen implements IScreen {
 
         stage.addActor(player);
         stage.addActor(new Floor(world, 4, 4));
-
+        stage.addActor(new Floor(world, 6, 3));
+        stage.addActor(new Floor(world, 8, 2));
+        stage.addActor(new Floor(world, 10, 1));
 
     }
 
@@ -103,6 +106,7 @@ public class GameScreen implements IScreen {
             world.step(delta, 4, 2);
             stage.act(delta);
             stage.getCamera().position.x += 0.045f;
+            ScoreManager.getInstance().update();
         }
         batch.begin();
         stage.draw();
@@ -147,5 +151,6 @@ public class GameScreen implements IScreen {
     @Override
     public void setActive() {
         _isActive = true;
+        ScoreManager.getInstance().startGame();
     }
 }
