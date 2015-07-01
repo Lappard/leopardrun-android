@@ -105,7 +105,8 @@ public class GameScreen implements IScreen {
         if(_isActive){
             world.step(delta, 4, 2);
             stage.act(delta);
-            stage.getCamera().position.x += 0.045f;
+            //camera smoothly follows player
+            stage.getCamera().position.x += (player.getPosition().x - stage.getCamera().position.x) / 10f;
             ScoreManager.getInstance().update();
         }
         batch.begin();
