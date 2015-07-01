@@ -1,6 +1,7 @@
 package com.lappard.android.util;
 
 import com.squareup.otto.Bus;
+import com.squareup.otto.ThreadEnforcer;
 
 public class Event {
 
@@ -8,7 +9,7 @@ public class Event {
 
     public static Bus getBus(){
         if(bus == null){
-            bus = new Bus();
+            bus = new Bus(ThreadEnforcer.ANY);
         }
         return bus;
     }
