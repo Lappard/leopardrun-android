@@ -29,10 +29,10 @@ import com.lappard.android.util.ContactHandler;
 import java.util.List;
 
 
-public class GameScreen implements Screen {
+public class GameScreen implements IScreen {
 
     public static final float PIXEL_PER_METER = 100;
-
+    private boolean _isActive = false;
     protected Game game;
     protected SpriteBatch batch;
     protected Stage stage;
@@ -99,18 +99,15 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        world.step(delta, 4, 2);
-        stage.act(delta);
-        stage.getCamera().position.x += 0.045f;
-
+        if(_isActive){
+            world.step(delta, 4, 2);
+            stage.act(delta);
+            stage.getCamera().position.x += 0.045f;
+        }
         batch.begin();
-        background.draw(batch);
         stage.draw();
-
         if (LeopardRun.DEBUG_MODE)
             debugRenderer.render(world, stage.getViewport().getCamera().combined);
-
         batch.end();
 
     }
@@ -149,5 +146,10 @@ public class GameScreen implements Screen {
                 }
             }
         });
+    }
+
+    @Override
+    public void setActive() {
+        _isActive = true;
     }
 }

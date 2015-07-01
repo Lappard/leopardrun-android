@@ -38,7 +38,7 @@ import static com.badlogic.gdx.scenes.scene2d.actions.Actions.run;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
 
 
-public class MenuScreen implements Screen {
+public class MenuScreen implements IScreen {
     protected SpriteBatch batch;
     protected Stage stage;
     private Sprite background;
@@ -72,16 +72,18 @@ public class MenuScreen implements Screen {
         stage.addListener(new InputListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 //move out this stage
-                stage.addAction(sequence(moveTo(0, -stage.getHeight(), .5f), run(new Runnable() {
+                final GameScreen gs = new GameScreen();
+                stage.addAction(sequence(run(new Runnable() {
 
                     @Override
                     public void run() {
-                        /**
-                         * so that the gamescreen is visible if this stage slides out
-                         * trigger gamescreen Maybe this should be done earlyer
-                         * TODO: trigger gamescreen to render before this scene slides out
-                         */
-                        ((Game) Gdx.app.getApplicationListener()).setScreen(new GameScreen());
+                        ((LeopardRun) Gdx.app.getApplicationListener()).addScreen(gs);
+                    }
+                }),moveTo(0, -stage.getHeight(), .5f),run(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        gs.setActive();
                     }
                 })));
                 return true;
@@ -128,7 +130,7 @@ public class MenuScreen implements Screen {
 
 
         // coming in from top animation
-        stage.addAction(sequence(moveTo(0, stage.getWidth()), moveTo(0, 0, 1f)));
+//        stage.addAction(sequence(moveTo(0, stage.getWidth()), moveTo(0, 0, 1f)));
 
     }
 
@@ -136,7 +138,7 @@ public class MenuScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
         batch.begin();
         stage.act(delta);
         stage.draw();
@@ -166,6 +168,11 @@ public class MenuScreen implements Screen {
 
     @Override
     public void dispose() {
+
+    }
+
+    @Override
+    public void setActive() {
 
     }
 }
