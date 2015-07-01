@@ -1,30 +1,33 @@
 package com.lappard.android.screens;
 
+import android.util.Log;
+
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.lappard.android.LeopardRun;
+import com.lappard.android.R;
 import com.lappard.android.actors.Floor;
 import com.lappard.android.actors.Player;
 import com.lappard.android.graphic.AssetManager;
+import com.lappard.android.level.Level;
 import com.lappard.android.level.LevelCreator;
+import com.lappard.android.level.NetworkLevelCreator;
 import com.lappard.android.network.NetworkCommand;
 import com.lappard.android.network.NetworkManager;
 import com.lappard.android.util.ContactHandler;
+import com.lappard.android.util.Event;
+import com.squareup.otto.Subscribe;
 
 import java.util.List;
 
@@ -39,7 +42,7 @@ public class GameScreen implements IScreen {
     protected NetworkManager network;
     protected World world;
     protected Box2DDebugRenderer debugRenderer;
-    protected LevelCreator level;
+    protected LevelCreator levelCreator;
 
     private Player player;
     private Sprite background;
@@ -47,6 +50,8 @@ public class GameScreen implements IScreen {
 
     public GameScreen(/*Game game*/) {
 //        this.game = game;
+
+        Event.getBus().register(this);
         batch = new SpriteBatch();
         if (LeopardRun.DEBUG_MODE)                //bods, joints, AABBs, inact, velo, contact
             debugRenderer = new Box2DDebugRenderer(true, false, false, false, true, true);
@@ -62,7 +67,7 @@ public class GameScreen implements IScreen {
         stage = new Stage(new ExtendViewport(1280f / PIXEL_PER_METER, 720f / PIXEL_PER_METER));
 
         Gdx.input.setInputProcessor(stage);
-        level = new LevelCreator(network, world);
+        levelCreator = new NetworkLevelCreator(network, world);
         background = new Sprite(AssetManager.getInstance().getTexture(AssetManager.TEXTURE_BACKGROUND));
 //        this.background.setSize(1024, 768);
         Image bgactor = new Image(background);
@@ -84,17 +89,12 @@ public class GameScreen implements IScreen {
         stage.addActor(player);
         stage.addActor(new Floor(world, 4, 4));
 
-        if(network.isConnected()){
-            extendLevel();
-        }else{
-            network.on(NetworkManager.ACTION_CONNECTION_ESTABLISHED, new NetworkManager.EventListener() {
-                @Override
-                public void onEvent(NetworkCommand cmd) {
-                    network.off(NetworkManager.ACTION_CONNECTION_ESTABLISHED, this);
-                    extendLevel();
-                }
-            });
-        }
+
+    }
+
+    @Subscribe
+    public void onConnectionEstablished(NetworkManager.ConnectionEstablishedEvent e){
+        levelCreator.requestLevelData();
     }
 
     @Override
@@ -137,15 +137,11 @@ public class GameScreen implements IScreen {
 
     }
 
-    private void extendLevel(){
-        level.queryLevelPart(new LevelCreator.PartAvailableListener() {
-            @Override
-            public void onPartAvailable(List<Actor> part) {
-                for (Actor actor : part) {
-                    stage.addActor(actor);
-                }
-            }
-        });
+    @Subscribe
+    public void extendLevel(Level level){
+        for (Actor actor : level.actors) {
+            stage.addActor(actor);
+        }
     }
 
     @Override

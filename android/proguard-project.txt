@@ -40,3 +40,9 @@
    boolean reportFixture(long);
    float   reportRayFixture(long, float, float, float, float, float);
 }
+
+-keepattributes *Annotation*
+-keepclassmembers class ** {
+   @com.squareup.otto.Subscribe public *;
+   @com.squareup.otto.Produce public *;
+}
