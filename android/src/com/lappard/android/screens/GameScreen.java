@@ -14,6 +14,8 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.lappard.android.LeopardRun;
+import com.lappard.android.actors.Block;
+import com.lappard.android.actors.FireWall;
 import com.lappard.android.actors.PhysicsActor;
 import com.lappard.android.actors.Player;
 import com.lappard.android.graphic.AssetManager;
@@ -39,6 +41,7 @@ public class GameScreen implements IScreen {
     protected LevelCreator levelCreator;
 
     private Player player;
+    private PhysicsActor fireWall;
     private Sprite background;
     private PhysicsActor lastActor;
 
@@ -68,6 +71,9 @@ public class GameScreen implements IScreen {
 
 
         player = new Player(world, 4, 12);
+        //fireWall = new FireWall(world, stage.getViewport().getWorldHeight(), 100, 100);
+        //fireWall.setSpeed(4);
+        fireWall = new FireWall(world, -1, -0.5f);
 
 
         stage.addListener(new InputListener() {
@@ -78,6 +84,7 @@ public class GameScreen implements IScreen {
         });
 
         stage.addActor(player);
+        stage.addActor(fireWall);
 
         levelCreator.requestLevelData();
 

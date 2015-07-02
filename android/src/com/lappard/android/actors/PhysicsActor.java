@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
@@ -24,15 +25,14 @@ public class PhysicsActor extends Actor {
      * @param shape Shape for the physics body
      * @param x Horizontal Position
      * @param y Vertical Position
-     * @param isDynamic Whether body is dynamic
+     * @param type type of body
+     * @param isSensor whether body is sensor only
      */
-    public void initPhysics(World world, PolygonShape shape, float x, float y, boolean isDynamic) {
+    public void initPhysics(World world, PolygonShape shape, float x, float y, BodyDef.BodyType type, boolean isSensor) {
         BodyDef bodyDef = new BodyDef();
 
-        if (isDynamic)
-            bodyDef.type = BodyDef.BodyType.DynamicBody;
-        else
-            bodyDef.type = BodyDef.BodyType.StaticBody;
+
+        bodyDef.type = type;
         bodyDef.position.set(new Vector2(x, y));
         bodyDef.fixedRotation = true;
         //bodyDef.linearDamping = 0;
@@ -42,6 +42,8 @@ public class PhysicsActor extends Actor {
         fixtureDef.density = 1f;
         fixtureDef.friction = 0f;
         fixtureDef.restitution = 0f;
+        fixtureDef.isSensor = isSensor;
+
 
         body = world.createBody(bodyDef);
         fixture = body.createFixture(fixtureDef);
@@ -51,11 +53,19 @@ public class PhysicsActor extends Actor {
         sprite.setCenter(sprite.getWidth() / 2f, sprite.getHeight() / 2f);
     }
 
-    public void initPhysics(World world, PolygonShape shape, float x, float y) {
-        initPhysics(world, shape, x, y, false);
+    public void initPhysics(World world, PolygonShape shape, float x, float y, BodyDef.BodyType type) {
+        initPhysics(world, shape, x, y, type, false);
     }
 
-    public void initPhysicsAsBox(World world, float x, float y, boolean isDynamic) {
+    public void initPhysics(World world, PolygonShape shape, float x, float y) {
+        initPhysics(world, shape, x, y, BodyDef.BodyType.StaticBody);
+    }
+
+    public void initPhysicsAsBox(World world, float x, float y,  BodyDef.BodyType type){
+        initPhysicsAsBox(world, x, y, type, false);
+    }
+
+    public void initPhysicsAsBox(World world, float x, float y, BodyDef.BodyType type, boolean isSensor) {
         sprite.setSize(sprite.getWidth() / GameScreen.PIXEL_PER_METER, sprite.getHeight() / GameScreen.PIXEL_PER_METER);
         PolygonShape shape = new PolygonShape();
         float verticees[] = new float[]{
@@ -71,7 +81,7 @@ public class PhysicsActor extends Actor {
         };
         shape.set(verticees);
         //shape.setAsBox(sprite.getWidth() / 2f, sprite.getHeight() / 2f, new Vector2(sprite.getWidth() / 2f, sprite.getHeight() / 2f), 0);
-        initPhysics(world, shape, x, y, isDynamic);
+        initPhysics(world, shape, x, y, type, isSensor);
     }
 
     @Override
@@ -80,7 +90,7 @@ public class PhysicsActor extends Actor {
         sprite.draw(batch, parentAlpha);
     }
 
-    public void onContact(Actor other) {
+    public void onContact(Actor other, Contact contact) {
 
     }
 

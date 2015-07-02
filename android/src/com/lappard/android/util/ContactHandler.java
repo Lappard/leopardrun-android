@@ -13,8 +13,8 @@ public class ContactHandler implements ContactListener {
     public void beginContact(Contact contact) {
         PhysicsActor actorA = (PhysicsActor) contact.getFixtureA().getUserData();
         PhysicsActor actorB = (PhysicsActor) contact.getFixtureB().getUserData();
-        actorA.onContact(actorB);
-        actorB.onContact(actorA);
+        actorA.onContact(actorB, contact);
+        actorB.onContact(actorA, contact);
     }
 
     @Override
