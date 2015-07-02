@@ -41,7 +41,6 @@ public class GameScreen implements IScreen {
     protected Game game;
     protected SpriteBatch batch;
     protected Stage stage;
-    protected NetworkManager network;
     protected World world;
     protected Box2DDebugRenderer debugRenderer;
     protected LevelCreator levelCreator;
@@ -56,8 +55,7 @@ public class GameScreen implements IScreen {
         batch = new SpriteBatch();
         if (LeopardRun.DEBUG_MODE)                //bods, joints, AABBs, inact, velo, contact
             debugRenderer = new Box2DDebugRenderer(true, false, false, false, true, true);
-        network = new NetworkManager();
-        network.connect();
+
 
     }
 
@@ -69,7 +67,7 @@ public class GameScreen implements IScreen {
         stage = new Stage(new ExtendViewport(1280f / PIXEL_PER_METER, 720f / PIXEL_PER_METER));
 
         Gdx.input.setInputProcessor(stage);
-        levelCreator = new NetworkLevelCreator(network, world);
+        levelCreator = new NetworkLevelCreator(world);
         background = new Sprite(AssetManager.getInstance().getTexture(AssetManager.TEXTURE_BACKGROUND));
         Image bgactor = new Image(background);
         bgactor.setFillParent(true);
@@ -93,11 +91,8 @@ public class GameScreen implements IScreen {
         stage.addActor(new Floor(world, 8, 2));
         stage.addActor(new Floor(world, 10, 1));
 
-    }
-
-    @Subscribe
-    public void onConnectionEstablished(NetworkManager.ConnectionEstablishedEvent e){
         levelCreator.requestLevelData();
+
     }
 
     @Override

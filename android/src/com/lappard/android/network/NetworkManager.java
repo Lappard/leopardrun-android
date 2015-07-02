@@ -2,6 +2,7 @@ package com.lappard.android.network;
 
 import android.util.Log;
 
+import com.badlogic.gdx.Net;
 import com.codebutler.android_websockets.WebSocketClient;
 import com.google.gson.Gson;
 import com.lappard.android.util.Event;
@@ -12,6 +13,8 @@ import java.net.URI;
 public class NetworkManager {
     private static final String TAG_WS = "WebSocket";
     private static final String WEBSOCKET_URL = "ws://jonathanwiemers.de:1337";
+
+    private static NetworkManager instance;
 
     public class ConnectionEstablishedEvent{
         public String guid;
@@ -104,6 +107,13 @@ public class NetworkManager {
 
     public void connect() {
         socket.connect();
+    }
+
+    public static NetworkManager getInstance(){
+        if(instance == null){
+            instance = new NetworkManager();
+        }
+        return instance;
     }
 
 
