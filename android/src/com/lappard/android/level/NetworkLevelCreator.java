@@ -22,6 +22,7 @@ public class NetworkLevelCreator implements LevelCreator {
 
     private World world;
 
+    private int lastX;
 
     public NetworkLevelCreator(World world) {
         this.world = world;
@@ -51,13 +52,10 @@ public class NetworkLevelCreator implements LevelCreator {
     public void deliverReceivedLevelParts(NetworkManager.MessageReceivedEvent event) {
         if (event.result.process.level != null) {
             List<Actor> actors = new Vector<>();
-            actors.addAll(createActors(event.result.process.level.levelparts[0]));
-            //TODO: parse every levelpart (right not it results in multiple tiles per collumn,
-            //maybe values for x start at 0 for each levelpart?)
-
-            //for(LevelData.LevelObject[] part : event.result.process.level.levelparts){
-
-            //}
+            for (LevelData.LevelObject[] part : event.result.process.level.levelparts) {
+                actors.addAll(createActors(part));
+                lastX = part[part.length - 1].x;
+            }
             Event.getBus().post(new Level(actors));
         }
     }
@@ -68,10 +66,10 @@ public class NetworkLevelCreator implements LevelCreator {
         for (LevelData.LevelObject obj : part) {
             switch (obj.type) {
                 case OBJECT_TYPE_BLOCK:
-                    actors.add(new Block(world, obj.x * 2, obj.y * 2 - 1));
+                    actors.add(new Block(world, lastX + obj.x * 2, obj.y * 2 - 1));
                     break;
                 case OBJECT_TYPE_GROUND:
-                    actors.add(new Floor(world, obj.x * 2, obj.y * 2 - 1));
+                    actors.add(new Floor(world, lastX + obj.x * 2, obj.y * 2 - 1));
                     break;
             }
         }
