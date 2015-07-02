@@ -38,6 +38,8 @@ public class MenuScreen implements IScreen {
     private BitmapFont _font;
     private Context _context;
 
+    private boolean _singleplayerPressed = false;
+
 
     private MenuScreen _instance;
 
@@ -87,6 +89,8 @@ public class MenuScreen implements IScreen {
 
                     @Override
                     public void run() {
+                        _singleplayerPressed = true;
+                        Event.getBus().post(new ScreenCreationEvent(new UiScreen()));
                         Event.getBus().post(new ScreenCreationEvent(new GameScreen()));
                     }
                 }), moveTo(0, -stage.getHeight(), 1f), run(new Runnable() {
@@ -138,7 +142,7 @@ public class MenuScreen implements IScreen {
 
 
         // coming in from top animation
-//        stage.addAction(sequence(moveTo(0, stage.getWidth()), moveTo(0, 0, 1f)));
+        stage.addAction(sequence(moveTo(0, stage.getWidth()), moveTo(0, 0, 1f)));
 
     }
 

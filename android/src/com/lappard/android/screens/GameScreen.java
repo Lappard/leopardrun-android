@@ -63,7 +63,6 @@ public class GameScreen implements IScreen {
 
     @Override
     public void show() {
-        Event.getBus().post(new ScreenCreationEvent(new UiScreen()));
         world = new World(new Vector2(0, -9.81f * 2), false);
         world.setContactListener(new ContactHandler());
         stage = new Stage(new ExtendViewport(1280f / PIXEL_PER_METER, 720f / PIXEL_PER_METER));

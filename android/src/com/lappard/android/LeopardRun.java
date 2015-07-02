@@ -55,15 +55,13 @@ public class LeopardRun extends Game {
     public void render() {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         int size = _screens.size();
-        for(int i = 0; i < size; ++i){
+        for(int i = size-1; i >= 0; i--){
             _screens.get(i).render(Gdx.graphics.getDeltaTime());
         }
-
-
-            for (IScreen rms : _toRemoveScreens){
-                _screens.remove(rms);
-            }
-            _toRemoveScreens.clear();
+        for (IScreen rms : _toRemoveScreens){
+            _screens.remove(rms);
+        }
+        _toRemoveScreens.clear();
 
     }
 
@@ -99,7 +97,7 @@ public class LeopardRun extends Game {
     public void removeScreen(ScreenRemoveEvent screenEvent){
 
             _toRemoveScreens.add(screenEvent.screen);
-        
+
     }
 
 
