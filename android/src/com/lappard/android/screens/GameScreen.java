@@ -38,10 +38,10 @@ public class GameScreen implements IScreen {
 
     public static final float PIXEL_PER_METER = 100;
     private boolean _isActive = false;
+    private boolean receivedFirstLevelPart = false;
     protected Game game;
     protected SpriteBatch batch;
     protected Stage stage;
-    protected NetworkManager network;
     protected World world;
     protected Box2DDebugRenderer debugRenderer;
     protected LevelCreator levelCreator;
@@ -56,8 +56,7 @@ public class GameScreen implements IScreen {
         batch = new SpriteBatch();
         if (LeopardRun.DEBUG_MODE)                //bods, joints, AABBs, inact, velo, contact
             debugRenderer = new Box2DDebugRenderer(true, false, false, false, true, true);
-        network = new NetworkManager();
-        network.connect();
+
 
     }
 
@@ -68,7 +67,7 @@ public class GameScreen implements IScreen {
         stage = new Stage(new ExtendViewport(1280f / PIXEL_PER_METER, 720f / PIXEL_PER_METER));
 
         Gdx.input.setInputProcessor(stage);
-        levelCreator = new NetworkLevelCreator(network, world);
+        levelCreator = new NetworkLevelCreator(world);
         background = new Sprite(AssetManager.getInstance().getTexture(AssetManager.TEXTURE_BACKGROUND));
         Image bgactor = new Image(background);
         bgactor.setFillParent(true);
@@ -87,24 +86,18 @@ public class GameScreen implements IScreen {
         });
 
         stage.addActor(player);
-        stage.addActor(new Floor(world, 4, 4));
-        stage.addActor(new Floor(world, 6, 3));
-        stage.addActor(new Floor(world, 8, 2));
-        stage.addActor(new Floor(world, 10, 1));
 
-    }
-
-    @Subscribe
-    public void onConnectionEstablished(NetworkManager.ConnectionEstablishedEvent e){
         levelCreator.requestLevelData();
+
     }
 
     @Override
     public void render(float delta) {
-        if(_isActive){
+        if(_isActive && receivedFirstLevelPart){
             world.step(delta, 4, 2);
             stage.act(delta);
-            stage.getCamera().position.x += 0.045f;
+            //camera smoothly follows player
+            stage.getCamera().position.x += (player.getPosition().x - stage.getCamera().position.x) / 10f;
             ScoreManager.getInstance().update();
         }
         batch.begin();
@@ -142,6 +135,7 @@ public class GameScreen implements IScreen {
 
     @Subscribe
     public void extendLevel(Level level){
+        receivedFirstLevelPart = true;
         for (Actor actor : level.actors) {
             stage.addActor(actor);
         }
