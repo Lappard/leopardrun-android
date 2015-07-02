@@ -54,7 +54,7 @@ public class NetworkLevelCreator implements LevelCreator {
             List<Actor> actors = new Vector<>();
             for (LevelData.LevelObject[] part : event.result.process.level.levelparts) {
                 actors.addAll(createActors(part));
-                lastX = part[part.length - 1].x;
+                lastX += part[part.length - 1].x;
             }
             Event.getBus().post(new Level(actors));
         }
@@ -66,10 +66,10 @@ public class NetworkLevelCreator implements LevelCreator {
         for (LevelData.LevelObject obj : part) {
             switch (obj.type) {
                 case OBJECT_TYPE_BLOCK:
-                    actors.add(new Block(world, lastX + obj.x * 2, obj.y * 2 - 1));
+                    actors.add(new Block(world, (lastX + obj.x) * 2, obj.y * 2 - 1));
                     break;
                 case OBJECT_TYPE_GROUND:
-                    actors.add(new Floor(world, lastX + obj.x * 2, obj.y * 2 - 1));
+                    actors.add(new Floor(world, (lastX + obj.x) * 2, obj.y * 2 - 1));
                     break;
             }
         }

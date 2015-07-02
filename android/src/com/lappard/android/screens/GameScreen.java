@@ -99,7 +99,7 @@ public class GameScreen implements IScreen {
         }
         batch.begin();
         stage.draw();
-        if (LeopardRun.DEBUG_MODE)
+        if (false && LeopardRun.DEBUG_MODE)
             debugRenderer.render(world, stage.getViewport().getCamera().combined);
         batch.end();
 
