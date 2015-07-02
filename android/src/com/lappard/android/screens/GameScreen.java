@@ -86,10 +86,6 @@ public class GameScreen implements IScreen {
         });
 
         stage.addActor(player);
-        stage.addActor(new Floor(world, 4, 4));
-        stage.addActor(new Floor(world, 6, 3));
-        stage.addActor(new Floor(world, 8, 2));
-        stage.addActor(new Floor(world, 10, 1));
 
         levelCreator.requestLevelData();
 
