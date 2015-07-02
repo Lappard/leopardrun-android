@@ -11,7 +11,7 @@ import com.lappard.android.util.Event;
 
 public class Player extends PhysicsActor {
 
-    private class IsDeadEvent{
+    public class IsDeadEvent{
 
     }
 
@@ -34,6 +34,9 @@ public class Player extends PhysicsActor {
     public void onContact(Actor other, Contact contact) {
         if (other instanceof Obstacle) {
             canJump = true;
+        }
+        if(other instanceof FireWall){
+            Event.getBus().post(new IsDeadEvent());
         }
     }
 

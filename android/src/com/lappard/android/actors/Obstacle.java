@@ -27,7 +27,6 @@ public class Obstacle extends PhysicsActor {
         if(switchToDynamic){
             switchToDynamic = false;
             body.setType(BodyDef.BodyType.DynamicBody);
-            body.setAngularVelocity(0.4f);
         }
     }
 
