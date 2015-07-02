@@ -83,4 +83,9 @@ public class PhysicsActor extends Actor {
     public void onContact(Actor other) {
 
     }
+
+
+    public Vector2 getPosition() {
+        return body.getPosition();
+    }
 }

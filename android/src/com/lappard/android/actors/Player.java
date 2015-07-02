@@ -39,7 +39,4 @@ public class Player extends PhysicsActor {
 
     }
 
-    public Vector2 getPosition() {
-        return body.getPosition();
-    }
 }

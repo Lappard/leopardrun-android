@@ -1,7 +1,5 @@
 package com.lappard.android.screens;
 
-import android.util.Log;
-
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -16,22 +14,16 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.lappard.android.LeopardRun;
-import com.lappard.android.R;
-import com.lappard.android.actors.Floor;
+import com.lappard.android.actors.PhysicsActor;
 import com.lappard.android.actors.Player;
 import com.lappard.android.graphic.AssetManager;
 import com.lappard.android.level.Level;
 import com.lappard.android.level.LevelCreator;
 import com.lappard.android.level.NetworkLevelCreator;
 import com.lappard.android.logic.ScoreManager;
-import com.lappard.android.network.NetworkCommand;
-import com.lappard.android.network.NetworkManager;
-import com.lappard.android.screens.events.ScreenCreationEvent;
 import com.lappard.android.util.ContactHandler;
 import com.lappard.android.util.Event;
 import com.squareup.otto.Subscribe;
-
-import java.util.List;
 
 
 public class GameScreen implements IScreen {
@@ -48,6 +40,7 @@ public class GameScreen implements IScreen {
 
     private Player player;
     private Sprite background;
+    private PhysicsActor lastActor;
 
 
     public GameScreen() {
@@ -74,7 +67,6 @@ public class GameScreen implements IScreen {
         stage.addActor(bgactor);
 
 
-
         player = new Player(world, 4, 12);
 
 
@@ -93,12 +85,17 @@ public class GameScreen implements IScreen {
 
     @Override
     public void render(float delta) {
-        if(_isActive && receivedFirstLevelPart){
+        if (_isActive && receivedFirstLevelPart) {
             world.step(delta, 4, 2);
             stage.act(delta);
             //camera smoothly follows player
             stage.getCamera().position.x += (player.getPosition().x - stage.getCamera().position.x) / 10f;
             ScoreManager.getInstance().update();
+
+            if (levelNeedsToBeExtended()) {
+                lastActor = null;
+                levelCreator.requestLevelData();
+            }
         }
         batch.begin();
         stage.draw();
@@ -106,6 +103,23 @@ public class GameScreen implements IScreen {
             debugRenderer.render(world, stage.getViewport().getCamera().combined);
         batch.end();
 
+    }
+
+    /**
+     * Check whether level needs to be extended
+     * this is the case if the distance between last actor added (should be
+     * actor which is furthest right) and the camera is smaller then the screen width
+     *
+     * @return
+     */
+    private boolean levelNeedsToBeExtended() {
+        if (lastActor != null) {
+            float distance = lastActor.getPosition().x - stage.getCamera().position.x;
+            if (distance < stage.getViewport().getWorldWidth()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
@@ -134,11 +148,13 @@ public class GameScreen implements IScreen {
     }
 
     @Subscribe
-    public void extendLevel(Level level){
+    public void extendLevel(Level level) {
         receivedFirstLevelPart = true;
         for (Actor actor : level.actors) {
             stage.addActor(actor);
         }
+        lastActor = (PhysicsActor) level.actors.get(level.actors.size() - 1);
+
     }
 
     @Override

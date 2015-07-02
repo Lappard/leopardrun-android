@@ -89,10 +89,6 @@ public class LeopardRun extends Game {
     }
 
 
-
-
-
-
     @Subscribe
     public void removeScreen(ScreenRemoveEvent screenEvent){
 
