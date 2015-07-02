@@ -18,7 +18,8 @@ public class FireWall extends PhysicsActor {
     public FireWall(World world, float x, float y) {
         this.sprite = new AnimatedSprite(AssetManager.getInstance().getTexture(AssetManager.TEXTURE_FIREWALL), 7, 1, 0.1f);
         this.sprite.setSize(WIDTH, HEIGHT);
-        initPhysicsAsBox(world, x, y, BodyDef.BodyType.KinematicBody, true);
+        initPhysicsAsBox(world, x, y, BodyDef.BodyType.DynamicBody, true);
+        body.setGravityScale(0);
     }
 
     @Override
@@ -28,8 +29,5 @@ public class FireWall extends PhysicsActor {
         //body.applyLinearImpulse(new Vector2(0.4f, 0), body.getWorldCenter(), true);
     }
 
-    @Override
-    public void onContact(Actor other, Contact contact) {
-        contact.setEnabled(false);
-    }
+
 }

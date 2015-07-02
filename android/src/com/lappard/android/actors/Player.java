@@ -7,8 +7,13 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.lappard.android.graphic.AnimatedSprite;
 import com.lappard.android.graphic.AssetManager;
+import com.lappard.android.util.Event;
 
 public class Player extends PhysicsActor {
+
+    private class IsDeadEvent{
+
+    }
 
     private boolean canJump;
 
@@ -40,5 +45,6 @@ public class Player extends PhysicsActor {
         }
 
     }
+
 
 }

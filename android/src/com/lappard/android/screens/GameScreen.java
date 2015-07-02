@@ -71,9 +71,7 @@ public class GameScreen implements IScreen {
 
 
         player = new Player(world, 4, 12);
-        //fireWall = new FireWall(world, stage.getViewport().getWorldHeight(), 100, 100);
-        //fireWall.setSpeed(4);
-        fireWall = new FireWall(world, -1, -0.5f);
+        fireWall = new FireWall(world, -3, -0.5f);
 
 
         stage.addListener(new InputListener() {
