@@ -38,6 +38,7 @@ public class GameScreen implements IScreen {
 
     public static final float PIXEL_PER_METER = 100;
     private boolean _isActive = false;
+    private boolean receivedFirstLevelPart = false;
     protected Game game;
     protected SpriteBatch batch;
     protected Stage stage;
@@ -93,7 +94,7 @@ public class GameScreen implements IScreen {
 
     @Override
     public void render(float delta) {
-        if(_isActive){
+        if(_isActive && receivedFirstLevelPart){
             world.step(delta, 4, 2);
             stage.act(delta);
             //camera smoothly follows player
@@ -135,6 +136,7 @@ public class GameScreen implements IScreen {
 
     @Subscribe
     public void extendLevel(Level level){
+        receivedFirstLevelPart = true;
         for (Actor actor : level.actors) {
             stage.addActor(actor);
         }
