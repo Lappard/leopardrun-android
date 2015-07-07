@@ -15,7 +15,7 @@ import java.util.Vector;
 
 public class NetworkLevelCreator implements LevelCreator {
 
-    public static final String LEVEL_CREATION_METHOD = "createLevel";
+    public static final String METHOD_CREATE_LEVEL = "createLevel";
 
     public static final String OBJECT_TYPE_BLOCK = "b";
     public static final String OBJECT_TYPE_GROUND = "g";
@@ -44,7 +44,7 @@ public class NetworkLevelCreator implements LevelCreator {
     @Subscribe
     public void executeRequest(NetworkManager.ConnectionEstablishedEvent e) {
         NetworkCommand command = new NetworkCommand();
-        command.method = LEVEL_CREATION_METHOD;
+        command.method = METHOD_CREATE_LEVEL;
         Event.getBus().post(command);
     }
 

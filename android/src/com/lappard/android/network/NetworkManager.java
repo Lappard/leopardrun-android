@@ -98,7 +98,9 @@ public class NetworkManager {
 
     @Subscribe
     public void emit(NetworkCommand command){
-        socket.send(gson.toJson(command));
+        String stringified = gson.toJson(command);
+        Log.d("NetworkManager", "send command: "+stringified);
+        socket.send(stringified);
     }
 
     public boolean isConnected(){
