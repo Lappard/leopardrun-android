@@ -39,7 +39,7 @@ public class ScoreManager {
         _startTime = TimeUtils.millis();
     }
 
-    public void endGame(long[] playerJumps) {
+    public void endGame(long[] playerJumps, LevelData level) {
         _endTime = TimeUtils.millis();
 
         NetworkCommand gameOverCommand = new NetworkCommand();
@@ -59,8 +59,7 @@ public class ScoreManager {
 
         game.Date = (int)TimeUtils.millis();
         game.PlayerScore = _score;
-        game.Level = new LevelData();
-        game.Level.levelparts = new LevelData.LevelObject[0][0];
+        game.Level = level;
 
         gameOverCommand.gameData = game;
         Event.getBus().post(gameOverCommand);

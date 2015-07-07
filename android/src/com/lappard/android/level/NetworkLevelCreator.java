@@ -23,9 +23,11 @@ public class NetworkLevelCreator implements LevelCreator {
     private World world;
 
     private int lastX;
+    private List<LevelData.LevelObject[]> receivedParts;
 
     public NetworkLevelCreator(World world) {
         this.world = world;
+        receivedParts = new Vector<>();
         Event.getBus().register(this);
     }
 
@@ -41,6 +43,17 @@ public class NetworkLevelCreator implements LevelCreator {
 
     }
 
+    @Override
+    public LevelData getRawData() {
+        LevelData raw = new LevelData();
+        int size = receivedParts.size();
+        raw.levelparts = new LevelData.LevelObject[size][];
+        for(int i=0; i < size; i++){
+            raw.levelparts[i] = receivedParts.get(i);
+        }
+        return raw;
+    }
+
     @Subscribe
     public void executeRequest(NetworkManager.ConnectionEstablishedEvent e) {
         NetworkCommand command = new NetworkCommand();
@@ -53,6 +66,7 @@ public class NetworkLevelCreator implements LevelCreator {
         if (event.result.process.level != null) {
             List<Actor> actors = new Vector<>();
             for (LevelData.LevelObject[] part : event.result.process.level.levelparts) {
+                receivedParts.add(part);
                 actors.addAll(createActors(part));
                 lastX += part[part.length - 1].x;
             }

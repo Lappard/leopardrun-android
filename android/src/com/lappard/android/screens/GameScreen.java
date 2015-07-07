@@ -172,6 +172,6 @@ public class GameScreen implements IScreen {
     @Subscribe
     public void onGameOver(Player.IsDeadEvent event){
         _isActive = false;
-        ScoreManager.getInstance().endGame(event.jumps);
+        ScoreManager.getInstance().endGame(event.jumps, levelCreator.getRawData());
     }
 }
