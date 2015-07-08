@@ -24,6 +24,8 @@ import com.lappard.android.level.LevelCreator;
 import com.lappard.android.level.NetworkLevelCreator;
 import com.lappard.android.logic.ScoreManager;
 import com.lappard.android.network.NetworkCommand;
+import com.lappard.android.screens.events.ScreenCreationEvent;
+import com.lappard.android.screens.events.ScreenRemoveEvent;
 import com.lappard.android.util.ContactHandler;
 import com.lappard.android.util.Event;
 import com.squareup.otto.Subscribe;
@@ -173,5 +175,7 @@ public class GameScreen implements IScreen {
     public void onGameOver(Player.IsDeadEvent event){
         _isActive = false;
         ScoreManager.getInstance().endGame(event.jumps, levelCreator.getRawData());
+        Event.getBus().post(new ScreenRemoveEvent(this));
+        Event.getBus().post(new ScreenCreationEvent(new GameOver()));
     }
 }

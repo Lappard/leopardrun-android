@@ -3,6 +3,7 @@ package com.lappard.android.screens;
 import android.content.Context;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -25,6 +26,8 @@ import com.lappard.android.screens.events.ScreenActivateEvent;
 import com.lappard.android.screens.events.ScreenCreationEvent;
 import com.lappard.android.screens.events.ScreenRemoveEvent;
 import com.lappard.android.util.Event;
+
+import java.lang.reflect.InvocationTargetException;
 
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.moveTo;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.run;
@@ -97,6 +100,38 @@ public abstract class MenuScreen implements IScreen {
 
     protected Label createLabel(int stringRessource){
         return createLabel(context.getString(stringRessource));
+    }
+
+
+    protected Action createScreenTransition(Class screenType){
+        IScreen screen = null;
+        try {
+            screen = (IScreen) screenType.getConstructor().newInstance();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+            screen = null;
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+
+        final IScreen destination = screen;
+
+        return sequence(run(new Runnable() {
+            @Override
+            public void run() {
+                Event.getBus().post(new ScreenCreationEvent(destination));
+            }
+        }), moveTo(0, -stage.getHeight(), 1f), run(new Runnable() {
+
+            @Override
+            public void run() {
+                Event.getBus().post(new ScreenRemoveEvent(instance));
+            }
+        }));
     }
 
     @Override

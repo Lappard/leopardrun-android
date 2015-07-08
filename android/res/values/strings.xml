@@ -7,4 +7,6 @@
     <string name="menu_heading">Choose Mode</string>
 
     <string name="score_pre_text">Score:</string>
+    <string name="to_menu_button">MainMenu</string>
+    <string name="game_over">Game Over</string>
 </resources>
