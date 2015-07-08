@@ -13,6 +13,9 @@ import com.lappard.android.network.NetworkResult;
 import com.lappard.android.util.Event;
 import com.squareup.otto.Subscribe;
 
+import java.util.Arrays;
+import java.util.Comparator;
+
 public class GhostSelection extends MenuScreen{
 
     public static final String METHOD_GET_SAVEGAMES = "getSaveGames";
@@ -49,6 +52,15 @@ public class GhostSelection extends MenuScreen{
     @Subscribe
     public void onGamesAvailable(NetworkManager.MessageReceivedEvent message){
         NetworkResult result = message.result;
+
+        //Sort by Playerscore
+        Arrays.sort(result.process.Games, new Comparator<GameData>() {
+            @Override
+            public int compare(GameData lhs, GameData rhs) {
+                //swap lhs and rhs so highest score is on top
+                return Float.compare(rhs.PlayerScore, lhs.PlayerScore);
+            }
+        });
         if(result.method.equals(METHOD_GET_SAVEGAMES)){
             for(GameData game : result.process.Games){
                 Log.d("Ghost selection", game.GameName);
