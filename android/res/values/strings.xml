@@ -9,4 +9,7 @@
     <string name="score_pre_text">Score:</string>
     <string name="to_menu_button">MainMenu</string>
     <string name="game_over">Game Over</string>
+    <string name="ghost_selection_header">Select Ghost</string>
+    <string name="ghost_selection_load">fetching ghosts...</string>
+    <string name="play">play</string>
 </resources>

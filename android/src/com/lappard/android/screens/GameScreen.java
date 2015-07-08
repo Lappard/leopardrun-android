@@ -178,6 +178,7 @@ public class GameScreen implements IScreen {
     @Subscribe
     public void onGameOver(Player.IsDeadEvent event){
         _isActive = false;
+        Event.getBus().unregister(this);
         ScoreManager.getInstance().endGame(event.jumps, levelCreator.getRawData());
         Event.getBus().post(new ScreenRemoveEvent(ui));
         Event.getBus().post(new ScreenRemoveEvent(this));

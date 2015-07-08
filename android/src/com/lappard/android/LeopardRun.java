@@ -24,7 +24,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 
 public class LeopardRun extends Game {
-    public static boolean DEBUG_MODE = true;
+    public static boolean DEBUG_MODE = !true;
 
     private Context context;
     private List<IScreen> _screens;

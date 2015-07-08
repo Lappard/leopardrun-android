@@ -19,6 +19,8 @@ public class AssetManager {
     public static final String TEXTURE_BACKGROUND = "textures/background.jpg";
 
     public static final String FONT_OPENSANS_24 = "fonts/opensans.ttf";
+    public static final String FONT_OPENSANS_18 = "fonts/opensans.ttf_18";
+    public static final String FONT_OPENSANS_16 = "fonts/opensans.ttf_16";
 
     private HashMap<String, Texture> textures;
     private HashMap<String, BitmapFont> fonts;
@@ -47,6 +49,13 @@ public class AssetManager {
         BitmapFont font = generator.generateFont(parameter);
 
         fonts.put(FONT_OPENSANS_24, font);
+
+        parameter.size = (int)(18 * Gdx.graphics.getDensity());
+        fonts.put(FONT_OPENSANS_18, generator.generateFont(parameter));
+
+        parameter.size = (int)(16 * Gdx.graphics.getDensity());
+        fonts.put(FONT_OPENSANS_16, generator.generateFont(parameter));
+
 
     }
 

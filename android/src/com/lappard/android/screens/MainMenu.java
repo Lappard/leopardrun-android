@@ -40,7 +40,7 @@ public class MainMenu extends MenuScreen{
         );
 
         Button multiPlayerButton = createImageButton(400, 200, AssetManager.TEXTURE_BLOCK,
-                R.string.multi_player_button, null);
+                R.string.multi_player_button, createScreenTransition(GhostSelection.class));
 
 
         layout.add(createLabel(R.string.menu_heading)).center();
