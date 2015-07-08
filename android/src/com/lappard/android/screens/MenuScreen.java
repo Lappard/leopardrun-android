@@ -1,6 +1,7 @@
 package com.lappard.android.screens;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -103,27 +104,20 @@ public abstract class MenuScreen implements IScreen {
     }
 
 
-    protected Action createScreenTransition(Class screenType){
-        IScreen screen = null;
-        try {
-            screen = (IScreen) screenType.getConstructor().newInstance();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-            screen = null;
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        }
-
-        final IScreen destination = screen;
+    protected Action createScreenTransition(final Class screenType){
 
         return sequence(run(new Runnable() {
             @Override
             public void run() {
-                Event.getBus().post(new ScreenCreationEvent(destination));
+                try {
+                    IScreen screen = (IScreen) screenType.getConstructor().newInstance();
+                    Event.getBus().post(new ScreenCreationEvent(screen));
+                } catch (Exception e){
+                    Log.e("Screen", "Error while creating screen. Showing Main Menu instead");
+                    Event.getBus().post(new ScreenCreationEvent(new MainMenu()));
+                }
+
+
             }
         }), moveTo(0, -stage.getHeight(), 1f), run(new Runnable() {
 

@@ -36,7 +36,9 @@ public class GameScreen implements IScreen {
     public static final float PIXEL_PER_METER = 100;
     private boolean _isActive = false;
     private boolean receivedFirstLevelPart = false;
+
     protected Game game;
+    protected UiScreen ui;
     protected SpriteBatch batch;
     protected Stage stage;
     protected World world;
@@ -61,6 +63,8 @@ public class GameScreen implements IScreen {
 
     @Override
     public void show() {
+        ui = new UiScreen();
+        Event.getBus().post(new ScreenCreationEvent(ui));
         world = new World(new Vector2(0, -9.81f * 2), false);
         world.setContactListener(new ContactHandler());
         stage = new Stage(new ExtendViewport(1280f / PIXEL_PER_METER, 720f / PIXEL_PER_METER));
@@ -175,6 +179,7 @@ public class GameScreen implements IScreen {
     public void onGameOver(Player.IsDeadEvent event){
         _isActive = false;
         ScoreManager.getInstance().endGame(event.jumps, levelCreator.getRawData());
+        Event.getBus().post(new ScreenRemoveEvent(ui));
         Event.getBus().post(new ScreenRemoveEvent(this));
         Event.getBus().post(new ScreenCreationEvent(new GameOver()));
     }

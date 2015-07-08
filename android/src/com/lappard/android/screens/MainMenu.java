@@ -27,7 +27,6 @@ public class MainMenu extends MenuScreen{
                 R.string.single_player_button, sequence(run(new Runnable() {
                     @Override
                     public void run() {
-                        Event.getBus().post(new ScreenCreationEvent(new UiScreen()));
                         Event.getBus().post(new ScreenCreationEvent(new GameScreen()));
                     }
                 }), moveTo(0, -stage.getHeight(), 1f), run(new Runnable() {
