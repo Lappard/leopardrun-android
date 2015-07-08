@@ -35,7 +35,7 @@ public class MenuScreen implements IScreen {
     protected SpriteBatch batch;
     protected Stage stage;
     private Sprite background;
-    private BitmapFont _font;
+    private BitmapFont font;
     private Context _context;
 
     private boolean _singleplayerPressed = false;
@@ -53,22 +53,14 @@ public class MenuScreen implements IScreen {
     @Override
     public void show() {
 
-        /**
-         * create _font from testfont.ttf
-         */
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/testfont.ttf"));
-        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = (int)(24 * Gdx.graphics.getDensity());
-        _font = generator.generateFont(parameter);
-
-
+        font = AssetManager.getInstance().getFont(AssetManager.FONT_OPENSANS_24);
 
         stage = new Stage(new ExtendViewport(1280,720));
         Gdx.input.setInputProcessor(stage);
 
 
         ImageTextButton.ImageTextButtonStyle iBStyle = new ImageTextButton.ImageTextButtonStyle();
-        iBStyle.font = _font;
+        iBStyle.font = font;
         iBStyle.fontColor = Color.BLACK;
 
         iBStyle.up = new SpriteDrawable(new Sprite(AssetManager.getInstance().getTexture(AssetManager.TEXTURE_BLOCK)));
