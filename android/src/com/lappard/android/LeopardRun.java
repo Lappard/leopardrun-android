@@ -8,6 +8,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.lappard.android.screens.GameScreen;
 import com.lappard.android.screens.IScreen;
+import com.lappard.android.screens.MainMenu;
 import com.lappard.android.screens.MenuScreen;
 import com.lappard.android.screens.events.ScreenActivateEvent;
 import com.lappard.android.screens.events.ScreenCreationEvent;
@@ -124,7 +125,7 @@ public class LeopardRun extends Game {
 
     @Override
     public void create() {
-        Event.getBus().post(new ScreenCreationEvent(new MenuScreen()));
+        Event.getBus().post(new ScreenCreationEvent(new MainMenu()));
     }
 
     public Context getContext() {
