@@ -1,7 +1,5 @@
 package com.lappard.android.actors;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.World;
@@ -11,7 +9,6 @@ import com.lappard.android.graphic.AnimatedSprite;
 import com.lappard.android.graphic.AssetManager;
 import com.lappard.android.util.Event;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
@@ -56,6 +53,9 @@ public class Player extends PhysicsActor {
         if(startTime == -1)
             startTime = TimeUtils.millis();
         //body.applyLinearImpulse(new Vector2(0.4f, 0), body.getWorldCenter(), true);
+        if(body.getPosition().y < -2){
+            Event.getBus().post(new IsDeadEvent(jumpTimes));
+        }
     }
 
     @Override
@@ -71,7 +71,7 @@ public class Player extends PhysicsActor {
     public void jump() {
         if (canJump) {
             jumpTimes.add(TimeUtils.millis() - startTime);
-            body.setLinearVelocity(body.getLinearVelocity().x, 12);
+            body.setLinearVelocity(body.getLinearVelocity().x, 15);
             //body.applyLinearImpulse(new Vector2(0, 12), body.getWorldCenter(), true);
             canJump = false;
         }

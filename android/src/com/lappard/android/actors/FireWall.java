@@ -12,7 +12,7 @@ import com.lappard.android.graphic.AssetManager;
 
 public class FireWall extends PhysicsActor {
 
-    public static float WIDTH = 100;
+    public static float WIDTH = 110;
     public static float HEIGHT = 800;
 
     public FireWall(World world, float x, float y) {

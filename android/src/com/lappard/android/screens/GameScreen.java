@@ -14,7 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.lappard.android.LeopardRun;
-import com.lappard.android.actors.Block;
+import com.lappard.android.actors.Background;
 import com.lappard.android.actors.FireWall;
 import com.lappard.android.actors.PhysicsActor;
 import com.lappard.android.actors.Player;
@@ -23,7 +23,6 @@ import com.lappard.android.level.Level;
 import com.lappard.android.level.LevelCreator;
 import com.lappard.android.level.NetworkLevelCreator;
 import com.lappard.android.logic.ScoreManager;
-import com.lappard.android.network.NetworkCommand;
 import com.lappard.android.screens.events.ScreenCreationEvent;
 import com.lappard.android.screens.events.ScreenRemoveEvent;
 import com.lappard.android.util.ContactHandler;
@@ -47,7 +46,7 @@ public class GameScreen implements IScreen {
 
     private Player player;
     private PhysicsActor fireWall;
-    private Sprite background;
+    private Background background;
     private PhysicsActor lastActor;
 
 
@@ -71,10 +70,8 @@ public class GameScreen implements IScreen {
 
         Gdx.input.setInputProcessor(stage);
         levelCreator = new NetworkLevelCreator(world);
-        background = new Sprite(AssetManager.getInstance().getTexture(AssetManager.TEXTURE_BACKGROUND));
-        Image bgactor = new Image(background);
-        bgactor.setFillParent(true);
-        stage.addActor(bgactor);
+        background = new Background(world, 0, 0);
+        stage.addActor(background);
 
 
         player = new Player(world, 4, 12);
@@ -102,6 +99,7 @@ public class GameScreen implements IScreen {
             stage.act(delta);
             //camera smoothly follows player
             stage.getCamera().position.x += (player.getPosition().x - stage.getCamera().position.x) / 10f;
+            background.alignToPlayer(player);
             ScoreManager.getInstance().update();
 
             if (levelNeedsToBeExtended()) {
