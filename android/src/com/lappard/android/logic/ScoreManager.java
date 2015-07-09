@@ -1,7 +1,5 @@
 package com.lappard.android.logic;
 
-import android.util.Log;
-
 import com.badlogic.gdx.utils.TimeUtils;
 import com.lappard.android.level.LevelData;
 import com.lappard.android.network.NetworkCommand;
@@ -45,21 +43,21 @@ public class ScoreManager {
         NetworkCommand gameOverCommand = new NetworkCommand();
         gameOverCommand.method = METHOD_SAVE_GAME;
         GameData game = new GameData();
-        game.Actions = playerJumps;
-        game.Owner = "AndroidUser";
+        game.actions = playerJumps;
+        game.owner = "AndroidUser";
 
         //create more or less random name
         String[] vs = new String[]{"a", "e", "i", "o", "u"};
         String[] cs = new String[]{"b", "d", "f", "g", "k", "l", "m", "n", "p", "r", "s", "t"};
         String c = cs[(int)(Math.random() * cs.length)];
-        game.GameName =  cs[(int)(Math.random() * cs.length)]
+        game.gameName =  cs[(int)(Math.random() * cs.length)]
                         + vs[(int)(Math.random() * vs.length)]
                         + c + c + vs[(int)(Math.random() * vs.length)]
                         + cs[(int)(Math.random() * cs.length)];
 
-        game.Date = (int)TimeUtils.millis();
-        game.PlayerScore = _score;
-        game.Level = level;
+        game.date = (int)TimeUtils.millis();
+        game.playerScore = _score;
+        game.level = level;
 
         gameOverCommand.gameData = game;
         Event.getBus().post(gameOverCommand);

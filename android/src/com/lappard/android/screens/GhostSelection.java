@@ -3,7 +3,6 @@ package com.lappard.android.screens;
 
 import android.util.Log;
 
-import com.google.gson.Gson;
 import com.lappard.android.R;
 import com.lappard.android.graphic.AssetManager;
 import com.lappard.android.logic.GameData;
@@ -54,19 +53,19 @@ public class GhostSelection extends MenuScreen{
         NetworkResult result = message.result;
 
         //Sort by Playerscore
-        Arrays.sort(result.process.Games, new Comparator<GameData>() {
+        Arrays.sort(result.process.games, new Comparator<GameData>() {
             @Override
             public int compare(GameData lhs, GameData rhs) {
                 //swap lhs and rhs so highest score is on top
-                return Float.compare(rhs.PlayerScore, lhs.PlayerScore);
+                return Float.compare(rhs.playerScore, lhs.playerScore);
             }
         });
         if(result.method.equals(METHOD_GET_SAVEGAMES)){
-            for(GameData game : result.process.Games){
-                Log.d("Ghost selection", game.GameName);
-                layout.add(createLabel("" + game.PlayerScore));
-                layout.add(createLabel(game.Owner)).padLeft(32);
-                layout.add(createLabel(game.GameName)).padLeft(32);
+            for(GameData game : result.process.games){
+                Log.d("Ghost selection", game.gameName);
+                layout.add(createLabel("" + game.playerScore));
+                layout.add(createLabel(game.owner)).padLeft(32);
+                layout.add(createLabel(game.gameName)).padLeft(32);
                 layout.add(createImageButton(128, 64, AssetManager.TEXTURE_BLOCK,
                         R.string.play, createScreenTransition(GameScreen.class))).padLeft(32).padTop(5);
                 layout.row();

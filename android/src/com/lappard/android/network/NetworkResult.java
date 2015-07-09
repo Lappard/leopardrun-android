@@ -8,7 +8,7 @@ public class NetworkResult extends NetworkCommand {
 
     public class Process {
         public LevelData level;
-        public GameData[] Games;
+        public GameData[] games;
     }
 
     public Process process;
