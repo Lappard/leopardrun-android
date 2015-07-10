@@ -1,7 +1,9 @@
 package com.lappard.android.graphic;
 
 
+import com.badlogic.gdx.Audio;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
@@ -22,8 +24,13 @@ public class AssetManager {
     public static final String FONT_OPENSANS_18 = "fonts/opensans.ttf_18";
     public static final String FONT_OPENSANS_16 = "fonts/opensans.ttf_16";
 
+    public static final String SOUND_DEATH = "sounds/dead.wav";
+    public static final String SOUND_JUMP = "sounds/jump.wav";
+    public static final String SOUND_THEME = "sounds/theme.wav";
+
     private HashMap<String, Texture> textures;
     private HashMap<String, BitmapFont> fonts;
+    private HashMap<String, Sound> sounds;
 
     public static AssetManager getInstance() {
         if (instance == null) {
@@ -40,8 +47,6 @@ public class AssetManager {
         textures.put(TEXTURE_FIREWALL, new Texture(TEXTURE_FIREWALL));
         textures.put(TEXTURE_BACKGROUND, new Texture(TEXTURE_BACKGROUND));
 
-
-
         fonts = new HashMap<>();
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(FONT_OPENSANS_24));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
@@ -56,7 +61,10 @@ public class AssetManager {
         parameter.size = (int)(16 * Gdx.graphics.getDensity());
         fonts.put(FONT_OPENSANS_16, generator.generateFont(parameter));
 
-
+        sounds = new HashMap<>();
+        sounds.put(SOUND_DEATH, Gdx.audio.newSound(Gdx.files.internal(SOUND_DEATH)));
+        sounds.put(SOUND_JUMP, Gdx.audio.newSound(Gdx.files.internal(SOUND_JUMP)));
+        sounds.put(SOUND_THEME, Gdx.audio.newSound(Gdx.files.internal(SOUND_THEME)));
     }
 
     public Texture getTexture(String name) {
@@ -64,5 +72,8 @@ public class AssetManager {
     }
     public BitmapFont getFont(String name){
         return fonts.get(name);
+    }
+    public Sound getSound(String name) {
+        return sounds.get(name);
     }
 }

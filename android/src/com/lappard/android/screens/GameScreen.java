@@ -18,6 +18,7 @@ import com.lappard.android.actors.Background;
 import com.lappard.android.actors.FireWall;
 import com.lappard.android.actors.PhysicsActor;
 import com.lappard.android.actors.Player;
+import com.lappard.android.audio.AudioManager;
 import com.lappard.android.graphic.AssetManager;
 import com.lappard.android.level.Level;
 import com.lappard.android.level.LevelCreator;
@@ -177,6 +178,8 @@ public class GameScreen implements IScreen {
     public void setActive() {
         _isActive = true;
         ScoreManager.getInstance().startGame();
+
+        AudioManager.getInstance().playSound(AssetManager.SOUND_THEME);
     }
 
     @Subscribe
