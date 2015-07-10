@@ -3,6 +3,7 @@ package com.lappard.android.screens;
 
 import android.util.Log;
 
+import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.lappard.android.R;
 import com.lappard.android.graphic.AssetManager;
 import com.lappard.android.logic.GameData;
@@ -27,6 +28,11 @@ public class GhostSelection extends MenuScreen{
     @Override
     public void show() {
         super.show();
+
+        layout.remove();
+        ScrollPane scrollPane = new ScrollPane(layout);
+        scrollPane.setFillParent(true);
+        stage.addActor(scrollPane);
 
         layout.add(createLabel(R.string.ghost_selection_header)).center().colspan(4);
         layout.row();
@@ -63,7 +69,7 @@ public class GhostSelection extends MenuScreen{
         if(result.method.equals(METHOD_GET_SAVEGAMES)){
             for(GameData game : result.process.games){
                 Log.d("Ghost selection", game.gameName);
-                layout.add(createLabel("" + game.playerScore));
+                layout.add(createLabel(String.format("%.1g%n",game.playerScore)));
                 layout.add(createLabel(game.owner)).padLeft(32);
                 layout.add(createLabel(game.gameName)).padLeft(32);
                 layout.add(createImageButton(128, 64, AssetManager.TEXTURE_BLOCK,
