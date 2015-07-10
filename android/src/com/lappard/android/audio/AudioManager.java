@@ -16,7 +16,7 @@ public class AudioManager {
         }
     }
 
-    public void playSound(String s) {
-        AssetManager.getInstance().getSound(s).play();
+    public long playSound(String s) {
+        return AssetManager.getInstance().getSound(s).play();
     }
 }

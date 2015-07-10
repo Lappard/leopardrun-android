@@ -10,4 +10,5 @@ public class GameData {
     public long[] Actions;
     public int Date;
     public float PlayerScore;
+    public float Score;
 }

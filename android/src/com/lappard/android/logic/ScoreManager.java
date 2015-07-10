@@ -47,6 +47,7 @@ public class ScoreManager {
         GameData game = new GameData();
         game.Actions = playerJumps;
         game.Owner = "AndroidUser";
+        game.Score = _score;
 
         //create more or less random name
         String[] vs = new String[]{"a", "e", "i", "o", "u"};
