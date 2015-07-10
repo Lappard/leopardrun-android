@@ -25,8 +25,7 @@ public class NetworkLevelCreator implements LevelCreator {
     private int lastX;
     private List<LevelData.LevelObject[]> receivedParts;
 
-    public NetworkLevelCreator(World world) {
-        this.world = world;
+    public NetworkLevelCreator() {
         receivedParts = new Vector<>();
         Event.getBus().register(this);
     }
@@ -52,6 +51,11 @@ public class NetworkLevelCreator implements LevelCreator {
             raw.levelparts[i] = receivedParts.get(i);
         }
         return raw;
+    }
+
+    @Override
+    public void setWorld(World world) {
+        this.world = world;
     }
 
     @Subscribe

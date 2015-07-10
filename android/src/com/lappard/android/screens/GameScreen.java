@@ -57,19 +57,25 @@ public class GameScreen implements IScreen {
         if (LeopardRun.DEBUG_MODE)                //bods, joints, AABBs, inact, velo, contact
             debugRenderer = new Box2DDebugRenderer(true, false, false, false, true, true);
 
+        world = new World(new Vector2(0, -9.81f * 2), false);
+        world.setContactListener(new ContactHandler());
 
+
+    }
+
+    public void setLevelCreator(LevelCreator creator){
+        creator.setWorld(world);
+        this.levelCreator = creator;
     }
 
     @Override
     public void show() {
         ui = new UiScreen();
         Event.getBus().post(new ScreenCreationEvent(ui));
-        world = new World(new Vector2(0, -9.81f * 2), false);
-        world.setContactListener(new ContactHandler());
+
         stage = new Stage(new ExtendViewport(1280f / PIXEL_PER_METER, 720f / PIXEL_PER_METER));
 
         Gdx.input.setInputProcessor(stage);
-        levelCreator = new NetworkLevelCreator(world);
         background = new Background(world, 0, 0);
         stage.addActor(background);
 

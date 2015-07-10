@@ -104,19 +104,14 @@ public abstract class MenuScreen implements IScreen {
     }
 
 
-    protected Action createScreenTransition(final Class screenType){
+    protected Action createScreenTransition(final ScreenCreator creator){
 
         return sequence(run(new Runnable() {
             @Override
             public void run() {
-                try {
-                    IScreen screen = (IScreen) screenType.getConstructor().newInstance();
-                    Event.getBus().post(new ScreenCreationEvent(screen));
-                } catch (Exception e){
-                    Log.e("Screen", "Error while creating screen. Showing Main Menu instead");
-                    Event.getBus().post(new ScreenCreationEvent(new MainMenu()));
-                }
 
+                IScreen destinationScreen = creator.createScreen();
+                Event.getBus().post(new ScreenCreationEvent(destinationScreen));
 
             }
         }), moveTo(0, -stage.getHeight(), 1f), run(new Runnable() {

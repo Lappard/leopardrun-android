@@ -16,7 +16,12 @@ public class GameOver extends MenuScreen {
         super.show();
 
         Button menuButton = createImageButton(400, 200, AssetManager.TEXTURE_BLOCK,
-                R.string.to_menu_button, createScreenTransition(MainMenu.class));
+                R.string.to_menu_button, createScreenTransition(new ScreenCreator() {
+                    @Override
+                    public IScreen createScreen() {
+                        return new MainMenu();
+                    }
+                }));
 
         layout.add(createLabel(R.string.game_over)).center();
         layout.row();
