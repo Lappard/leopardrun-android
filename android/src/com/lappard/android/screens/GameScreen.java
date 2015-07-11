@@ -95,7 +95,10 @@ public class GameScreen implements IScreen {
         stage.addActor(player);
         stage.addActor(fireWall);
 
-        levelCreator.requestLevelData();
+        if(levelCreator != null){
+            levelCreator.requestLevelData();
+        }
+
 
     }
 

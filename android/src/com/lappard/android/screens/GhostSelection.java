@@ -70,7 +70,7 @@ public class GhostSelection extends MenuScreen{
         if(result.method.equals(METHOD_GET_SAVEGAMES)){
             for(GameData game : result.process.games){
                 Log.d("Ghost selection", game.gameName);
-                layout.add(createLabel(String.format("%.1g%n",game.playerScore)));
+                layout.add(createLabel(""+(Math.floor(game.playerScore*100)/100)));
                 layout.add(createLabel(game.owner)).padLeft(32);
                 layout.add(createLabel(game.gameName)).padLeft(32);
                 layout.add(createImageButton(128, 64, AssetManager.TEXTURE_BLOCK,

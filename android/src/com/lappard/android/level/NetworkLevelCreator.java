@@ -13,16 +13,10 @@ import com.squareup.otto.Subscribe;
 import java.util.List;
 import java.util.Vector;
 
-public class NetworkLevelCreator implements LevelCreator {
+public class NetworkLevelCreator extends LevelCreator {
 
     public static final String METHOD_CREATE_LEVEL = "createLevel";
 
-    public static final String OBJECT_TYPE_BLOCK = "b";
-    public static final String OBJECT_TYPE_GROUND = "g";
-
-    private World world;
-
-    private int lastX;
     private List<LevelData.LevelObject[]> receivedParts;
 
     public NetworkLevelCreator() {
@@ -53,10 +47,7 @@ public class NetworkLevelCreator implements LevelCreator {
         return raw;
     }
 
-    @Override
-    public void setWorld(World world) {
-        this.world = world;
-    }
+
 
     @Subscribe
     public void executeRequest(NetworkManager.ConnectionEstablishedEvent e) {
@@ -68,30 +59,13 @@ public class NetworkLevelCreator implements LevelCreator {
     @Subscribe
     public void deliverReceivedLevelParts(NetworkManager.MessageReceivedEvent event) {
         if (event.result.process.level != null) {
-            List<Actor> actors = new Vector<>();
             for (LevelData.LevelObject[] part : event.result.process.level.levelparts) {
                 receivedParts.add(part);
-                actors.addAll(createActors(part));
-                lastX += part[part.length - 1].x;
             }
-            Event.getBus().post(new Level(actors));
+            List<Actor> parsedActors = parseLevel(event.result.process.level);
+            Event.getBus().post(new Level(parsedActors));
         }
     }
 
 
-    private List<Actor> createActors(LevelData.LevelObject[] part) {
-        List<Actor> actors = new Vector<>();
-        for (LevelData.LevelObject obj : part) {
-            switch (obj.type) {
-                case OBJECT_TYPE_BLOCK:
-                    actors.add(new Block(world, (lastX + obj.x) * 2, obj.y * 2 - 1));
-                    break;
-                case OBJECT_TYPE_GROUND:
-                    actors.add(new Floor(world, (lastX + obj.x) * 2, obj.y * 2 - 1));
-                    break;
-            }
-        }
-
-        return actors;
-    }
 }
