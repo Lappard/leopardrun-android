@@ -6,6 +6,7 @@ import android.util.Log;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.lappard.android.R;
 import com.lappard.android.graphic.AssetManager;
+import com.lappard.android.level.GhostLevelCreator;
 import com.lappard.android.level.NetworkLevelCreator;
 import com.lappard.android.logic.GameData;
 import com.lappard.android.network.NetworkCommand;
@@ -68,19 +69,18 @@ public class GhostSelection extends MenuScreen{
             }
         });
         if(result.method.equals(METHOD_GET_SAVEGAMES)){
-            for(GameData game : result.process.games){
+            for(final GameData game : result.process.games){
                 Log.d("Ghost selection", game.gameName);
-                layout.add(createLabel(""+(Math.floor(game.playerScore*100)/100)));
+                layout.add(createLabel("" + (Math.floor(game.playerScore * 100) / 100)));
                 layout.add(createLabel(game.owner)).padLeft(32);
                 layout.add(createLabel(game.gameName)).padLeft(32);
                 layout.add(createImageButton(128, 64, AssetManager.TEXTURE_BLOCK,
                         R.string.play, createScreenTransition(new ScreenCreator() {
                             @Override
                             public IScreen createScreen() {
-                                GameScreen game = new GameScreen();
-                                //todo: create/use ghostLevelCreator
-                                game.setLevelCreator(new NetworkLevelCreator());
-                                return game;
+                                GameScreen gameScreen = new GameScreen();
+                                gameScreen.setLevelCreator(new GhostLevelCreator(game.level));
+                                return gameScreen;
                             }
                         }))).padLeft(32).padTop(5);
                 layout.row();

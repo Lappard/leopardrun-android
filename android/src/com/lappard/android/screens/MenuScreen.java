@@ -119,6 +119,7 @@ public abstract class MenuScreen implements IScreen {
             @Override
             public void run() {
                 Event.getBus().post(new ScreenRemoveEvent(instance));
+                Event.getBus().post(new ScreenActivateEvent());
             }
         }));
     }
