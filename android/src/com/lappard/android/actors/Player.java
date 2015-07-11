@@ -13,7 +13,8 @@ import com.lappard.android.util.Event;
 import java.util.List;
 import java.util.Vector;
 
-public class Player extends PhysicsActor {
+public class Player extends Leopard {
+
 
     private long startTime = -1;
     private List<Long> jumpTimes;
@@ -24,7 +25,7 @@ public class Player extends PhysicsActor {
 
         public IsDeadEvent(){}
 
-        public  IsDeadEvent(long[] jumps){
+        public IsDeadEvent(long[] jumps){
             this.jumps = jumps;
         }
 
@@ -40,21 +41,18 @@ public class Player extends PhysicsActor {
     private boolean canJump;
 
     public Player(World world, float x, float y) {
-        sprite = new AnimatedSprite(AssetManager.getInstance().getTexture(AssetManager.TEXTURE_CAT), 5, 2, 0.1f);
-        sprite.setSize(90, 90);
-        initPhysicsAsBox(world, x, y, BodyDef.BodyType.DynamicBody);
+        super(world, x, y, AssetManager.TEXTURE_CAT);
         jumpTimes = new Vector<>();
     }
 
     @Override
     public void act(float delta) {
         super.act(delta);
-        body.setLinearVelocity(3f, body.getLinearVelocity().y);
         //set startTime on first update
         if(startTime == -1)
             startTime = TimeUtils.millis();
         //body.applyLinearImpulse(new Vector2(0.4f, 0), body.getWorldCenter(), true);
-        if(body.getPosition().y < -2){
+        if(body.getPosition().y < HEIGHT_DEATH){
             Event.getBus().post(new IsDeadEvent(jumpTimes));
         }
     }
@@ -69,16 +67,15 @@ public class Player extends PhysicsActor {
         }
     }
 
+    @Override
     public void jump() {
         if (canJump) {
             jumpTimes.add(TimeUtils.millis() - startTime);
-            body.setLinearVelocity(body.getLinearVelocity().x, 15);
-            //body.applyLinearImpulse(new Vector2(0, 12), body.getWorldCenter(), true);
+            super.jump();
             canJump = false;
             AudioManager.getInstance().playSound(AssetManager.SOUND_JUMP);
         }
 
     }
-
 
 }
