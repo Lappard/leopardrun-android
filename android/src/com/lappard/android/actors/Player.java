@@ -56,6 +56,9 @@ public class Player extends Leopard {
         if(other instanceof FireWall){
             Event.getBus().post(new IsDeadEvent(jumpTimes));
         }
+        if(other instanceof Ghost){
+            contact.setEnabled(false);
+        }
     }
 
     @Override
