@@ -16,6 +16,7 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.lappard.android.LeopardRun;
 import com.lappard.android.actors.Background;
 import com.lappard.android.actors.FireWall;
+import com.lappard.android.actors.Ghost;
 import com.lappard.android.actors.PhysicsActor;
 import com.lappard.android.actors.Player;
 import com.lappard.android.audio.AudioManager;
@@ -46,6 +47,7 @@ public class GameScreen implements IScreen {
     protected LevelCreator levelCreator;
 
     private Player player;
+    private Ghost ghost;
     private PhysicsActor fireWall;
     private Background background;
     private PhysicsActor lastActor;
@@ -69,6 +71,10 @@ public class GameScreen implements IScreen {
         this.levelCreator = creator;
     }
 
+    public void createGhost(long[] jumpTimes){
+        ghost = new Ghost(world, 4, 12, jumpTimes);
+    }
+
     @Override
     public void show() {
         ui = new UiScreen();
@@ -82,6 +88,9 @@ public class GameScreen implements IScreen {
 
 
         player = new Player(world, 4, 12);
+        if(ghost != null){
+            stage.addActor(ghost);
+        }
         fireWall = new FireWall(world, -3, -0.5f);
 
 

@@ -15,10 +15,6 @@ import java.util.Vector;
 
 public class Player extends Leopard {
 
-
-    private long startTime = -1;
-    private List<Long> jumpTimes;
-
     public class IsDeadEvent{
         public long[] jumps;
 
@@ -42,16 +38,11 @@ public class Player extends Leopard {
 
     public Player(World world, float x, float y) {
         super(world, x, y, AssetManager.TEXTURE_CAT);
-        jumpTimes = new Vector<>();
     }
 
     @Override
     public void act(float delta) {
         super.act(delta);
-        //set startTime on first update
-        if(startTime == -1)
-            startTime = TimeUtils.millis();
-        //body.applyLinearImpulse(new Vector2(0.4f, 0), body.getWorldCenter(), true);
         if(body.getPosition().y < HEIGHT_DEATH){
             Event.getBus().post(new IsDeadEvent(jumpTimes));
         }

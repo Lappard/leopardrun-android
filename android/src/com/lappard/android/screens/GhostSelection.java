@@ -80,6 +80,7 @@ public class GhostSelection extends MenuScreen{
                             public IScreen createScreen() {
                                 GameScreen gameScreen = new GameScreen();
                                 gameScreen.setLevelCreator(new GhostLevelCreator(game.level));
+                                gameScreen.createGhost(game.actions);
                                 return gameScreen;
                             }
                         }))).padLeft(32).padTop(5);
