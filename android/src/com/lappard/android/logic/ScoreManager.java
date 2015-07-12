@@ -16,6 +16,7 @@ public class ScoreManager {
     private float _score;
     private long _startTime;
     private long _endTime;
+    public String _playerName = "AndroidUser";
 
     private ScoreManager() {
 
@@ -44,7 +45,7 @@ public class ScoreManager {
         gameOverCommand.method = METHOD_SAVE_GAME;
         GameData game = new GameData();
         game.actions = playerJumps;
-        game.owner = "AndroidUser";
+        game.owner = _playerName;
 
         //create more or less random name
         String[] vs = new String[]{"a", "e", "i", "o", "u"};
