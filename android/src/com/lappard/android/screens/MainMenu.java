@@ -58,7 +58,7 @@ public class MainMenu extends MenuScreen implements Input.TextInputListener{
                 }));
 
         ChangeNameAction act = new ChangeNameAction(this);
-        Button changeNameButton = createImageButton(400,200, AssetManager.TEXTURE_BLOCK,"Change Playername",act);
+        Button changeNameButton = createImageButton(650,100, AssetManager.TEXTURE_BLOCK,"Change Playername",act);
 
         layout.add(createLabel(R.string.menu_heading)).center();
         layout.row();
