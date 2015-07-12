@@ -48,6 +48,9 @@ public class AnimatedSprite extends Sprite {
 
     private void prepareDraw() {
         time += Gdx.graphics.getDeltaTime();
+        if (!this.looping) {
+            time = animation.getFrameDuration()*3;
+        }
         super.setRegion(animation.getKeyFrame(time, looping));
     }
 
