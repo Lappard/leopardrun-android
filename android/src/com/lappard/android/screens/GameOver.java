@@ -28,7 +28,8 @@ public class GameOver extends MenuScreen {
         layout.add(createLabel(R.string.game_over)).center();
         layout.row();
         layout.add(createLabel("Score:")).center();
-        layout.add(createLabel(Float.toString(ScoreManager.getInstance().getScore())));
+        int scoreInt = Math.round(ScoreManager.getInstance().getScore());
+        layout.add(createLabel(Integer.toString(scoreInt)));
         layout.row();
         layout.add(menuButton);
     }
