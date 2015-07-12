@@ -40,5 +40,7 @@ public class Leopard extends PhysicsActor {
 
     public void jump(){
         body.setLinearVelocity(body.getLinearVelocity().x, VELOCITY_JUMP);
+        AnimatedSprite temp = (AnimatedSprite) sprite;
+        temp.setLooping(false);
     }
 }

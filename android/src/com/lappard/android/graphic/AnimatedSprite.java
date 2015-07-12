@@ -31,7 +31,6 @@ public class AnimatedSprite extends Sprite {
 
         animation = new Animation(frameDuration, frames1d);
 
-
     }
 
     public void restart() {
@@ -40,6 +39,10 @@ public class AnimatedSprite extends Sprite {
 
     public void setLooping(boolean looping) {
         this.looping = looping;
+    }
+
+    public boolean getLooping() {
+        return this.looping;
     }
 
 

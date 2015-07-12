@@ -43,8 +43,12 @@ public class Player extends Leopard {
     @Override
     public void act(float delta) {
         super.act(delta);
+        AnimatedSprite temp = (AnimatedSprite) sprite;
         if(body.getPosition().y < HEIGHT_DEATH){
             Event.getBus().post(new IsDeadEvent(jumpTimes));
+        }
+        if (canJump && !temp.getLooping()) {
+            temp.setLooping(true);
         }
     }
 
