@@ -36,7 +36,15 @@ public class GhostSelection extends MenuScreen{
         scrollPane.setFillParent(true);
         stage.addActor(scrollPane);
 
-        layout.add(createLabel(R.string.ghost_selection_header)).center().colspan(4);
+        font = AssetManager.getInstance().getFont(AssetManager.FONT_OPENSANS_16);
+        layout.add(createImageButton(128, 64, AssetManager.TEXTURE_BLOCK, R.string.back, createScreenTransition(new ScreenCreator() {
+            @Override
+            public IScreen createScreen() {
+                return new MainMenu();
+            }
+        })));
+        font = AssetManager.getInstance().getFont(AssetManager.FONT_OPENSANS_24);
+        layout.add(createLabel(R.string.ghost_selection_header)).center().colspan(3);
         layout.row();
         font = AssetManager.getInstance().getFont(AssetManager.FONT_OPENSANS_16);
 

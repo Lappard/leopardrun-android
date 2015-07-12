@@ -12,4 +12,5 @@
     <string name="ghost_selection_header">Select Ghost</string>
     <string name="ghost_selection_load">fetching ghosts...</string>
     <string name="play">play</string>
+    <string name="back">back</string>
 </resources>
