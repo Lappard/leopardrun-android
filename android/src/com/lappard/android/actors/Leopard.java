@@ -20,8 +20,10 @@ public class Leopard extends PhysicsActor {
     protected List<Long> jumpTimes;
 
 
-    public Leopard(World world, float x, float y, String textureName) {
+    public Leopard(World world, float x, float y, String textureName, short collisionCategory) {
         sprite = new AnimatedSprite(AssetManager.getInstance().getTexture(textureName), 5, 2, 0.1f);
+        this.collisionCategory = collisionCategory;
+        this.collisionMask = Obstacle.COLLISION_CATEGORY | FireWall.COLLISION_CATEGORY;
         sprite.setSize(SIZE, SIZE);
         initPhysicsAsBox(world, x, y, BodyDef.BodyType.DynamicBody);
         jumpTimes = new Vector<>();

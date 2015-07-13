@@ -9,11 +9,16 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 public class Obstacle extends PhysicsActor {
 
 
+    public static final short COLLISION_CATEGORY = 0x1 << 4;
+
+
     private boolean switchToDynamic = false;
 
     public Obstacle(World world, Sprite sprite, float width, float height, float x, float y) {
         this.sprite = sprite;
         this.sprite.setSize(width, height);
+        this.collisionCategory = COLLISION_CATEGORY;
+        this.collisionMask = Player.COLLISION_CATEGORY | Ghost.COLLISION_CATEGORY;
         initPhysicsAsBox(world, x, y,  BodyDef.BodyType.StaticBody);
     }
 

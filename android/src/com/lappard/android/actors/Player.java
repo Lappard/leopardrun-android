@@ -15,6 +15,9 @@ import java.util.Vector;
 
 public class Player extends Leopard {
 
+    public static final short COLLISION_CATEGORY = 0x1;
+
+
     public class IsDeadEvent{
         public long[] jumps;
 
@@ -37,7 +40,7 @@ public class Player extends Leopard {
     private boolean canJump;
 
     public Player(World world, float x, float y) {
-        super(world, x, y, AssetManager.TEXTURE_CAT);
+        super(world, x, y, AssetManager.TEXTURE_CAT, COLLISION_CATEGORY);
     }
 
     @Override

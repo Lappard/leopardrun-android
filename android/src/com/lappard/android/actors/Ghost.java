@@ -10,9 +10,11 @@ import com.lappard.android.graphic.AssetManager;
 
 public class Ghost extends Leopard {
 
+    public static final short COLLISION_CATEGORY = 0x1 << 2;
+
 
     public Ghost(World world, float x, float y, long[] jumpTimes) {
-        super(world, x, y, AssetManager.TEXTURE_GHOST);
+        super(world, x, y, AssetManager.TEXTURE_GHOST, COLLISION_CATEGORY);
         for(long timestamp : jumpTimes){
             this.jumpTimes.add(timestamp);
         }
