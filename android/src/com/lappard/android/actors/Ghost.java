@@ -24,7 +24,7 @@ public class Ghost extends Leopard {
     @Override
     public void act(float delta) {
         super.act(delta);
-        if(TimeUtils.millis() - startTime > jumpTimes.get(0)){
+        if(jumpTimes.size() > 0 && TimeUtils.millis() - startTime > jumpTimes.get(0)){
             jump();
             jumpTimes.remove(0);
         }
