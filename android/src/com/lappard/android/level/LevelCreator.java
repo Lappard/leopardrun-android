@@ -42,10 +42,10 @@ public abstract class LevelCreator {
         for (LevelData.LevelObject obj : part) {
             switch (obj.type) {
                 case OBJECT_TYPE_BLOCK:
-                    actors.add(new Block(world, (lastX + obj.x) * 2, obj.y * 2 - 1));
+                    actors.add(new Block(world, (lastX + obj.x) * 2, obj.y * 2));
                     break;
                 case OBJECT_TYPE_GROUND:
-                    actors.add(new Floor(world, (lastX + obj.x) * 2, obj.y * 2 - 1));
+                    actors.add(new Floor(world, (lastX + obj.x) * 2, obj.y * 2));
                     break;
                 case OBJECT_TYPE_COIN:
                     actors.add(new Coin(world, (lastX + obj.x) * 2, obj.y * 2 - 1));
