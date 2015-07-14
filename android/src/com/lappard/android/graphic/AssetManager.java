@@ -13,7 +13,7 @@ public class AssetManager {
 
     private static AssetManager instance;
 
-    public static final String TEXTURE_BLOCK = "textures/blockTile.png";
+    public static final String TEXTURE_BLOCK = "textures/block.png";
     public static final String TEXTURE_FLOOR = "textures/ground.png";
     public static final String TEXTURE_CAT = "textures/cat.png";
     public static final String TEXTURE_GHOST = "textures/ghost.png";
