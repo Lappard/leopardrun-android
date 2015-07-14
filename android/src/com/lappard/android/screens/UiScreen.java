@@ -36,7 +36,7 @@ public class UiScreen implements IScreen {
     public void show() {
 
 
-        font = AssetManager.getInstance().getFont(AssetManager.FONT_OPENSANS_24);
+        font = AssetManager.getInstance().getFont(AssetManager.FONT_SHOJUMARU_24);
         stage = new Stage(new ExtendViewport(1280,720));
 
         // create table

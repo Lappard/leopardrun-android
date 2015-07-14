@@ -1,7 +1,6 @@
 package com.lappard.android.graphic;
 
 
-import com.badlogic.gdx.Audio;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
@@ -21,9 +20,9 @@ public class AssetManager {
     public static final String TEXTURE_FIREWALL = "textures/firewall.png";
     public static final String TEXTURE_BACKGROUND = "textures/background.jpg";
 
-    public static final String FONT_OPENSANS_24 = "fonts/opensans.ttf";
-    public static final String FONT_OPENSANS_18 = "fonts/opensans.ttf_18";
-    public static final String FONT_OPENSANS_16 = "fonts/opensans.ttf_16";
+    public static final String FONT_SHOJUMARU_24 = "fonts/shojumaru-regular.ttf";
+    public static final String FONT_SHOJUMARU_14 = "fonts/shojumaru-regular.ttf_14";
+    public static final String FONT_SHOJUMARU_12 = "fonts/shojumaru-regular.ttf_12";
 
     public static final String SOUND_DEATH = "sounds/dead.wav";
     public static final String SOUND_JUMP = "sounds/jump.wav";
@@ -50,18 +49,18 @@ public class AssetManager {
         textures.put(TEXTURE_BACKGROUND, new Texture(TEXTURE_BACKGROUND));
 
         fonts = new HashMap<>();
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(FONT_OPENSANS_24));
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(FONT_SHOJUMARU_24));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = (int)(24 * Gdx.graphics.getDensity());
         BitmapFont font = generator.generateFont(parameter);
 
-        fonts.put(FONT_OPENSANS_24, font);
+        fonts.put(FONT_SHOJUMARU_24, font);
 
-        parameter.size = (int)(18 * Gdx.graphics.getDensity());
-        fonts.put(FONT_OPENSANS_18, generator.generateFont(parameter));
+        parameter.size = (int)(14 * Gdx.graphics.getDensity());
+        fonts.put(FONT_SHOJUMARU_14, generator.generateFont(parameter));
 
-        parameter.size = (int)(16 * Gdx.graphics.getDensity());
-        fonts.put(FONT_OPENSANS_16, generator.generateFont(parameter));
+        parameter.size = (int)(12 * Gdx.graphics.getDensity());
+        fonts.put(FONT_SHOJUMARU_12, generator.generateFont(parameter));
 
         sounds = new HashMap<>();
         sounds.put(SOUND_DEATH, Gdx.audio.newSound(Gdx.files.internal(SOUND_DEATH)));
