@@ -36,7 +36,7 @@ public class GhostSelection extends MenuScreen{
         stage.addActor(scrollPane);
 
         font = AssetManager.getInstance().getFont(AssetManager.FONT_SHOJUMARU_12);
-        layout.add(createImageButton(128, 64, AssetManager.TEXTURE_BLOCK, R.string.back, createScreenTransition(new ScreenCreator() {
+        layout.add(createImageButton(128, 64, AssetManager.TEXTURE_BUTTON_BLUE, R.string.back, createScreenTransition(new ScreenCreator() {
             @Override
             public IScreen createScreen() {
                 return new MainMenu();
