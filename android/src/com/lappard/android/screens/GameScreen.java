@@ -33,7 +33,6 @@ import com.squareup.otto.Subscribe;
 
 
 public class GameScreen implements IScreen {
-
     public static final float PIXEL_PER_METER = 100;
     private boolean _isActive = false;
     private boolean receivedFirstLevelPart = false;
@@ -82,16 +81,21 @@ public class GameScreen implements IScreen {
 
         stage = new Stage(new ExtendViewport(1280f / PIXEL_PER_METER, 720f / PIXEL_PER_METER));
 
+
         Gdx.input.setInputProcessor(stage);
         background = new Background(world, 0, 0);
         stage.addActor(background);
 
 
         player = new Player(world, 4, 12);
+        stage.addActor(player);
+
         if(ghost != null){
             stage.addActor(ghost);
         }
+
         fireWall = new FireWall(world, -3, -0.5f);
+        stage.addActor(fireWall);
 
 
         stage.addListener(new InputListener() {
@@ -101,8 +105,6 @@ public class GameScreen implements IScreen {
             }
         });
 
-        stage.addActor(player);
-        stage.addActor(fireWall);
 
         if(levelCreator != null){
             levelCreator.requestLevelData();
@@ -183,6 +185,11 @@ public class GameScreen implements IScreen {
             stage.addActor(actor);
         }
         lastActor = (PhysicsActor) level.actors.get(level.actors.size() - 1);
+
+        //since setting Z-Index doesn't have an effect (is overriden by stages), remove
+        //firewall and re-add it to stage so it's on top of everything else
+        stage.getActors().removeValue(fireWall, true);
+        stage.addActor(fireWall);
 
     }
 

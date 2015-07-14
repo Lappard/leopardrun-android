@@ -9,5 +9,5 @@ public class GameData {
     public LevelData level;
     public long[] actions;
     public int date;
-    public float playerScore;
+    public int playerScore;
 }
