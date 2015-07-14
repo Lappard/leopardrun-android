@@ -20,7 +20,7 @@ public class AssetManager {
     public static final String TEXTURE_FIREWALL = "textures/firewall.png";
     public static final String TEXTURE_BACKGROUND = "textures/background.jpg";
     public static final String TEXTURE_LOGO = "textures/logo.png";
-    public static final String TEXTURE_BUTTON_BLUE = "textures/blue_button.png";
+    public static final String TEXTURE_BUTTON_BLUE = "textures/button.png";
     public static final String TEXTURE_COIN = "textures/Coin.png";
 
     public static final String FONT_SHOJUMARU_24 = "fonts/shojumaru-regular.ttf";
