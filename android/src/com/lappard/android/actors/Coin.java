@@ -20,7 +20,7 @@ public class Coin extends PhysicsActor {
         this.sprite.setSize(SIZE,SIZE);
         this.collisionCategory = Obstacle.COLLISION_CATEGORY;
         this.collisionMask = Player.COLLISION_CATEGORY;
-        super.initPhysicsAsBox(world,x,y, BodyDef.BodyType.StaticBody);
+        super.initPhysicsAsBox(world,x,y, BodyDef.BodyType.StaticBody,true);
     }
 
     @Override

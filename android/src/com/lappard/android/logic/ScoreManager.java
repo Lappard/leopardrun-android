@@ -11,12 +11,14 @@ public class ScoreManager {
     public static final String METHOD_SAVE_GAME = "saveGame";
     public static final String PREFS_PLAYERNAME = "preferences_playername";
     public static final String KEY_PLAYERNAME = "playername";
+    public static final int COIN_SCORE = 500;
 
     private static final long SCORE_PER_SECOND = 50;
     private static ScoreManager _instance;
     private float _score;
     private long _startTime;
     private long _endTime;
+    private int _collectedCoins = 0;
     public String _playerName = "AndroidUser";
     Preferences prefs = Gdx.app.getPreferences(PREFS_PLAYERNAME);
 
@@ -32,7 +34,7 @@ public class ScoreManager {
 
 
     public float getScore() {
-        return _score;
+        return _score + (_collectedCoins * COIN_SCORE);
     }
 
     public void setPlayername(String playername) {
@@ -76,5 +78,9 @@ public class ScoreManager {
 
         float timeGone = mills - _startTime;
         _score = (timeGone / 1000) * SCORE_PER_SECOND;
-    };
+    }
+
+    public void addCoin() {
+        _collectedCoins++;
+    }
 }

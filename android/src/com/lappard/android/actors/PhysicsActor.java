@@ -97,7 +97,7 @@ public class PhysicsActor extends Actor {
 
     @Override
     public boolean remove() {
-        this.body.destroyFixture(fixture);
+        //this.body.destroyFixture(fixture);
         return super.remove();
     }
 
