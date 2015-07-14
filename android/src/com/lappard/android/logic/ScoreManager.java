@@ -57,7 +57,7 @@ public class ScoreManager {
                         + cs[(int)(Math.random() * cs.length)];
 
         game.date = (int)TimeUtils.millis();
-        game.playerScore = _score;
+        game.playerScore = (int)_score;
         game.level = level;
 
         gameOverCommand.gameData = game;

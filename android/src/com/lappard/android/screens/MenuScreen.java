@@ -53,7 +53,7 @@ public abstract class MenuScreen implements IScreen {
         stage.setDebugAll(LeopardRun.DEBUG_MODE);
 
 
-        font = AssetManager.getInstance().getFont(AssetManager.FONT_OPENSANS_24);
+        font = AssetManager.getInstance().getFont(AssetManager.FONT_SHOJUMARU_24);
 
         background = new Image(new Sprite(AssetManager.getInstance().getTexture(backgroundTextureName)));
         background.setFillParent(true);

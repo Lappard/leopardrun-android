@@ -7,7 +7,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.lappard.android.R;
 import com.lappard.android.graphic.AssetManager;
 import com.lappard.android.level.GhostLevelCreator;
-import com.lappard.android.level.NetworkLevelCreator;
 import com.lappard.android.logic.GameData;
 import com.lappard.android.network.NetworkCommand;
 import com.lappard.android.network.NetworkManager;
@@ -36,17 +35,17 @@ public class GhostSelection extends MenuScreen{
         scrollPane.setFillParent(true);
         stage.addActor(scrollPane);
 
-        font = AssetManager.getInstance().getFont(AssetManager.FONT_OPENSANS_16);
+        font = AssetManager.getInstance().getFont(AssetManager.FONT_SHOJUMARU_12);
         layout.add(createImageButton(128, 64, AssetManager.TEXTURE_BLOCK, R.string.back, createScreenTransition(new ScreenCreator() {
             @Override
             public IScreen createScreen() {
                 return new MainMenu();
             }
         })));
-        font = AssetManager.getInstance().getFont(AssetManager.FONT_OPENSANS_24);
+        font = AssetManager.getInstance().getFont(AssetManager.FONT_SHOJUMARU_24);
         layout.add(createLabel(R.string.ghost_selection_header)).center().colspan(3);
         layout.row();
-        font = AssetManager.getInstance().getFont(AssetManager.FONT_OPENSANS_16);
+        font = AssetManager.getInstance().getFont(AssetManager.FONT_SHOJUMARU_12);
 
 
         if(NetworkManager.getInstance().isConnected()){

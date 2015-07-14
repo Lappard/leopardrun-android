@@ -18,6 +18,8 @@ public class PhysicsActor extends Actor {
     protected Sprite sprite;
     protected Body body;
     protected Fixture fixture;
+    protected short collisionCategory;
+    protected short collisionMask;
 
     /**
      * Init Box2dPhysics for this Actor
@@ -43,6 +45,8 @@ public class PhysicsActor extends Actor {
         fixtureDef.friction = 0f;
         fixtureDef.restitution = 0f;
         fixtureDef.isSensor = isSensor;
+        fixtureDef.filter.categoryBits = collisionCategory;
+        fixtureDef.filter.maskBits = collisionMask;
 
 
         body = world.createBody(bodyDef);

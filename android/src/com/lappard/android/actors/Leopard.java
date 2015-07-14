@@ -1,7 +1,9 @@
 package com.lappard.android.actors;
 
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.lappard.android.graphic.AnimatedSprite;
 import com.lappard.android.graphic.AssetManager;
@@ -18,10 +20,13 @@ public class Leopard extends PhysicsActor {
 
     protected long startTime = -1;
     protected List<Long> jumpTimes;
+    protected boolean onGround;
 
 
-    public Leopard(World world, float x, float y, String textureName) {
+    public Leopard(World world, float x, float y, String textureName, short collisionCategory) {
         sprite = new AnimatedSprite(AssetManager.getInstance().getTexture(textureName), 5, 2, 0.1f);
+        this.collisionCategory = collisionCategory;
+        this.collisionMask = Obstacle.COLLISION_CATEGORY | FireWall.COLLISION_CATEGORY;
         sprite.setSize(SIZE, SIZE);
         initPhysicsAsBox(world, x, y, BodyDef.BodyType.DynamicBody);
         jumpTimes = new Vector<>();
@@ -40,7 +45,18 @@ public class Leopard extends PhysicsActor {
 
     public void jump(){
         body.setLinearVelocity(body.getLinearVelocity().x, VELOCITY_JUMP);
-        AnimatedSprite temp = (AnimatedSprite) sprite;
-        temp.setLooping(false);
+        onGround = false;
+        AnimatedSprite animatedSprite = (AnimatedSprite) sprite;
+        animatedSprite.setLooping(onGround);
+    }
+
+    @Override
+    public void onContact(Actor other, Contact contact) {
+        super.onContact(other, contact);
+        if (other instanceof Obstacle) {
+            onGround = true;
+            AnimatedSprite animatedSprite = (AnimatedSprite) sprite;
+            animatedSprite.setLooping(onGround);
+        }
     }
 }
