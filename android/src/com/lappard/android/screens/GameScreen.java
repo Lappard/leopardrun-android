@@ -1,5 +1,7 @@
 package com.lappard.android.screens;
 
+import android.provider.MediaStore;
+
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -175,7 +177,6 @@ public class GameScreen implements IScreen {
 
     @Override
     public void dispose() {
-
     }
 
     @Subscribe
@@ -203,6 +204,7 @@ public class GameScreen implements IScreen {
 
     @Subscribe
     public void onGameOver(Player.IsDeadEvent event){
+        AudioManager.getInstance().pauseAll();
         _isActive = false;
         Event.getBus().unregister(this);
         ScoreManager.getInstance().endGame(event.jumps, levelCreator.getRawData());

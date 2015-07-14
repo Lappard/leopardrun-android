@@ -1,15 +1,16 @@
 package com.lappard.android.logic;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.lappard.android.level.LevelData;
 import com.lappard.android.network.NetworkCommand;
 import com.lappard.android.util.Event;
 
-/**
- * Created by Jonathan on 01.07.15.
- */
 public class ScoreManager {
     public static final String METHOD_SAVE_GAME = "saveGame";
+    public static final String PREFS_PLAYERNAME = "preferences_playername";
+    public static final String KEY_PLAYERNAME = "playername";
 
     private static final long SCORE_PER_SECOND = 50;
     private static ScoreManager _instance;
@@ -17,9 +18,10 @@ public class ScoreManager {
     private long _startTime;
     private long _endTime;
     public String _playerName = "AndroidUser";
+    Preferences prefs = Gdx.app.getPreferences(PREFS_PLAYERNAME);
 
     private ScoreManager() {
-
+        _playerName = prefs.getString(KEY_PLAYERNAME, "AndroidUser");
     }
 
 
@@ -33,6 +35,11 @@ public class ScoreManager {
         return _score;
     }
 
+    public void setPlayername(String playername) {
+        _playerName = playername;
+        prefs.putString(KEY_PLAYERNAME, playername);
+        prefs.flush();
+    }
 
     public void startGame() {
         _startTime = TimeUtils.millis();

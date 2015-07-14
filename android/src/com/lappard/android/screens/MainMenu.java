@@ -79,6 +79,7 @@ public class MainMenu extends MenuScreen implements Input.TextInputListener{
     @Override
     public void input (String text) {
         ScoreManager.getInstance()._playerName = text;
+        ScoreManager.getInstance().setPlayername(text);
     }
 
     @Override
