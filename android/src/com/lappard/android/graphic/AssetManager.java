@@ -20,6 +20,7 @@ public class AssetManager {
     public static final String TEXTURE_GHOST = "textures/ghost.png";
     public static final String TEXTURE_FIREWALL = "textures/firewall.png";
     public static final String TEXTURE_BACKGROUND = "textures/background.jpg";
+    public static final String TEXTURE_LOGO = "textures/logo.png";
 
     public static final String FONT_OPENSANS_24 = "fonts/opensans.ttf";
     public static final String FONT_OPENSANS_18 = "fonts/opensans.ttf_18";
@@ -48,6 +49,7 @@ public class AssetManager {
         textures.put(TEXTURE_GHOST, new Texture(TEXTURE_GHOST));
         textures.put(TEXTURE_FIREWALL, new Texture(TEXTURE_FIREWALL));
         textures.put(TEXTURE_BACKGROUND, new Texture(TEXTURE_BACKGROUND));
+        textures.put(TEXTURE_LOGO, new Texture(TEXTURE_LOGO));
 
         fonts = new HashMap<>();
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(FONT_OPENSANS_24));

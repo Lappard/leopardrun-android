@@ -71,7 +71,7 @@ public class Player extends Leopard {
             jumpTimes.add(TimeUtils.millis() - startTime);
             super.jump();
             canJump = false;
-            AudioManager.getInstance().playSound(AssetManager.SOUND_JUMP);
+            AudioManager.getInstance().playSound(AssetManager.SOUND_JUMP,false);
         }
 
     }

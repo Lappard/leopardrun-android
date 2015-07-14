@@ -10,6 +10,7 @@ import com.lappard.android.screens.GameScreen;
 import com.lappard.android.screens.IScreen;
 import com.lappard.android.screens.MainMenu;
 import com.lappard.android.screens.MenuScreen;
+import com.lappard.android.screens.SplashScreen;
 import com.lappard.android.screens.events.ScreenActivateEvent;
 import com.lappard.android.screens.events.ScreenCreationEvent;
 import com.lappard.android.screens.events.ScreenRemoveEvent;
@@ -125,7 +126,7 @@ public class LeopardRun extends Game {
 
     @Override
     public void create() {
-        Event.getBus().post(new ScreenCreationEvent(new MainMenu()));
+        Event.getBus().post(new ScreenCreationEvent(new SplashScreen()));
     }
 
     public Context getContext() {

@@ -16,7 +16,11 @@ public class AudioManager {
         }
     }
 
-    public long playSound(String s) {
-        return AssetManager.getInstance().getSound(s).play();
+    public long playSound(String s, boolean loop) {
+        if (loop)
+            return AssetManager.getInstance().getSound(s).loop();
+        else
+            return AssetManager.getInstance().getSound(s).play();
     }
+
 }

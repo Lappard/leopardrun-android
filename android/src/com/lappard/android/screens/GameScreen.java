@@ -191,7 +191,7 @@ public class GameScreen implements IScreen {
         _isActive = true;
         ScoreManager.getInstance().startGame();
 
-        AudioManager.getInstance().playSound(AssetManager.SOUND_THEME);
+        AudioManager.getInstance().playSound(AssetManager.SOUND_THEME,true);
     }
 
     @Subscribe
