@@ -1,6 +1,5 @@
 package com.lappard.android.actors;
 
-import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -11,7 +10,6 @@ import com.lappard.android.graphic.AssetManager;
 import com.lappard.android.util.Event;
 
 import java.util.List;
-import java.util.Vector;
 
 public class Player extends Leopard {
 
@@ -37,8 +35,6 @@ public class Player extends Leopard {
         }
     }
 
-    private boolean canJump;
-
     public Player(World world, float x, float y) {
         super(world, x, y, AssetManager.TEXTURE_CAT, COLLISION_CATEGORY);
     }
@@ -46,34 +42,24 @@ public class Player extends Leopard {
     @Override
     public void act(float delta) {
         super.act(delta);
-        AnimatedSprite temp = (AnimatedSprite) sprite;
         if(body.getPosition().y < HEIGHT_DEATH){
             Event.getBus().post(new IsDeadEvent(jumpTimes));
-        }
-        if (canJump && !temp.getLooping()) {
-            temp.setLooping(true);
         }
     }
 
     @Override
     public void onContact(Actor other, Contact contact) {
-        if (other instanceof Obstacle) {
-            canJump = true;
-        }
+        super.onContact(other, contact);
         if(other instanceof FireWall){
             Event.getBus().post(new IsDeadEvent(jumpTimes));
-        }
-        if(other instanceof Ghost){
-            contact.setEnabled(false);
         }
     }
 
     @Override
     public void jump() {
-        if (canJump) {
+        if (onGround) {
             jumpTimes.add(TimeUtils.millis() - startTime);
             super.jump();
-            canJump = false;
             AudioManager.getInstance().playSound(AssetManager.SOUND_JUMP);
         }
 

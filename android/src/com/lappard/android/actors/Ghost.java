@@ -33,9 +33,7 @@ public class Ghost extends Leopard {
 
     @Override
     public void onContact(Actor other, Contact contact) {
-        if(other instanceof Player){
-            contact.setEnabled(false);
-        } else if (other instanceof FireWall) {
+        if (other instanceof FireWall) {
             this.remove();
         }
     }

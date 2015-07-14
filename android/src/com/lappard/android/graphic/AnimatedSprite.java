@@ -41,7 +41,7 @@ public class AnimatedSprite extends Sprite {
         this.looping = looping;
     }
 
-    public boolean getLooping() {
+    public boolean isLooping() {
         return this.looping;
     }
 
