@@ -2,8 +2,8 @@
 <resources>
 
     <string name="app_name">leopardrun</string>
-    <string name="single_player_button">Singleplayer</string>
-    <string name="multi_player_button">Multiplayer</string>
+    <string name="single_player_button">New Game</string>
+    <string name="multi_player_button">Challenge Mode</string>
     <string name="menu_heading">Choose Mode</string>
 
     <string name="score_pre_text">Score:</string>
