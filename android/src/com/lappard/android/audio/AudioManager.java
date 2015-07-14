@@ -21,10 +21,12 @@ public class AudioManager {
     }
 
     public void pauseAll() {
+        List<Sound> toRemove = new Vector<>();
         for (Sound s : soundList) {
             s.pause();
-            soundList.remove(s);
+            toRemove.add(s);
         }
+        soundList.removeAll(toRemove);
     }
 
     public long playSound(String s, boolean loop) {
