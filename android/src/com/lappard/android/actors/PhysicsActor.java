@@ -20,6 +20,7 @@ public class PhysicsActor extends Actor {
     protected Fixture fixture;
     protected short collisionCategory;
     protected short collisionMask;
+    protected World world;
 
     /**
      * Init Box2dPhysics for this Actor
@@ -31,8 +32,8 @@ public class PhysicsActor extends Actor {
      * @param isSensor whether body is sensor only
      */
     public void initPhysics(World world, PolygonShape shape, float x, float y, BodyDef.BodyType type, boolean isSensor) {
+        this.world = world;
         BodyDef bodyDef = new BodyDef();
-
 
         bodyDef.type = type;
         bodyDef.position.set(new Vector2(x, y));
@@ -47,7 +48,6 @@ public class PhysicsActor extends Actor {
         fixtureDef.isSensor = isSensor;
         fixtureDef.filter.categoryBits = collisionCategory;
         fixtureDef.filter.maskBits = collisionMask;
-
 
         body = world.createBody(bodyDef);
         fixture = body.createFixture(fixtureDef);
@@ -70,6 +70,7 @@ public class PhysicsActor extends Actor {
     }
 
     public void initPhysicsAsBox(World world, float x, float y, BodyDef.BodyType type, boolean isSensor) {
+        this.world = world;
         sprite.setSize(sprite.getWidth() / GameScreen.PIXEL_PER_METER, sprite.getHeight() / GameScreen.PIXEL_PER_METER);
         PolygonShape shape = new PolygonShape();
         float verticees[] = new float[]{
@@ -92,6 +93,11 @@ public class PhysicsActor extends Actor {
     public void draw(Batch batch, float parentAlpha) {
         sprite.setPosition(body.getPosition().x, body.getPosition().y);
         sprite.draw(batch, parentAlpha);
+    }
+
+    @Override
+    public boolean remove() {
+        return super.remove();
     }
 
     public void onContact(Actor other, Contact contact) {

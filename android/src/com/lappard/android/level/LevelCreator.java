@@ -3,6 +3,7 @@ package com.lappard.android.level;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.lappard.android.actors.Block;
+import com.lappard.android.actors.Coin;
 import com.lappard.android.actors.Floor;
 
 import java.util.List;
@@ -12,6 +13,8 @@ public abstract class LevelCreator {
 
     public static final String OBJECT_TYPE_BLOCK = "b";
     public static final String OBJECT_TYPE_GROUND = "g";
+    public static final String OBJECT_TYPE_COIN = "c";
+    public static final String OBJECT_TYPE_FEATHER = "f";
 
     private World world;
     private int lastX;
@@ -43,6 +46,8 @@ public abstract class LevelCreator {
                 case OBJECT_TYPE_GROUND:
                     actors.add(new Floor(world, (lastX + obj.x) * 2, obj.y * 2));
                     break;
+                case OBJECT_TYPE_COIN:
+                    actors.add(new Coin(world, (lastX + obj.x) * 2, obj.y * 2 - 1));
             }
         }
 
