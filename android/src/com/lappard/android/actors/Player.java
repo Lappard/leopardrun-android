@@ -60,7 +60,7 @@ public class Player extends Leopard {
         if (onGround) {
             jumpTimes.add(TimeUtils.millis() - startTime);
             super.jump();
-            AudioManager.getInstance().playSound(AssetManager.SOUND_JUMP);
+            AudioManager.getInstance().playSound(AssetManager.SOUND_JUMP, false);
         }
 
     }
