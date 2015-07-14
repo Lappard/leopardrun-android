@@ -19,7 +19,7 @@ public class GameOver extends MenuScreen {
         super.show();
 
         font = AssetManager.getInstance().getFont(AssetManager.FONT_SHOJUMARU_14);
-        Button menuButton = createImageButton(400, 200, AssetManager.TEXTURE_BLOCK,
+        Button menuButton = createImageButton(400, 100, AssetManager.TEXTURE_BUTTON_BLUE,
                 R.string.to_menu_button, createScreenTransition(new ScreenCreator() {
                     @Override
                     public IScreen createScreen() {

@@ -34,7 +34,7 @@ public class MainMenu extends MenuScreen implements Input.TextInputListener{
 
         font = AssetManager.getInstance().getFont(AssetManager.FONT_SHOJUMARU_14);
 
-        Button singlePlayerButton = createImageButton(400, 200, AssetManager.TEXTURE_BLOCK,
+        Button singlePlayerButton = createImageButton(650, 100, AssetManager.TEXTURE_BUTTON_BLUE,
                 R.string.single_player_button, sequence(run(new Runnable() {
                     @Override
                     public void run() {
@@ -52,7 +52,7 @@ public class MainMenu extends MenuScreen implements Input.TextInputListener{
                 }))
         );
 
-        Button multiPlayerButton = createImageButton(400, 200, AssetManager.TEXTURE_BLOCK,
+        Button multiPlayerButton = createImageButton(650, 100, AssetManager.TEXTURE_BUTTON_BLUE,
                 R.string.multi_player_button, createScreenTransition(new ScreenCreator() {
                     @Override
                     public IScreen createScreen() {
@@ -61,7 +61,7 @@ public class MainMenu extends MenuScreen implements Input.TextInputListener{
                 }));
 
         ChangeNameAction act = new ChangeNameAction(this);
-        Button changeNameButton = createImageButton(650,100, AssetManager.TEXTURE_BLOCK,"Change Playername",act);
+        Button changeNameButton = createImageButton(650,100, AssetManager.TEXTURE_BUTTON_BLUE,"Change Playername",act);
 
 
         font = AssetManager.getInstance().getFont(AssetManager.FONT_SHOJUMARU_24);
