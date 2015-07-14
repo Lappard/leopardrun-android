@@ -57,7 +57,7 @@ public class Player extends Leopard {
 
     @Override
     public void jump() {
-        if (onGround) {
+        if (onGround || this.hasFeather) {
             jumpTimes.add(TimeUtils.millis() - startTime);
             super.jump();
             AudioManager.getInstance().playSound(AssetManager.SOUND_JUMP, false);
