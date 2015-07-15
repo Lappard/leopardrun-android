@@ -23,6 +23,7 @@ public class AssetManager {
     public static final String TEXTURE_BUTTON_BLUE = "textures/button.png";
     public static final String TEXTURE_COIN = "textures/Coin.png";
     public static final String TEXTURE_FEATHER = "textures/Feather.png";
+    public static final String TEXTURE_FLY = "textures/LeopardFly.png";
 
     public static final String FONT_SHOJUMARU_24 = "fonts/shojumaru-regular.ttf";
     public static final String FONT_SHOJUMARU_14 = "fonts/shojumaru-regular.ttf_14";
@@ -56,6 +57,7 @@ public class AssetManager {
         textures.put(TEXTURE_BUTTON_BLUE, new Texture(TEXTURE_BUTTON_BLUE));
         textures.put(TEXTURE_COIN, new Texture(TEXTURE_COIN));
         textures.put(TEXTURE_FEATHER, new Texture(TEXTURE_FEATHER));
+        textures.put(TEXTURE_FLY, new Texture(TEXTURE_FLY));
 
         fonts = new HashMap<>();
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(FONT_SHOJUMARU_24));

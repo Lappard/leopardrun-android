@@ -22,6 +22,7 @@ import com.lappard.android.actors.FireWall;
 import com.lappard.android.actors.Ghost;
 import com.lappard.android.actors.PhysicsActor;
 import com.lappard.android.actors.Player;
+import com.lappard.android.actors.Roof;
 import com.lappard.android.audio.AudioManager;
 import com.lappard.android.graphic.AssetManager;
 import com.lappard.android.level.Level;
@@ -90,8 +91,10 @@ public class GameScreen implements IScreen {
         stage.addActor(background);
 
 
-        player = new Player(world, 4, 12);
+        player = new Player(world, 4, 5);
+        //Roof r = new Roof(world,player, 4, 6);
         stage.addActor(player);
+        //stage.addActor(r);
 
         if(ghost != null){
             stage.addActor(ghost);
@@ -192,7 +195,6 @@ public class GameScreen implements IScreen {
         //firewall and re-add it to stage so it's on top of everything else
         stage.getActors().removeValue(fireWall, true);
         stage.addActor(fireWall);
-
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.lappard.android.util;
 import com.badlogic.gdx.utils.Timer;
 import com.lappard.android.actors.Leopard;
 import com.lappard.android.audio.AudioManager;
+import com.lappard.android.graphic.AnimatedSprite;
 import com.lappard.android.graphic.AssetManager;
 
 public class RemoveFeatherTask extends Timer.Task {
