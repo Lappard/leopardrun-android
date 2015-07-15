@@ -16,7 +16,7 @@ import java.util.Vector;
 
 public class Leopard extends PhysicsActor {
 
-    public static float VELOCITY_JUMP = 15;
+    public static float VELOCITY_JUMP = 10;
     public static float VELOCITY_RUN = 3;
     public static float HEIGHT_DEATH = -2;
     public static int SIZE = 90;
@@ -67,6 +67,7 @@ public class Leopard extends PhysicsActor {
         setHasFeather(true);
         AudioManager.getInstance().pauseAll();
         AudioManager.getInstance().playSound(AssetManager.SOUND_FEATHER, false);
+        //sprite = new AnimatedSprite(AssetManager.getInstance().getTexture(AssetManager.TEXTURE_FLY), 9, 1, 0.1f);
         Timer.schedule(new RemoveFeatherTask(this), 14);
     }
 
