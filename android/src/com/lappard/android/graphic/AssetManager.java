@@ -75,6 +75,8 @@ public class AssetManager {
         sounds.put(SOUND_DEATH, Gdx.audio.newSound(Gdx.files.internal(SOUND_DEATH)));
         sounds.put(SOUND_JUMP, Gdx.audio.newSound(Gdx.files.internal(SOUND_JUMP)));
         sounds.put(SOUND_THEME, Gdx.audio.newSound(Gdx.files.internal(SOUND_THEME)));
+        sounds.put(SOUND_FEATHER, Gdx.audio.newSound(Gdx.files.internal(SOUND_FEATHER)));
+
     }
 
     public Texture getTexture(String name) {

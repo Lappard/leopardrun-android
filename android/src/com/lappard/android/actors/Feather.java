@@ -31,8 +31,8 @@ public class Feather extends PhysicsActor {
             sprite.setColor(0.2f, 0.1f, 0.1f, 1);
         } else if (other instanceof Player) {
             this.remove();
-            //Player tmp = (Player)other;
-            //tmp.applyFeather();
+            Player tmp = (Player)other;
+            tmp.applyFeather();
         }
     }
 }
