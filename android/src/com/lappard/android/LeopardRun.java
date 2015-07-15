@@ -2,6 +2,7 @@ package com.lappard.android;
 
 import android.content.Context;
 
+import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -24,7 +25,7 @@ import java.util.Vector;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 
-public class LeopardRun extends Game {
+public class LeopardRun implements ApplicationListener {
     public static boolean DEBUG_MODE = !true;
 
     private Context context;
@@ -38,19 +39,23 @@ public class LeopardRun extends Game {
         Event.getBus().register(this);
     }
 
-    @Override
     public void dispose() {
-        super.dispose();
+        for(IScreen s : _screens){
+            s.dispose();
+        }
     }
 
-    @Override
-    public void pause() {
-        super.pause();
+    public void pause(){
+        for(IScreen s : _screens){
+            s.pause();
+        }
     }
 
     @Override
     public void resume() {
-        super.resume();
+        for(IScreen s : _screens){
+            s.resume();
+        }
     }
 
     @Override
@@ -67,15 +72,12 @@ public class LeopardRun extends Game {
 
     }
 
-    @Override
     public void resize(int width, int height) {
-        super.resize(width, height);
+        for(IScreen s : _screens){
+            s.resize(width,height);
+        }
     }
 
-    @Override
-    public void setScreen(Screen screen) {
-        super.setScreen(screen);
-    }
 
     private void addScreen(IScreen s) {
         if (s != null){
@@ -83,11 +85,6 @@ public class LeopardRun extends Game {
             s.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
             _screens.add(s);
         }
-    }
-
-    @Override
-    public Screen getScreen() {
-        return super.getScreen();
     }
 
 
@@ -119,9 +116,6 @@ public class LeopardRun extends Game {
             }
         }
     }
-
-
-
 
 
     @Override
