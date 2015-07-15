@@ -22,6 +22,7 @@ public class AssetManager {
     public static final String TEXTURE_LOGO = "textures/logo.png";
     public static final String TEXTURE_BUTTON_BLUE = "textures/button.png";
     public static final String TEXTURE_COIN = "textures/Coin.png";
+    public static final String TEXTURE_FEATHER = "textures/Feather.png";
 
     public static final String FONT_SHOJUMARU_24 = "fonts/shojumaru-regular.ttf";
     public static final String FONT_SHOJUMARU_14 = "fonts/shojumaru-regular.ttf_14";
@@ -30,6 +31,7 @@ public class AssetManager {
     public static final String SOUND_DEATH = "sounds/dead.wav";
     public static final String SOUND_JUMP = "sounds/jump.wav";
     public static final String SOUND_THEME = "sounds/theme.wav";
+    public static final String SOUND_FEATHER = "sounds/fly.wav";
 
     private HashMap<String, Texture> textures;
     private HashMap<String, BitmapFont> fonts;
@@ -53,6 +55,7 @@ public class AssetManager {
         textures.put(TEXTURE_LOGO, new Texture(TEXTURE_LOGO));
         textures.put(TEXTURE_BUTTON_BLUE, new Texture(TEXTURE_BUTTON_BLUE));
         textures.put(TEXTURE_COIN, new Texture(TEXTURE_COIN));
+        textures.put(TEXTURE_FEATHER, new Texture(TEXTURE_FEATHER));
 
         fonts = new HashMap<>();
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(FONT_SHOJUMARU_24));
@@ -72,6 +75,8 @@ public class AssetManager {
         sounds.put(SOUND_DEATH, Gdx.audio.newSound(Gdx.files.internal(SOUND_DEATH)));
         sounds.put(SOUND_JUMP, Gdx.audio.newSound(Gdx.files.internal(SOUND_JUMP)));
         sounds.put(SOUND_THEME, Gdx.audio.newSound(Gdx.files.internal(SOUND_THEME)));
+        sounds.put(SOUND_FEATHER, Gdx.audio.newSound(Gdx.files.internal(SOUND_FEATHER)));
+
     }
 
     public Texture getTexture(String name) {

@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.lappard.android.LeopardRun;
 import com.lappard.android.actors.Background;
+import com.lappard.android.actors.Coin;
 import com.lappard.android.actors.FireWall;
 import com.lappard.android.actors.Ghost;
 import com.lappard.android.actors.PhysicsActor;

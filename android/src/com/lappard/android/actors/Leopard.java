@@ -5,8 +5,11 @@ import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.badlogic.gdx.utils.Timer;
+import com.lappard.android.audio.AudioManager;
 import com.lappard.android.graphic.AnimatedSprite;
 import com.lappard.android.graphic.AssetManager;
+import com.lappard.android.util.RemoveFeatherTask;
 
 import java.util.List;
 import java.util.Vector;
@@ -22,6 +25,8 @@ public class Leopard extends PhysicsActor {
     protected List<Long> jumpTimes;
     protected boolean onGround;
 
+    protected boolean feather = false;
+
 
     public Leopard(World world, float x, float y, String textureName, short collisionCategory) {
         sprite = new AnimatedSprite(AssetManager.getInstance().getTexture(textureName), 5, 2, 0.1f);
@@ -31,6 +36,14 @@ public class Leopard extends PhysicsActor {
         initPhysicsAsBox(world, x, y, BodyDef.BodyType.DynamicBody);
         jumpTimes = new Vector<>();
 
+    }
+
+    public boolean hasFeather() {
+        return feather;
+    }
+
+    public void setHasFeather(boolean hasFeather) {
+        this.feather = hasFeather;
     }
 
     @Override
@@ -48,6 +61,13 @@ public class Leopard extends PhysicsActor {
         onGround = false;
         AnimatedSprite animatedSprite = (AnimatedSprite) sprite;
         animatedSprite.setLooping(onGround);
+    }
+
+    public void applyFeather() {
+        setHasFeather(true);
+        AudioManager.getInstance().pauseAll();
+        AudioManager.getInstance().playSound(AssetManager.SOUND_FEATHER, false);
+        Timer.schedule(new RemoveFeatherTask(this), 14);
     }
 
     @Override

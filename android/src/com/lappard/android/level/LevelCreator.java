@@ -4,6 +4,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.lappard.android.actors.Block;
 import com.lappard.android.actors.Coin;
+import com.lappard.android.actors.Feather;
 import com.lappard.android.actors.Floor;
 
 import java.util.List;
@@ -48,6 +49,11 @@ public abstract class LevelCreator {
                     break;
                 case OBJECT_TYPE_COIN:
                     actors.add(new Coin(world, (lastX + obj.x) * 2, obj.y * 2 - 1));
+                    break;
+
+                case OBJECT_TYPE_FEATHER:
+                    actors.add(new Feather(world, (lastX + obj.x) * 2, obj.y * 2 - 1));
+                    break;
             }
         }
 

@@ -31,7 +31,6 @@ public class SplashScreen extends MenuScreen {
                 Event.getBus().post(new ScreenCreationEvent(new MainMenu()));
                 Event.getBus().post(new ScreenActivateEvent());
                 Event.getBus().post(new ScreenRemoveEvent(instance));
-                Log.d("abc", "test");
             }
         }, 3);
     }

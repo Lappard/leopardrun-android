@@ -47,7 +47,6 @@ public class GhostSelection extends MenuScreen{
         layout.row();
         font = AssetManager.getInstance().getFont(AssetManager.FONT_SHOJUMARU_12);
 
-
         if(NetworkManager.getInstance().isConnected()){
             onConnectionEstablished(null);
         }else{
